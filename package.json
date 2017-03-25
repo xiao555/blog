@@ -1,0 +1,53 @@
+{
+  "name": "xiao555-blog",
+  "version": "1.0.0",
+  "description": "My new Blog",
+  "main": "entry.js",
+  "scripts": {
+    "start": "node --harmony entry.js",
+    "dev": "NODE_ENV=development node --debug --harmony entry.js",
+    "public": "NODE_ENV=production node --harmony entry.js",
+    "test": "mocha test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiao555/New-Blog.git"
+  },
+  "keywords": [
+    "blog"
+  ],
+  "author": "xiao555",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/xiao555/New-Blog/issues"
+  },
+  "homepage": "https://github.com/xiao555/New-Blog#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-plugin-transform-async-to-generator": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-es2015": "^6.24.0",
+    "babel-preset-stage-0": "^6.22.0",
+    "babel-register": "^6.24.0",
+    "bcryptjs": "^2.4.3",
+    "chai": "^3.5.0",
+    "dateformat": "^2.0.0",
+    "import-dir": "0.0.1",
+    "koa": "^2.2.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-compose": "^3.2.1",
+    "koa-convert": "^1.2.0",
+    "koa-cors": "0.0.16",
+    "koa-generic-session": "^1.11.5",
+    "koa-helmet": "^3.1.0",
+    "koa-logger": "^2.0.1",
+    "koa-router": "^7.0.0",
+    "log4js": "^1.1.1",
+    "mocha": "^3.2.0",
+    "mongoose": "^4.9.1",
+    "mongoose-validator": "^1.2.5",
+    "supertest": "^3.0.0",
+    "supertest-as-promised": "^4.0.2"
+  }
+}
