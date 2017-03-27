@@ -17,7 +17,7 @@ const user1 = {
 export default function testUsers(request) {
   describe('Users', () => {
     it('should create user', async () => {
-      const res = await request.post('/users')
+      const res = await request.post('/api/users')
         .send(user)
         .expect(200)
         .expect('Content-Type', /json/)
@@ -30,11 +30,11 @@ export default function testUsers(request) {
     });
 
     it('should get user', async () => {
-      let res = await request.post('/users')
+      let res = await request.post('/api/users')
         .send(user)
         .expect(200);
 
-      res = await request.get(`/users/${res.body._id}`)
+      res = await request.get(`/api/users/${res.body._id}`)
         .expect(200)
         .expect('Content-Type', /json/);
 
@@ -46,16 +46,16 @@ export default function testUsers(request) {
     });
 
     it('should put user', async () => {
-      let res = await request.post('/users')
+      let res = await request.post('/api/users')
         .send(user)
         .expect(200);
 
-      res = await request.put(`/users/${res.body._id}`)
+      res = await request.put(`/api/users/${res.body._id}`)
         .send(user1)
         .expect(200)
         .expect('Content-Type', /json/)
 
-      res = await request.get(`/users/${res.body._id}`)
+      res = await request.get(`/api/users/${res.body._id}`)
         .expect(200)
         .expect('Content-Type', /json/)
 
@@ -66,16 +66,16 @@ export default function testUsers(request) {
     })
 
     it('should del user', async () => {
-      let res = await request.post('/users')
+      let res = await request.post('/api/users')
         .send(user)
         .expect(200)
 
       let id = res.body._id
 
-      res = await request.delete(`/users/${res.body._id}`)
+      res = await request.delete(`/api/users/${res.body._id}`)
         .expect(204)
 
-      res = await request.get(`/users/${id}`)
+      res = await request.get(`/api/users/${id}`)
         .expect(404)
     })
   });

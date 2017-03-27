@@ -2,6 +2,14 @@ import mongoose from 'mongoose'
 import validate from 'mongoose-validator'
 import bcrypt from 'bcryptjs'
 
+const emailValidator = [
+  validate({
+    isAsync: true,
+    validator: 'isEmail',
+    message: 'is not valid'
+  })
+]
+
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -12,10 +20,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     unique: true,
     required: true,
-    validate: validate({
-      validator: 'isEmail',
-      message: 'is not valid'
-    }),
+    validate: emailValidator
   },
   hashed_password: {
     type: String,

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import log from '../utils/log'
+mongoose.Promise = global.Promise;
 
 
 export function connectDatabase(uri) {

@@ -8,7 +8,7 @@ const articleSchema = new mongoose.Schema({
     default: 0
   },
   tags: [{
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'tag'
   }],
   createTime: Date,
@@ -23,18 +23,19 @@ const articleSchema = new mongoose.Schema({
   excerpt: String,
   content: String,
   category: {
-    type: Schema.Types.ObjectId,
+    type: String,
     ref: 'category'
   },
 }, {
   versionKey: false
 })
-
+articleSchema.set('toJSON', { getters: true, virtuals: true});
+articleSchema.set('toObject', { getters: true, virtuals: true});
 articleSchema.path('createTime').get(function (v) {
-  return dateFormat(new Date(v), 'yyyy-MM-dd hh:mm:ss');
+  return dateFormat(new Date(v), 'yyyy-MM-dd');
 });
 articleSchema.path('lastEditTime').get(function (v) {
-  return dateFormat(new Date(v), 'yyyy-MM-dd hh:mm:ss');
+  return dateFormat(new Date(v), 'yyyy-MM-dd');
 });
 
 export default mongoose.model('article', articleSchema)
