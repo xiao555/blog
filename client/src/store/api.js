@@ -9,13 +9,13 @@ let cache = LRU({
 })
 
 export default function (model, query) {
-  const target = JSON.stringify(query) === '{}' ? `${prefix}/${model}` : `${prefix}/${model}/${query._id}`
+  const target = `${prefix}/${model}`
   const key = target
   console.log(target, query)
   // if (cache.has(key)) {
   //   return Promise.resolve(cache.get(key))
   // }
-  return axios.get(target).then((response) => {
+  return axios.get(target, { params: query }).then((response) => {
     const result = response.data
     cache.set(key, result)
     return result

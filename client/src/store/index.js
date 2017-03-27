@@ -26,27 +26,30 @@ const store = new Vuex.Store({
     FETCH_BLOG: ({ commit, state, dispatch }, { model, query, callback }) => {
       return fetch(model, query).then(blog => {
         console.log(query)
-        commit('SET_BLOG', { blog })
+        commit('SET_BLOG', blog[0])
+        callback && callback()
+        return Promise.resolve()
+      })
+    },
+    FETCH_TAGS: ({ commit, state, dispatch }, { model, query, callback }) => {
+      return fetch(model, query).then(tags => {
+        commit('SET_TAGS', { tags })
         callback && callback()
         return Promise.resolve()
       })
     }
-    // FETCH_INFO: async ({ commit, state, dispatch }, { tags, achieve }) => {
-    //   const promise = tags.map( tag => {
-    //     return new Promise( async resolve => {
-    //       const tag = await fetch('tags', tag)
-    //       resolve(tag)
-    //     })
-    //   }
-    // }
   },
   mutations: {
     SET_POSTS: (state, { posts }) => {
       Vue.set(state, 'posts', posts)
     },
-    SET_BLOG: (state, { blog }) => {
+    SET_BLOG: (state, blog) => {
       Vue.set(state, 'blog', blog)
       console.log('blog', blog)
+    },
+    SET_TAGS: (state, { tags }) => {
+      Vue.set(state, 'tags', tags)
+      console.log('tags', tags)
     }
   },
   getters: {
@@ -55,6 +58,9 @@ const store = new Vuex.Store({
     },
     blog (state) {
       return state.blog
+    },
+    tags (state) {
+      return state.tags
     },
     siteInfo (state) {
       return state.siteInfo
