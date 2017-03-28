@@ -1,8 +1,6 @@
 <template>
   <div id="app">
-    <h1>Xiao555's Blog</h1>
-    <router-link :to="{name:'posts'}">Home</router-link>
-    <router-link :to="{name:'tags'}">Tags</router-link>
+    <h1>Blog Admin</h1>
     <router-view></router-view>
   </div>
 </template>
