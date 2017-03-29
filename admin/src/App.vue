@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    <h1>Blog Admin</h1>
     <router-view></router-view>
   </div>
 </template>
@@ -11,7 +10,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang='stylus'>
+@import './assets/css/index.styl'
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -1,0 +1,52 @@
+form
+  item
+    padding-top 10px
+  label:not(.checkbox)
+    display block
+    margin-bottom 5px
+  input
+    margin 5px 0
+    &:not([type='checkbox'])
+      border 1px solid rgb(211, 211, 211)
+      border-radius 5px
+      height 30px
+      width 100%
+    &:focus
+      border-color #51a7e8
+      outline none
+      box-shadow inset 0 1px 2px rgba(0, 0, 0, .075), 0 0 5px rgba(81, 167, 232, .5)
+    &[type='checkbox']
+      margin-right 10px
+  button.submit
+    margin 5px 0
+    border 1px solid rgb(211, 211, 211)
+    border-radius 5px
+    height 30px
+    width 100%
+    color white
+    border-radius 5px
+    background-color #55a532
+    background-image -webkit-linear-gradient(#85d063, #4f992f)
+    background-image linear-gradient(#85d063, #4f992f)
+    border-color #519d30
+    &:hover
+      cursor pointer
+      opacity .8
+
+.panel
+  border 1px solid #d8dee2
+  padding 20px
+  margin-top 20px
+
+.error, .success 
+  padding 12px
+
+.success
+  color #4F8A10
+  background-color #DFF2BF
+  text-align center
+
+.error
+  color #D8000C
+  background-color #FFBABA
+  text-align center

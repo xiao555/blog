@@ -54,6 +54,33 @@ export default model => {
         // statements
         log.error(e)
       }
+    },
+    login: async ctx => {
+      try {
+        const query = ctx.request.query
+        let conditions = query ? query : {}
+        const result = await model.findOne(conditions)
+        ctx.body = {}
+        ctx.body.status = result ? 'yes' : 'no'
+        ctx.body.user = result
+      } catch(e) {
+        // statements
+        console.log(e);
+      }
+    },
+    register: async ctx => {
+      try {
+        const query = ctx.request.query
+        let conditions = query ? query : {}
+        console.log(conditions)
+        const result = await model.create(conditions)
+        ctx.body = {}
+        ctx.body.status = result ? 'yes' : 'no'
+        ctx.body.user = result
+      } catch(e) {
+        // statements
+        console.log(e);
+      }
     }
   }
 }
