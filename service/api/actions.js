@@ -70,9 +70,20 @@ export default model => {
     },
     register: async ctx => {
       try {
-        const query = ctx.request.query
-        let conditions = query ? query : {}
-        console.log(conditions)
+        let conditions = ctx.request.body ? ctx.request.body : {}
+        console.log(ctx.request.body)
+        const user = ctx.request.body
+        ctx.body = {}
+        const email = await model.findOne({email: user.email})
+        if (email) {
+          ctx.body.status = 'no'
+          return ctx.body.message = 'This email is already saved'
+        }
+        const name = await model.findOne({name: user.name})
+        if (name) {
+          ctx.body.status = 'no'
+          return ctx.body.message = 'This name is already saved'
+        }
         const result = await model.create(conditions)
         ctx.body = {}
         ctx.body.status = result ? 'yes' : 'no'

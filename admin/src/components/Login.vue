@@ -7,14 +7,14 @@
       <form :model="form">
         <div class="item">
           <label for="username">Username</label>
-          <input type="text" id="username" :model='form.username'>
+          <input type="text" id="username" v-model='form.name' required>
         </div>
         <div class="item">
           <label for="password">Password</label>
-          <input type="password" id="password" :model='form.password'>
+          <input type="password" id="password" v-model='form.password' required>
         </div>
         <div class="item">
-          <input type="checkbox" :model='form.remeber'><label class="checkbox" for="remember">Remeber Me</label>
+          <input type="checkbox" v-model='form.remeber'><label class="checkbox" for="remember">Remeber Me</label>
         </div>
         <div class="item">
           <button class="submit login" type="button" @click="onSubmit">Login</button>
@@ -36,7 +36,7 @@ export default {
     return {
       title: 'Sign in',
       form: {
-        username: '',
+        name: '',
         password: ''
       },
       remeber: false,
@@ -54,14 +54,16 @@ export default {
         } else if (res.data.status === 'yes') {
           this.success = true
           this.message = 'Welcome Back'
-          this.$store.dispatch('FETCH_USER', {
-            user: res.data.user
-          }).then(() => {
+          this.$store.dispatch('FETCH_USER', res.data.user).then(() => {
             // this.$router.push({ path: '/dashboard' })
           })
         }
       }).catch(err => console.error(err))
     }
+  },
+  beforeMount () {
+    console.log(this.$store.state)
+    this.form.name = this.$store.state.register.name || ''
   }
 }
 </script>

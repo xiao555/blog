@@ -1,25 +1,24 @@
 <template>
   <main class="register">
-    <div class="error" v-if="error">{{ message }}</div>
-    <div class="success" v-else-if="success">{{ message }}</div>
+    <div class="message" :class="{ error: !success, success: success}" v-if="message !== ''">{{ message }}</div>
     <h1 class="title">{{ title }}</h1>
     <div class="panel">
       <form :model="form">
         <div class="item">
           <label for="email">Email</label>
-          <input type="email" id="email" :model="form.email">
+          <input type="email" id="email" v-model="form.email" required>
         </div>
         <div class="item">
           <label for="name">Username</label>
-          <input type="text" id="name" :model="form.name">
+          <input type="text" id="name" v-model="form.name" required>
         </div>
         <div class="item">
           <label for="password">Password</label>
-          <input type="password" id="password" :model="form.password">
+          <input type="password" id="password" v-model="form.password" required>
         </div>
         <div class="item">
           <label for="confirm_password">Confirm Password</label>
-          <input type="password" id="confirm_password" :model="confirm_password">
+          <input type="password" id="confirm_password" v-model="confirm_password" required>
         </div>
         <div class="item">
           <button class="submit register" type="button" @click="onSubmit">Register</button>
@@ -45,20 +44,33 @@ export default {
       },
       confirm_password: '',
       message: '',
-      success: false,
-      error: false
+      success: true
     }
   },
   methods: {
     onSubmit () {
+      if (this.form.name === '' || this.form.email === '' || this.form.password === '' || this.confirm_password === '') {
+        this.success = false
+        this.message = 'Please fill the form'
+        return
+      }
+      if (this.confirm_password !== this.form.password) {
+        this.success = false
+        this.message = 'Password confirm fail'
+        return
+      }
       api.register(this.form).then(res => {
         if (res.data.status === 'no') {
-          this.error = true
-          this.message = 'Register faild, please check your name, email and password'
+          this.success = false
+          this.message = res.data.message || 'Register fail, please check your name, email and password'
         } else if (res.data.status === 'yes') {
           this.success = true
           this.message = 'Registration success'
-          // this.$router.push({ path: '/dashboard' })
+          this.$store.dispatch('FETCH_REGISTER', this.form).then(() => {
+            setTimeout(() => {
+              this.$router.push({ path: '/' })
+            }, 2000)
+          })
         }
       }).catch(err => console.error(err))
     }

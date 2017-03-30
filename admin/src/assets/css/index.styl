@@ -6,6 +6,7 @@ form
     margin-bottom 5px
   input
     margin 5px 0
+    text-align center
     &:not([type='checkbox'])
       border 1px solid rgb(211, 211, 211)
       border-radius 5px
@@ -38,15 +39,12 @@ form
   padding 20px
   margin-top 20px
 
-.error, .success 
+.message
   padding 12px
-
-.success
-  color #4F8A10
-  background-color #DFF2BF
   text-align center
-
-.error
-  color #D8000C
-  background-color #FFBABA
-  text-align center
+  &.success
+    color #4F8A10
+    background-color #DFF2BF
+  &.error
+    color #D8000C
+    background-color #FFBABA
