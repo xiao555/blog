@@ -11,7 +11,7 @@ const models = importDir('../models')
 
 export default () => {
   const router = new Router({ prefix })
-  Object.keys(models).forEach(key => generateRouter(key, router, generateAction(models[key])));
+  Object.keys(models).forEach(key => generateRouter(key, router, Admin.permission, generateAction(models[key])));
   router
     .post('/admin/login', Admin.login)
     .post('/admin/register', Admin.register)

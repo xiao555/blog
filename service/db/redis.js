@@ -1,13 +1,13 @@
 import redis from 'redis'
 import bluebird from 'bluebird'
-import log from '../utils.log'
+import log from '../utils/log'
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
 let client = redis.createClient({
-    host: config.redisHost,
-    port: config.redisPort
+    host: '127.0.0.1',
+    port: 6379
 });
 
 client.on("error", function (err) {

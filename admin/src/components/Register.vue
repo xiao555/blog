@@ -60,10 +60,10 @@ export default {
         return
       }
       api.register(this.form).then(res => {
-        if (res.data.status === 'no') {
+        if (res.data.status === 'fail') {
           this.success = false
           this.message = res.data.message || 'Register fail, please check your name, email and password'
-        } else if (res.data.status === 'yes') {
+        } else if (res.data.status === 'success') {
           this.success = true
           this.message = 'Registration success'
           this.$store.dispatch('FETCH_REGISTER', this.form).then(() => {

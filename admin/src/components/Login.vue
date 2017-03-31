@@ -14,7 +14,7 @@
           <input type="password" id="password" v-model='form.password' required>
         </div>
         <div class="item">
-          <input type="checkbox" v-model='form.remeber'><label class="checkbox" for="remember">Remeber Me</label>
+          <input type="checkbox" v-model='remeber'><label class="checkbox" for="remember">Remeber Me</label>
         </div>
         <div class="item">
           <button class="submit login" type="button" @click="onSubmit">Login</button>
@@ -48,14 +48,17 @@ export default {
   methods: {
     onSubmit () {
       api.login(this.form).then(res => {
-        if (res.data.status === 'no') {
+        if (res.data.status === 'fail') {
           this.error = true
           this.message = 'Login faild, please check your name and password'
-        } else if (res.data.status === 'yes') {
+        } else if (res.data.status === 'success') {
           this.success = true
           this.message = 'Welcome Back'
-          this.$store.dispatch('FETCH_USER', res.data.user).then(() => {
-            // this.$router.push({ path: '/dashboard' })
+          window.localStorage.setItem('token', res.data.token)
+          this.remeber && window.localStorage.setItem('username', this.form.name)
+          !this.remeber && window.localStorage.removeItem('username')
+          this.$store.dispatch('FETCH_USER', this.form).then(() => {
+            this.$router.push({ path: '/dashboard' })
           })
         }
       }).catch(err => console.error(err))
@@ -63,7 +66,7 @@ export default {
   },
   beforeMount () {
     console.log(this.$store.state)
-    this.form.name = this.$store.state.register.name || ''
+    this.form.name = this.$store.state.register.name || window.localStorage.getItem('username') ? window.localStorage.getItem('username') : ''
   }
 }
 </script>
