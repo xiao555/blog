@@ -2,6 +2,8 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+var webpack = require('webpack')
+
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -9,7 +11,9 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/main.js',
+    style: './src/assets/css/index.js',
+    script: './src/assets/js/index.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -21,8 +25,9 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      'vue$': 'vue/dist/vue.min.js',
+      '@': resolve('src'),
+      '~': resolve('node_modules')
     }
   },
   module: {
@@ -40,6 +45,10 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
+      },
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
       },
       {
         test: /\.js$/,
@@ -63,5 +72,17 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      // test: /\.xxx$/, // may apply this only for some modules
+      options: {
+        stylus: {
+          import: [
+            path.join(__dirname, '../src/assets/css/variables.styl')
+          ]
+        },
+      }
+    })
+  ]
 }

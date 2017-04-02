@@ -1,12 +1,14 @@
-import Vue from 'vue'
+import Vue from 'vue/dist/vue.min'
 import Vuex from 'vuex'
+import api from './api'
 
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
     user: {},
-    register: {}
+    register: {},
+    list: []
   },
   actions: {
     FETCH_USER: ({ commit, state }, user) => {
@@ -15,12 +17,11 @@ const store = new Vuex.Store({
     FETCH_REGISTER: ({ commit, state }, user) => {
       return commit('SET_REGISTER', user)
     },
-    FETCH_CACHE: ({ commit, state }, form) => {
-      console.log(state.register)
-      if (state.register.name) {
-        form.name = state.register.name
-      }
-      return
+    FETCH_LIST: ({ commit, state }, options) => {
+      return api.fetchList(options.model).then(res => {
+        commit('SET_LIST', res)
+        return Promise.resolve(res)
+      })
     }
   },
   mutations: {
@@ -29,6 +30,9 @@ const store = new Vuex.Store({
     },
     SET_REGISTER: (state, user) => {
       Vue.set(state, 'register', user)
+    },
+    SET_LIST: (state, list) => {
+      Vue.set(state, 'list', list)
     }
   },
   getters: {
@@ -37,6 +41,9 @@ const store = new Vuex.Store({
     },
     register (state) {
       return state.register
+    },
+    list (state) {
+      return state.list
     }
   }
 })

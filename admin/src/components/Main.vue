@@ -21,3 +21,10 @@
   }
 
 </script>
+
+<style lang="stylus">
+.content
+  margin-left 200px
+  padding-top 50px
+  height 100%
+</style>

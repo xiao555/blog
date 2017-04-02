@@ -15,7 +15,7 @@ export default new Router({
       component: PostList
     },
     {
-      path: '/posts/:id',
+      path: '/posts/:path',
       name: 'post',
       component: Post
     },
@@ -25,7 +25,7 @@ export default new Router({
       component: TagList
     },
     {
-      path: '/tags/:id',
+      path: '/tags/:tagName',
       name: 'tag',
       component: Tag
     }

@@ -3,6 +3,7 @@ import dateFormat from 'dateformat'
 const Schema = mongoose.Schema;
 const articleSchema = new mongoose.Schema({
   title: String,
+  path: String,
   visits: {
     type: Number,
     default: 0
@@ -25,7 +26,7 @@ const articleSchema = new mongoose.Schema({
   category: {
     type: String,
     ref: 'category'
-  },
+  }
 }, {
   versionKey: false
 })

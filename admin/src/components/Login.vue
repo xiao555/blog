@@ -14,7 +14,7 @@
           <input type="password" id="password" v-model='form.password' required>
         </div>
         <div class="item">
-          <input type="checkbox" v-model='remeber'><label class="checkbox" for="remember">Remeber Me</label>
+          <input type="checkbox" id="remember" v-model='remember'><label class="checkbox" for="remember">Remeber Me</label>
         </div>
         <div class="item">
           <button class="submit login" type="button" @click="onSubmit">Login</button>
@@ -39,7 +39,7 @@ export default {
         name: '',
         password: ''
       },
-      remeber: false,
+      remember: false,
       message: '',
       success: false,
       error: false
@@ -55,8 +55,8 @@ export default {
           this.success = true
           this.message = 'Welcome Back'
           window.localStorage.setItem('token', res.data.token)
-          this.remeber && window.localStorage.setItem('username', this.form.name)
-          !this.remeber && window.localStorage.removeItem('username')
+          this.remember && window.localStorage.setItem('username', this.form.name)
+          !this.remember && window.localStorage.removeItem('username')
           this.$store.dispatch('FETCH_USER', this.form).then(() => {
             this.$router.push({ path: '/dashboard' })
           })
@@ -65,7 +65,6 @@ export default {
     }
   },
   beforeMount () {
-    console.log(this.$store.state)
     this.form.name = this.$store.state.register.name || window.localStorage.getItem('username') ? window.localStorage.getItem('username') : ''
   }
 }

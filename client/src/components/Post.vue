@@ -5,7 +5,7 @@
       <div class="date">{{ blog.createTime }}</div>
     </div>
     <div class="entry-content" v-html="blog.content"></div>
-    <p>本文链接：<a :href="siteURL + '/#/posts/' + blog._id">{{siteURL}}/#/posts/{{blog._id}}</a></p>
+    <p>本文链接：<a :href="siteURL + '/#/posts/' + blog.path">{{siteURL}}/#/posts/{{blog.path}}</a></p>
     <div class="post-info">
       <p>发表于<i>{{blog.createTime}}</i>
         添加在分类{{blog.category}}下, 并被添加「
@@ -27,7 +27,7 @@
     return store.dispatch('FETCH_BLOG', {
       model: 'articles',
       query: {
-        _id: params.id
+        path: params.path
       },
       callback
     })

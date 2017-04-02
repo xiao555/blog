@@ -1,0 +1,72 @@
+.sidebar
+  width 200px
+  color white
+  position absolute
+  top 0
+  bottom 0
+  float left
+  z-index 999
+  background-color grey-darken
+  .logo
+    margin-bottom 10px
+    svg
+      width 200px
+      height 100px
+  .sidebar-menu
+    a
+      color rgba(255,255,255,.5)
+    .router-link-active
+      color #fff
+    .item
+      text-align left
+      .title
+        padding-left 20px
+        line-height 50px
+        position relative
+        cursor pointer
+        color rgba(255,255,255,.5)
+        &:hover
+          background-color #4fc3f7
+          color #fff
+        i
+          margin-right 10px
+        &:after
+          content "\f107"
+          display inline-block
+          position absolute
+          right 10px
+          top 17px
+          font normal normal normal 14px/1 FontAwesome
+          font-size inherit
+        &.active:after
+          content "\f106"
+        &.active +.submenu
+          max-height 100px
+      .single
+        text-align left
+        padding-left 20px
+        line-height 50px
+        position relative
+        cursor pointer
+        a
+          color rgba(255,255,255,.5)
+          &.router-link-active
+            color #fff
+        &:hover
+          background-color #4fc3f7
+          a
+            color #fff
+        i
+          margin-right 10px
+      .submenu
+        overflow hidden
+        max-height 0
+        transition: max-height 0.3s ease;
+        .subitem
+          line-height 50px
+          padding-left 45px
+          cursor pointer
+          &:hover
+            background-color #4fc3f7
+            color #fff
+      

@@ -140,6 +140,7 @@ async function saveCategory (category) {
 
 const article1 = {
   title: 'test1',
+  path: 'test1',
   tags: ['tag1', 'tag2'],
   excerpt: 'excerpt',
   content: 'content',
@@ -149,6 +150,7 @@ const article1 = {
 
 const article2 = {
   title: 'test2',
+  path: 'test2',
   tags: ['tag1', 'tag3'],
   excerpt: 'excerpt',
   content: 'content',
@@ -158,11 +160,13 @@ const article2 = {
 
 const article3 = {
   title: 'test3',
+  path: 'test3',
   tags: ['tag1', 'tag4'],
   excerpt: 'excerpt',
   content: 'content',
   category: 'test',
   createTime: new Date(),
+  isPublic: false
 };
 
   try {
@@ -184,6 +188,18 @@ const article3 = {
     const res = await Article.create(article2)
     if(res) {
       console.log(`Saved article2`)
+    }
+  } catch(e) {
+    // statements
+    console.log(e);
+  }
+  try {
+    // statements
+    await saveTags(article3.tags),
+    await saveCategory(article3.category)
+    const res = await Article.create(article3)
+    if(res) {
+      console.log(`Saved article3`)
     }
   } catch(e) {
     // statements

@@ -3,11 +3,11 @@
     <h1 class="title">Posts with tag: {{ tag }}</h1>
     <article v-for="post in posts">
       <div class="header">
-        <h2><router-link :to="{ name:'post', params:{ id: post._id } }" >{{ post.title }}</router-link></h2>
+        <h2><router-link :to="{ name:'post', params:{ path: post.path } }" >{{ post.title }}</router-link></h2>
         <h4 class="date">{{ post.createTime }}</h4>
       </div>
       <p v-html="post.excerpt"></p>
-      <router-link :to="{ name:'post', params:{ id: post._id } }" >继续阅读</router-link>
+      <router-link :to="{ name:'post', params:{ path: post.path } }" >继续阅读</router-link>
     </article >
   </main>
 </template>
