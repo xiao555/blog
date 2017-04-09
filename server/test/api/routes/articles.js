@@ -44,7 +44,7 @@ export default function testArticles(request) {
       res.body.should.have.property('_id');
       res.body.title.should.equal(article.title);
       res.body.content.should.equal(article.content);
-      res.body.isPublic.should.equal(true);
+      res.body.status.should.equal(true);
     });
 
     it('should get article', async () => {
@@ -60,7 +60,7 @@ export default function testArticles(request) {
       res.body.should.have.property('_id');
       res.body.title.should.equal(article.title);
       res.body.content.should.equal(article.content);
-      res.body.isPublic.should.equal(true);
+      res.body.status.should.equal(true);
     });
 
     it('should put article', async () => {

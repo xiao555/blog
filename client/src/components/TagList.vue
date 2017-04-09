@@ -3,7 +3,7 @@
     <article class="tags">
       <h1 class="title">{{ title }}</h1>
       <div class="entry-content">
-        <router-link v-for="tag in sortTags"
+        <router-link v-for="tag in sortTags" :key="tag.name"
           :to="{ name: 'tag', params:{ tagName: tag.name }}"
           :data-tag="tag">{{ tag.name }} ({{ tag.number }})
         </router-link>

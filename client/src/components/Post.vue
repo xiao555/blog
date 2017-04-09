@@ -5,11 +5,11 @@
       <div class="date">{{ blog.createTime }}</div>
     </div>
     <div class="entry-content" v-html="blog.content"></div>
-    <p>本文链接：<a :href="siteURL + '/#/posts/' + blog.path">{{siteURL}}/#/posts/{{blog.path}}</a></p>
+    <p>本文链接：<a :href="siteURL + '/posts/' + blog.path">{{siteURL}}/posts/{{blog.path}}</a></p>
     <div class="post-info">
       <p>发表于<i>{{blog.createTime}}</i>
         添加在分类{{blog.category}}下, 并被添加「
-        <router-link v-for="tag in blog.tags" 
+        <router-link v-for="tag in blog.tags" :key="tag" 
           :to="{name:'tag', params: { tagName: tag }}" 
           :data-tag="tag"> 
           <code class="notebook">{{tag}}</code>

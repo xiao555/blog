@@ -1,7 +1,7 @@
 <template>
   <main class="login">
-    <div class="error" v-if="error">{{ message }}</div>
-    <div class="success" v-else-if="success">{{ message }}</div>
+    <div class="error" :class="{ active: error}" >{{ message }}</div>
+    <div class="success" :class="{ active: success}" >{{ message }}</div>
     <h1 class="title">{{ title }}</h1>
     <div class="panel sign-form">
       <form :model="form">
@@ -47,24 +47,30 @@ export default {
   },
   methods: {
     onSubmit () {
+      this.success = this.error = false
       api.login(this.form).then(res => {
-        if (res.data.status === 'fail') {
+        if (res.status === 'fail') {
           this.error = true
           this.message = 'Login faild, please check your name and password'
-        } else if (res.data.status === 'success') {
+          setTimeout(() => {
+            this.error = this.success = false
+          }, 2000)
+        } else if (res.status === 'success') {
           this.success = true
           this.message = 'Welcome Back'
-          window.localStorage.setItem('token', res.data.token)
+          window.localStorage.setItem('token', res.token)
           this.remember && window.localStorage.setItem('username', this.form.name)
           !this.remember && window.localStorage.removeItem('username')
-          this.$store.dispatch('FETCH_USER', this.form).then(() => {
+          this.$store.state.user = res.user
+          setTimeout(() => {
             this.$router.push({ path: '/dashboard' })
-          })
+          }, 2000)
         }
       }).catch(err => console.error(err))
     }
   },
   beforeMount () {
+    // console.log(this)
     this.form.name = this.$store.state.register.name || window.localStorage.getItem('username') ? window.localStorage.getItem('username') : ''
   }
 }

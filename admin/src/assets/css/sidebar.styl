@@ -5,7 +5,7 @@
   top 0
   bottom 0
   float left
-  z-index 999
+  z-index 6
   background-color grey-darken
   .logo
     margin-bottom 10px
@@ -61,7 +61,7 @@
       .submenu
         overflow hidden
         max-height 0
-        transition: max-height 0.3s ease;
+        transition max-height 0.3s ease
         .subitem
           line-height 50px
           padding-left 45px
@@ -69,4 +69,6 @@
           &:hover
             background-color #4fc3f7
             color #fff
+  @media mq-mobile
+    display none
       

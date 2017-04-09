@@ -4,22 +4,22 @@
     <router-link class='add-new' :to="{ name: 'createPost' }">Add New</router-link>
     <div class="data">
       <a :class="{ active: mode === 'all'}" @click="changeModel('all')">ALL({{ list.length }})</a>|
-      <a :class="{ active: mode === 'publish'}" @click="changeModel('publish')">Published({{ publish.length }})</a>
+      <a :class="{ active: mode === 'publish' }" @click="changeModel('publish')">Published({{ publish.length }})</a>
     </div>
     <div class="table">
-      <thead class="table-header">
+      <div class="table-header">
         <div class="table-cell">Title</div>
         <div class="table-cell">visits</div>
         <div class="table-cell">createTime</div>
-      </thead>
+      </div>
       <div class="table-body">
-        <div class="table-row" v-if="mode === 'all'" v-for="post in list">
+        <div class="table-row"  v-for="post in (mode === 'all') ? list : publish">
           <div class="table-cell">
             <div class="title">{{ post.title }}</div>
             <div class="action">
-              <a href="">Edit</a>|
-              <a href="" class="trash">Trash</a>|
-              <a href="">View</a>
+              <router-link :to="{ name: 'editPost', params: { path: post.path} }">Edit</router-link>|
+              <a class="trash" @click='deletePost(post)'>Trash</a>|
+              <a :href="postUrl + post.path" target="_blank">View</a>
             </div>
             <ul class="mobile">
               <li><span>Visits: </span>{{ post.visits }}</li>
@@ -27,23 +27,8 @@
             </ul>
           </div>
           <div class="table-cell">{{ post.visits }}</div>
-          <div class="table-cell">{{ post.createTime }}</div>
-        </div>
-        <div class="table-row" v-if="mode === 'publish'" v-for="post in publish">
-          <div class="table-cell">
-            <div class="title">{{ post.title }}</div>
-            <div class="action">
-              <a href="">Edit</a>
-              <a href="">Trash</a>
-              <a href="">View</a>
-            </div>
-            <ul class="mobile">
-              <li><span>Visits: </span>{{ post.visits }}</li>
-              <li><span>CreateTime: </span>{{ post.createTime }}</li>
-            </ul>
+          <div class="table-cell">{{ post.createTime }}
           </div>
-          <div class="table-cell">{{ post.visits }}</div>
-          <div class="table-cell">{{ post.createTime }}</div>
         </div>
       </div>
     </div>
@@ -51,6 +36,9 @@
 </template>
 
 <script>
+  import api from '../../store/api'
+  import { mapGetters } from 'vuex'
+
   export default {
     name: 'list',
     props: ['options'],
@@ -58,22 +46,44 @@
       return {
         publish: [],
         list: [],
-        mode: 'all'
-      }
-    },
-    methods: {
-      changeModel: (str) => {
-        this.mode = str
-        console.log(this.mode)
+        mode: 'all',
+        allClass: true,
+        publishClass: false
       }
     },
     computed: {
+      ...mapGetters([
+        'siteInfo'
+      ]),
+      postUrl () {
+        return this.siteInfo.postUrl
+      }
     },
-    beforeMount () {
-      this.$store.dispatch('FETCH_LIST', { model: 'article' }).then((res) => {
+    methods: {
+      changeModel (str) {
+        this.mode = str
+      },
+      deletePost (post) {
+        api.delete('article', post).then(res => {
+          this.$store.dispatch('FETCH_LIST', 'article').then((res) => {
+            if (res.status === 'fail') {
+              return this.$parent.$emit('message', 'error', res.message)
+            } else {
+              this.$parent.$emit('message', 'success', 'Delete Success')
+            }
+            this.list = res
+            this.list.map((post) => {
+              if (post.status === 'Published') this.publish.push(post)
+            })
+          }).catch(err => console.error(err))
+        }).catch(err => console.error(err))
+      }
+    },
+    created () {
+      this.$store.dispatch('FETCH_LIST', 'article').then((res) => {
         this.list = res
         this.list.map((post) => {
-          if (post.isPublic === true) this.publish.push(post)
+          if (post.status === 'Published') this.publish.push(post)
         })
       }).catch(err => console.error(err))
     }

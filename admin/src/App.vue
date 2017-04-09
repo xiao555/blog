@@ -9,6 +9,9 @@ import api from './store/api'
 
 export default {
   name: 'app',
+  data () {
+    return {}
+  },
   beforeMount () {
     const axios = api.axios
     axios.interceptors.request.use((config) => {

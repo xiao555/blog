@@ -3,6 +3,8 @@ import Tag from '../models/tag.js'
 import Article from '../models/article.js'
 import log from '../utils/log'
 
+import dateFormat from 'dateformat'
+
 export default model => {
   return {
     find: async ctx => {
@@ -39,8 +41,11 @@ export default model => {
     },
     updateById: async ctx => {
       try {
+        console.log(ctx.params.id)
+        console.log(ctx.request.body)
         const result = await model.findByIdAndUpdate(ctx.params.id, ctx.request.body, {new: true})
-        if (result) ctx.body = result 
+        console.log(result)
+        if (result) return ctx.body = result 
       } catch(e) {
         // statements
         log.error(e)
@@ -60,9 +65,10 @@ export default model => {
         const query = ctx.request.query
         let conditions = query ? query : {}
         const result = await model.findOne(conditions)
-        ctx.body = {}
-        ctx.body.status = result ? 'yes' : 'no'
-        ctx.body.user = result
+        ctx.body = {
+          status: result ? 'success' : 'fail',
+          user: result
+        }
       } catch(e) {
         // statements
         console.log(e);
@@ -108,11 +114,26 @@ async function saveTags (tags) {
 }
 
 async function saveCategory (category) {
-  return await Category.create({
-    name: category
-  }).catch(e => {
-    log.error(e)
-  })
+  try {
+    let isSaved = false
+    await Category.findOne({ name: category }).then( async doc => {
+      console.log(category, doc)
+      if (doc) {
+        const _doc = await Category.findByIdAndUpdate(doc._id, { number: ++doc.number}, {new: true})
+        if ( _doc && _doc.number === doc.number) isSaved = true
+      }
+    })
+    console.log(isSaved)
+    if (!isSaved) {
+      return await Category.create({
+        name: category
+      })
+      console.log('new Category')
+    }
+  } catch(e) {
+    // statements
+    console.log(e);
+  }
 }
 
 ( async () => {
@@ -144,8 +165,8 @@ const article1 = {
   tags: ['tag1', 'tag2'],
   excerpt: 'excerpt',
   content: 'content',
-  category: 'test',
-  createTime: new Date(),
+  category: 'test1',
+  createTime: dateFormat(new Date(), 'yyyy-MM-dd'),
 };
 
 const article2 = {
@@ -154,8 +175,8 @@ const article2 = {
   tags: ['tag1', 'tag3'],
   excerpt: 'excerpt',
   content: 'content',
-  category: 'test',
-  createTime: new Date(),
+  category: 'test2',
+  createTime: dateFormat(new Date(), 'yyyy-MM-dd'),
 };
 
 const article3 = {
@@ -164,9 +185,9 @@ const article3 = {
   tags: ['tag1', 'tag4'],
   excerpt: 'excerpt',
   content: 'content',
-  category: 'test',
-  createTime: new Date(),
-  isPublic: false
+  category: 'test1',
+  createTime: dateFormat(new Date(), 'yyyy-MM-dd'),
+  status: 'Draft'
 };
 
   try {

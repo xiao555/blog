@@ -3,12 +3,15 @@
   height 50px
   border-bottom 1px solid grey-light
   position fixed
-  z-index 998
+  z-index 5
   right 0
   width 100%
   background-color #f7f7f7
   text-align center
   .login
+    position absolute
+    top 0
+    right 0
     line-height 50px
     float right
     width 100px
@@ -33,7 +36,9 @@
     top 55px
     right 5px
     border 1px solid grey-light
-    box-shadow 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04);
+    box-shadow 0 2px 4px 0 rgba(0,0,0,.12), 0 0 6px 0 rgba(0,0,0,.04)
+    z-index 5
+    background-color  white
     .item
       line-height 30px
       margin 5px 0
@@ -50,7 +55,80 @@
       content ' '
       height 10px
       top -10px
-        
+  .topbar-menu-icon
+    float left
+    width 50px
+    height 50px
+    line-height 50px
+    cursor pointer
+    &:hover
+      opacity .7
+    &.active + .topbar-menu
+      display block
+  .topbar-menu
+    display none
+    width 100%
+    margin-top 50px
+    background-color grey-darken
+    z-index 4
+    a
+      color rgba(255,255,255,.5)
+    .router-link-active
+      color #fff
+    .item
+      text-align left
+      color white
+      .title
+        padding-left 20px
+        line-height 50px
+        position relative
+        cursor pointer
+        color rgba(255,255,255,.5)
+        &:hover
+          background-color #4fc3f7
+          color #fff
+        i
+          margin-right 10px
+        &:after
+          content "\f107"
+          display inline-block
+          position absolute
+          right 10px
+          top 17px
+          font normal normal normal 14px/1 FontAwesome
+          font-size inherit
+        &.active:after
+          content "\f106"
+        &.active +.submenu
+          max-height 100px
+      &.single
+        text-align left
+        padding-left 20px
+        line-height 50px
+        position relative
+        cursor pointer
+        a
+          color rgba(255,255,255,.5)
+          &.router-link-active
+            color #fff
+        &:hover
+          background-color #4fc3f7
+          a
+            color #fff
+        i
+          margin-right 10px
+      .submenu
+        overflow hidden
+        max-height 0
+        transition: max-height 0.3s ease;
+        .subitem
+          line-height 50px
+          padding-left 45px
+          cursor pointer
+          &:hover
+            background-color #4fc3f7
+            color #fff
+      
     
   
     

@@ -10,34 +10,31 @@ const articleSchema = new mongoose.Schema({
   },
   tags: [{
     type: String,
-    ref: 'tag'
+    ref: 'Tag'
   }],
-  createTime: Date,
-  lastEditTime: {
-    type: Date,
-    default: Date.now
+  createTime: {
+    type: String,
+    default: dateFormat(new Date(), 'yyyy-MM-dd')
   },
-  isPublic: {
-    type: Boolean,
-    default: true
+  lastEditTime: {
+    type: String,
+    default: dateFormat(new Date(), 'yyyy-MM-dd')
+  },
+  status: {
+    type: String,
+    default: 'Published'
   },
   excerpt: String,
   content: String,
   category: {
     type: String,
-    ref: 'category'
+    ref: 'Category'
   }
 }, {
   versionKey: false
 })
 articleSchema.set('toJSON', { getters: true, virtuals: true});
 articleSchema.set('toObject', { getters: true, virtuals: true});
-articleSchema.path('createTime').get(function (v) {
-  return dateFormat(new Date(v), 'yyyy-MM-dd');
-});
-articleSchema.path('lastEditTime').get(function (v) {
-  return dateFormat(new Date(v), 'yyyy-MM-dd');
-});
 
 export default mongoose.model('article', articleSchema)
 

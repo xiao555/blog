@@ -8,15 +8,38 @@ normalize-css()
 
 html, body, #app, main
   height 100%
+  background-color grey-bodybg
   
 li
   list-style none
   
-a
+a,button,select
   text-decoration none
+  &:focus
+    outline none
 
 main
   clearfix()
+  overflow-y auto
+  .error, .success
+    position absolute
+    display inline-block
+    width 200px
+    top -100px
+    left 50%
+    margin-left -100px
+    z-index 8
+    transition top 0.3s ease
+    &.active
+      top 5px
+
+.content
+  margin-left 200px
+  padding 80px 20px 20px 20px
+  height 100%
+  @media mq-mobile
+    margin 0
+    
 
 form
   item
@@ -58,13 +81,39 @@ form
   border 1px solid #d8dee2
   padding 20px
   margin-top 20px
+  
+h1,.add-new
+  display inline-block
+  vertical-align middle
+.add-new
+  padding 4px 8px
+  border 1px solid #ccc
+  border-radius 3px
+  background-color #f7f7f7
+  font-size 13px
+  font-weight 600
+  color #0073aa
+  margin-left 10px
+  cursor pointer
+  &:hover
+    color #fff
+    background-color #0073aa
 
-.message
-  padding 12px
-  text-align center
-  &.success
-    color #4F8A10
-    background-color #DFF2BF
-  &.error
-    color #D8000C
-    background-color #FFBABA
+.user .item
+  margin 10px 0
+  label
+    display inline-block
+    width 100px
+  input
+    padding 5px 10px
+
+.user button
+  border 1px solid button-border
+  box-shadow 0 1px 0 button-shadow
+  border-radius 3px
+  background-color button-bg
+  padding 2px 10px
+  cursor pointer
+  opacity .7
+  &:hover
+    opacity 1 

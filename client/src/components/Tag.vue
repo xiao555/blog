@@ -20,7 +20,7 @@
       model: 'articles',
       query: {
         tags: params.tagName,
-        isPublic: true
+        status: 'Published'
       },
       callback
     })

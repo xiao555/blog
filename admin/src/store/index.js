@@ -1,4 +1,5 @@
-import Vue from 'vue/dist/vue.min'
+// import Vue from 'vue/dist/vue.min'
+import Vue from 'vue'
 import Vuex from 'vuex'
 import api from './api'
 
@@ -8,31 +9,40 @@ const store = new Vuex.Store({
   state: {
     user: {},
     register: {},
-    list: []
+    category: [],
+    tag: [],
+    article: [],
+    post: {},
+    siteInfo: {
+      postUrl: 'http://localhost:8080/posts/'
+    }
   },
   actions: {
     FETCH_USER: ({ commit, state }, user) => {
-      return commit('SET_USER', user)
+      return commit('SET_VALUE', 'user', user)
     },
     FETCH_REGISTER: ({ commit, state }, user) => {
-      return commit('SET_REGISTER', user)
+      return commit('SET_VALUE', 'register', user)
     },
-    FETCH_LIST: ({ commit, state }, options) => {
-      return api.fetchList(options.model).then(res => {
-        commit('SET_LIST', res)
+    FETCH_LIST: ({ commit, state }, model, forced = false) => {
+      console.log('FETCH_LIST', model)
+      if (!forced && state[model] && state[model].length) return state[model]
+      return api.fetchList(model).then(res => {
+        commit('SET_VALUE', model, res)
         return Promise.resolve(res)
+      })
+    },
+    FETCH_POST: ({ commit, state }, { model, conditions }) => {
+      if (state.post && state.post.path === conditions.path) return state.pos
+      return api.fetchPost(model, conditions).then(res => {
+        commit('SET_VALUE', 'post', res[0])
+        return Promise.resolve(res[0])
       })
     }
   },
   mutations: {
-    SET_USER: (state, user) => {
-      Vue.set(state, 'user', user)
-    },
-    SET_REGISTER: (state, user) => {
-      Vue.set(state, 'register', user)
-    },
-    SET_LIST: (state, list) => {
-      Vue.set(state, 'list', list)
+    SET_VALUE: (state, model, value) => {
+      Vue.set(state, model, value)
     }
   },
   getters: {
@@ -42,8 +52,20 @@ const store = new Vuex.Store({
     register (state) {
       return state.register
     },
-    list (state) {
-      return state.list
+    article (state) {
+      return state.article
+    },
+    category (state) {
+      return state.category
+    },
+    tag (state) {
+      return state.tag
+    },
+    post (state) {
+      return state.post
+    },
+    siteInfo (state) {
+      return state.siteInfo
     }
   }
 })

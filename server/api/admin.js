@@ -22,7 +22,8 @@ export default {
         redis.expire(token, Token.expiresIn)
         return ctx.body = {
           status: 'success',
-          token: token
+          token: token,
+          user: result
         }
       } else {
         return ctx.body = {
@@ -80,26 +81,31 @@ export default {
     }
   },
   permission: async (ctx, next) => {
-    const token = ctx.request.headers['authorization'] || null
-    if (!token) return ctx.body = {
-      status: 'fail',
-      message: 'Token not found'
+    
+    try {
+      const token = ctx.request.headers['authorization'] || null
+      if (!token) return ctx.body = {
+        status: 'fail',
+        message: 'Token not found'
+      }
+      const result = Token.verifyToken(token)
+
+      if (!result) return ctx.body = {
+        status: 'fail',
+        message: 'Token verify failed'
+      }
+
+      const reply = await redis.getAsync(token)
+
+      if (!reply) return ctx.body = {
+        status: 'fail',
+        message: 'Token invalid'
+      }
+
+      return next()
+    } catch (err) {
+      log.error(err)
+      return
     }
-
-    const result = Token.verifyToken(token)
-
-    if (!result) return ctx.body = {
-      status: 'fail',
-      message: 'Token verify failed'
-    }
-
-    const reply = await redis.getAsync(token)
-
-    if (!reply) return ctx.body = {
-      status: 'fail',
-      message: 'Token invalid'
-    }
-
-    next()
   }
 }
