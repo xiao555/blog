@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <div class="tags">
     <article class="tags">
       <h1 class="title">{{ title }}</h1>
       <div class="entry-content">
@@ -9,36 +9,28 @@
         </router-link>
       </div>
     </article>
-  </main>
+  </div>
 </template>
 
 <script type="text/javascript">
-  import { mapGetters } from 'vuex'
-
-  function fetchTags (store, { path, params, query }, callback) {
-    return store.dispatch('FETCH_TAGS', {
-      model: 'tags',
-      query,
-      callback
-    })
-  }
 
   export default {
+    name: 'tags',
     data () {
       return {
-        title: 'Tags'
+        title: 'Tags',
+        tags: []
       }
     },
     computed: {
-      ...mapGetters([
-        'tags'
-      ]),
       sortTags () {
         return this.tags.sort((a, b) => b.number - a.number)
       }
     },
     beforeMount () {
-      fetchTags(this.$store, this.$route)
+      this.$store.dispatch('FETCH_VALUE', { model: 'tags' }).then(res => {
+        this.tags = res
+      }).catch(err => console.log(err))
     }
   }
 </script>

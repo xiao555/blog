@@ -6,7 +6,7 @@
       <div  class="path"
             v-if="input.path">
               Path: 
-              <a class="underline" :href="postUrl + post.path" target="_blank">{{postUrl+post.path}}</a>
+              <a class="underline" :href="postUrl + post.path" target="_blank">{{ postUrl+post.path }}</a>
               <button @click='toggleInput("path")'>Edit</button></div>
       <div  class="path" 
             v-else>
@@ -14,7 +14,10 @@
               <input type="text" v-model="post.path">
               <button @click='toggleInput("path")'>OK</button>
               <button class="text" @click='cancel("path")'>Cancel</button></div>
+      Content:
       <markdown-editor v-model="post.content" :configs="configs" ref="markdownEditor"></markdown-editor>
+      Excerpt:
+      <markdown-editor v-model="post.excerpt" :configs="configs2" ref="markdownEditor"></markdown-editor>
     </div>
     <div class="fields postbox-container">
       <div class="postbox">
@@ -74,7 +77,7 @@
 </template>
 
 <script>
-  import markdownEditor from '../../view/markdown'
+  import { markdownEditor } from '../../view/markdown'
   import { mapGetters } from 'vuex'
   import api from '../../store/api'
 
@@ -105,6 +108,13 @@
           tags: false
         },
         configs: {
+          renderingConfig: {
+            codeSyntaxHighlighting: true,
+            highlightingTheme: 'atom-one-dark'
+          }
+        },
+        configs2: {
+          toolbar: false,
           renderingConfig: {
             codeSyntaxHighlighting: true,
             highlightingTheme: 'atom-one-dark'
@@ -144,6 +154,14 @@
         }).catch(err => console.error(err))
       },
       create () {
+        const Expect = ['title', 'path', 'tags', 'status', 'category']
+        let valid = false
+        Expect.map((item) => {
+          if (!this.post.hasOwnProperty(item)) {
+            valid = item
+          }
+        })
+        if (valid) return this.$parent.$emit('message', 'error', `Required ${valid} field`)
         api.create('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)

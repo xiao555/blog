@@ -63,13 +63,13 @@ export default {
       ctx.body = {}
       const email = await User.findOne({email: user.email})
       if (email) {
-        ctx.body.status = 'no'
-        return ctx.body.message = 'This email is already saved'
+        ctx.body.status = 'fail'
+        return ctx.body.message = 'This email is already used'
       }
       const name = await User.findOne({name: user.name})
       if (name) {
-        ctx.body.status = 'no'
-        return ctx.body.message = 'This name is already saved'
+        ctx.body.status = 'fail'
+        return ctx.body.message = 'This name is already used'
       }
       const result = await User.create(user)
       if (result) return ctx.body = {
@@ -105,7 +105,10 @@ export default {
       return next()
     } catch (err) {
       log.error(err)
-      return
+      return ctx.body = {
+        status: 'fail',
+        message: 'Token verify failed'
+      }
     }
   }
 }

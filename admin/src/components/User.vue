@@ -19,13 +19,14 @@
 
 <script type="text/javascript">
   import api from '../store/api'
-  import { mapGetters } from 'vuex'
   export default {
     name: 'user',
-    computed: {
-      ...mapGetters([
-        'user'
-      ])
+    data () {
+      return {
+        user: {
+          name: 'name'
+        }
+      }
     },
     methods: {
       update () {
@@ -38,6 +39,12 @@
           this.user = res
         }).catch(err => console.log(err))
       }
+    },
+    created () {
+      api.fetchPost('user', { name: window.localStorage.getItem('username') }).then(res => {
+        this.$store.dispatch('FETCH_USER', res[0])
+        this.user = res[0]
+      }).catch(err => console.log(err))
     }
   }
 </script>

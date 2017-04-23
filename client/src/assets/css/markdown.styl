@@ -1,0 +1,202 @@
+$color-bg = #FFFFFF
+$color-code-bg = #F7F7F7
+$color-border = #DDDDDD
+$color-border-top = #CCCCCC
+$color-bottom-line = #EEEEEE
+$color-lgray = #777777
+$color-dgray = $color-border
+$color-tag-a = #4078C0
+$color-tag-tr = #F8F8F8
+$color-font = #333333
+$color-img-shadow = #555555
+
+.margin-tb-zero
+    margin-top: 0
+    margin-bottom: 0
+
+.markdown-body
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+    font-size: 16px
+    color: $color-font
+    line-height: 1.6
+    word-wrap: break-word
+    background: $color-bg
+
+    & > *:first-child
+        margin-top: 0 !important
+
+    & > *:last-child
+        margin-bottom: 0 !important
+
+    *
+        box-sizing: border-box
+
+    h1,h2,h3,h4,h5,h6
+        margin-top: 1em
+        margin-bottom: 16px
+        font-weight: bold
+        line-height: 1.4
+
+    p,blockquote,ul,ol,dl,table,pre
+        margin-top: 0
+        margin-bottom: 16px
+
+    h1
+        margin: 0.67em 0
+        padding-bottom: 0.3em
+        font-size: 2.25em
+        line-height: 1.2
+        border-bottom: 1px solid $color-bottom-line
+
+    h2
+        padding-bottom: 0.3em
+        font-size: 1.75em
+        line-height: 1.225
+        border-bottom: 1px solid $color-bottom-line
+
+    h3
+        font-size: 1.5em
+        line-height: 1.43
+
+    h4
+        font-size: 1.25em
+
+    h5
+        font-size: 1em
+
+    h6
+        font-size: 1em
+        color: $color-lgray
+
+    ol,ul
+        padding-left: 2em
+
+        ol
+            list-style-type: lower-roman
+            @extend .margin-tb-zero
+        ul
+            list-style-type: circle
+            @extend .margin-tb-zero
+
+            ol
+                @extend .margin-tb-zero
+
+            ul
+                list-style-type: square
+                @extend .margin-tb-zero
+
+    ol
+        list-style-type: decimal
+
+    ul
+        list-style-type: disc
+
+    blockquote
+        margin-left: 0
+        margin-right: 0
+        padding: 0 15px
+        color: $color-lgray
+        border-left: 4px solid $color-dgray
+
+    table
+        display: block
+        width: 100%
+        overflow: auto
+        word-break: normal
+        word-break: keep-all
+        border-collapse: collapse
+        border-spacing: 0
+
+        tr
+            background-color: $color-bg
+            border-top: 1px solid $color-border-top
+
+            &:nth-child(2n)
+                background-color: $color-tag-tr
+
+        th,td
+            padding: 6px 13px
+            border: 1px solid $color-border
+
+    pre
+        word-wrap: normal
+        padding: 16px
+        overflow: auto
+        font-size: 85%
+        line-height: 1.45
+        background-color: $color-code-bg
+        border-radius: 3px
+
+        code
+            display: inline
+            max-width: initial
+            padding: 0
+            margin: 0
+            overflow: initial
+            font-size: 100%;
+            line-height: inherit
+            word-wrap: normal
+            white-space: pre;
+            border: 0
+            border-radius: 3px
+            background-color: transparent
+
+            &:before, &:after
+                content: normal
+
+    code
+        font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+        padding: 0
+        padding-top: 0.2em
+        padding-bottom: 0.2em
+        margin: 0
+        font-size: 85%
+        background-color: rgba(0,0,0,0.04)
+        border-radius: 3px
+
+        &:before, &:after
+            letter-spacing: -0.2em
+            content: "\00a0"
+
+    a
+        text-decoration: none
+        background: transparent
+        color indigo
+        font-weight 800
+        cursor pointer
+        &:hover
+            opacity .7
+
+    img
+        max-width: 100%
+        max-height: 100%
+        border-radius: 4px;
+        box-shadow: 0 0 10px $color-img-shadow
+
+    strong
+        font-weight: bold
+
+    em
+        font-style: italic
+
+    del
+        text-decoration: line-through
+
+.task-list-item
+    list-style-type: none
+
+    input
+        font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+        margin: 0 0.35em 0.25em -1.6em
+        vertical-align: middle
+
+    input[disabled]
+        cursor: default
+
+    input[type="checkbox"]
+        box-sizing: border-box
+        padding: 0
+
+    input[type="radio"]
+        box-sizing: border-box
+        padding: 0

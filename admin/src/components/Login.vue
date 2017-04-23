@@ -64,7 +64,7 @@ export default {
           this.$store.state.user = res.user
           setTimeout(() => {
             this.$router.push({ path: '/dashboard' })
-          }, 2000)
+          }, 1000)
         }
       }).catch(err => console.error(err))
     }

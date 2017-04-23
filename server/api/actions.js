@@ -12,7 +12,8 @@ export default model => {
         const query = ctx.request.query
         let conditions = query ? query : {}
         let select = {}
-        ctx.body = await model.find(query).exec()
+        console.log(conditions)
+        ctx.body = await model.find(conditions).exec()
       } catch(e) {
         log.error(e)
       }
@@ -43,6 +44,83 @@ export default model => {
       try {
         console.log(ctx.params.id)
         console.log(ctx.request.body)
+        console.log(model.modelName)
+        const body = ctx.request.body
+        const id = ctx.params.id
+        let valid = {}
+        if (model.modelName === 'user') {
+          const promise = ['name','email'].map( async (element) => {
+            return new Promise( async resolve => {
+              try {
+                console.log(element, valid)
+                let query = {}
+                query[element] = body[element]
+                const res = await model.findOne(query)
+                console.log(res)
+                if (!res) return resolve()
+                if (res._id != id) {
+                  valid = {
+                    status: 'fail',
+                    message: `This ${element} is already used`
+                  }
+                }
+                resolve()
+              } catch(e) {
+                log.error(e)
+              }
+            })
+          });
+
+          await Promise.all(promise).catch(e => {
+            log.error(e)
+          })
+          // await model.findOne({name: body.name}).then( res => {
+          //   console.log(res)
+          //   if (res) {
+          //     return ctx.body = {
+          //       status: 'fail',
+          //       message: 'This name is already used'
+          //     }
+          //   }
+          // })
+          // await model.findOne({email: body.email}).then( res => {
+          //   console.log(res)
+          //   if (res) {
+          //     return ctx.body = {
+          //       status: 'fail',
+          //       message: 'This email is already used'
+          //     }
+          //   }
+          // })
+        }
+        console.log('error', valid)
+        if (valid.hasOwnProperty('message')) {
+          return ctx.body = valid
+        }
+        // if (body.name) {
+        //   const name = await model.findOne({name: body.name})
+        //   if (!name) {
+        //     return ctx.body = {
+        //       status: 'fail',
+        //       message: 'This name is already used'
+        //     }
+        //   }
+        // }
+
+        // if (body.email) {
+        //   const email = await model.findOne({email: body.email})
+        //   if (!email) {
+        //     return ctx.body = {
+        //       status: 'fail',
+        //       message: 'This email is already used'
+        //     }
+        //   }
+        // }
+        if (model.modelName === 'article') {
+          await deletePost(ctx.params.id);
+          await saveTags(body.tags)
+          await saveCategory(body.category)
+        }
         const result = await model.findByIdAndUpdate(ctx.params.id, ctx.request.body, {new: true})
         console.log(result)
         if (result) return ctx.body = result 
@@ -53,6 +131,10 @@ export default model => {
     },
     deleteById: async ctx => {
       try {
+        console.log(ctx.url)
+        if (model.modelName === 'article') {
+          await deletePost(ctx.params.id);
+        }
         const result = await model.findByIdAndRemove(ctx.params.id)
         if (result) ctx.status = 204
       } catch(e) {
@@ -71,9 +153,26 @@ export default model => {
         }
       } catch(e) {
         // statements
-        console.log(e);
+        log.error(e)
       }
     }
+  }
+}
+
+async function deletePost (id) {
+  try {
+    const post = await Article.findById(id)
+    const tags = post.tags
+    await tags.forEach( async (element, index) => {
+      let tag = await Tag.findOne({name: element})
+      const result = await Tag.findByIdAndUpdate(tag._id, { number: tag.number > 0 ? --tag.number : 0}, {new: true})
+    });
+    const category = post.category
+    let _category = await Category.findOne({name: category})
+    const result = await Category.findByIdAndUpdate(_category._id, { number: --_category.number}, {new: true})
+  } catch(e) {
+    // statements
+    log.error(e)
   }
 }
 
@@ -102,7 +201,7 @@ async function saveTags (tags) {
         resolve()
       } catch(e) {
         // statements
-        console.log(e);
+        log.error(e)
       }
       
     })
@@ -132,107 +231,7 @@ async function saveCategory (category) {
     }
   } catch(e) {
     // statements
-    console.log(e);
+    log.error(e)
   }
 }
-
-( async () => {
-  try {
-    await Category.remove({}).then(() => {
-      console.log('Delete all Category')
-    })
-  } catch(e) {
-    console.log(e);
-  }
-  try {
-    await Article.remove({}).then(() => {
-      console.log('Delete all Article')
-    })
-  } catch(e) {
-    console.log(e);
-  }
-  try {
-    await Tag.remove({}).then(() => {
-      console.log('Delete all Tag')
-    })
-  } catch(e) {
-    console.log(e);
-  }
-
-const article1 = {
-  title: 'test1',
-  path: 'test1',
-  tags: ['tag1', 'tag2'],
-  excerpt: 'excerpt',
-  content: 'content',
-  category: 'test1',
-  createTime: dateFormat(new Date(), 'yyyy-MM-dd'),
-};
-
-const article2 = {
-  title: 'test2',
-  path: 'test2',
-  tags: ['tag1', 'tag3'],
-  excerpt: 'excerpt',
-  content: 'content',
-  category: 'test2',
-  createTime: dateFormat(new Date(), 'yyyy-MM-dd'),
-};
-
-const article3 = {
-  title: 'test3',
-  path: 'test3',
-  tags: ['tag1', 'tag4'],
-  excerpt: 'excerpt',
-  content: 'content',
-  category: 'test1',
-  createTime: dateFormat(new Date(), 'yyyy-MM-dd'),
-  status: 'Draft'
-};
-
-  try {
-    // statements
-    await saveTags(article1.tags),
-    await saveCategory(article1.category)
-    const res = await Article.create(article1)
-    if(res) {
-      console.log(`Saved article1`)
-    }
-  } catch(e) {
-    // statements
-    console.log(e);
-  }
-  try {
-    // statements
-    await saveTags(article2.tags),
-    await saveCategory(article2.category)
-    const res = await Article.create(article2)
-    if(res) {
-      console.log(`Saved article2`)
-    }
-  } catch(e) {
-    // statements
-    console.log(e);
-  }
-  try {
-    // statements
-    await saveTags(article3.tags),
-    await saveCategory(article3.category)
-    const res = await Article.create(article3)
-    if(res) {
-      console.log(`Saved article3`)
-    }
-  } catch(e) {
-    // statements
-    console.log(e);
-  }
-
-  
-})()
-
-
-
-
-
-
 

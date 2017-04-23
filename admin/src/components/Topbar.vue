@@ -38,6 +38,8 @@
 </template>
 
 <script>
+  import api from '../store/api'
+
   export default {
     name: 'topbar',
     data () {
@@ -64,7 +66,13 @@
       }
     },
     beforeMount () {
-      this.user = this.$store.state.user.name || '未登录'
+      this.user = this.$store.state.user.name
+      if (!this.user) {
+        api.fetchPost('user', { name: window.localStorage.getItem('username') }).then(res => {
+          this.$store.dispatch('FETCH_USER', res[0])
+          this.user = res[0].name
+        }).catch(err => console.log(err))
+      }
     }
   }
 </script>

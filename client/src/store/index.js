@@ -6,55 +6,40 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    posts: [],
+    articles: [],
     blog: {},
     tags: [],
-    achieves: [],
+    categorys: [],
     siteInfo: {
       siteUrl: 'http://localhost:8080'
     }
   },
   actions: {
-    FETCH_POSTS: ({ commit, state, dispatch }, { model, query, callback }) => {
-      return fetch(model, query).then(posts => {
-        commit('SET_POSTS', { posts })
-        callback && callback()
-        console.log(posts)
-        return Promise.resolve()
+    FETCH_VALUE: ({ commit, state, dispatch }, { model, query }) => {
+      console.log(query)
+      return fetch(model, query).then(value => {
+        console.log(value)
+        commit('SET_VALUE', { model, value })
+        return Promise.resolve(value)
       })
     },
     FETCH_BLOG: ({ commit, state, dispatch }, { model, query, callback }) => {
       return fetch(model, query).then(blog => {
         console.log(query)
-        commit('SET_BLOG', blog[0])
-        callback && callback()
-        return Promise.resolve()
-      })
-    },
-    FETCH_TAGS: ({ commit, state, dispatch }, { model, query, callback }) => {
-      return fetch(model, query).then(tags => {
-        commit('SET_TAGS', { tags })
-        callback && callback()
-        return Promise.resolve()
+        commit('SET_VALUE', blog[0])
+        return Promise.resolve(blog[0])
       })
     }
   },
   mutations: {
-    SET_POSTS: (state, { posts }) => {
-      Vue.set(state, 'posts', posts)
-    },
-    SET_BLOG: (state, blog) => {
-      Vue.set(state, 'blog', blog)
-      console.log('blog', blog)
-    },
-    SET_TAGS: (state, { tags }) => {
-      Vue.set(state, 'tags', tags)
-      console.log('tags', tags)
+    SET_VALUE: (state, { key, value }) => {
+      console.log(value)
+      Vue.set(state, key, value)
     }
   },
   getters: {
-    posts (state) {
-      return state.posts
+    articles (state) {
+      return state.articles
     },
     blog (state) {
       return state.blog

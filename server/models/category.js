@@ -3,7 +3,7 @@ const categorySchema = new mongoose.Schema({
   name: String,
   number: {
     type: Number,
-    default: 1
+    default: 0
   }
 }, {
   versionKey: false

@@ -1,42 +1,34 @@
 <template>
-  <div class="post">
-    <h1 class="title">{{ blog.title }}</h1>
-    <div class="meta">
-      <div class="date">{{ blog.createTime }}</div>
+  <article class="post">
+    <div class="header">
+      <h2 class="title">{{ blog.title }}</h2>
+      <div class="meta">
+        <div class="date">{{ blog.createTime }}  •  {{ blog.category }}</div>
+      </div>
     </div>
-    <div class="entry-content" v-html="blog.content"></div>
-    <p>本文链接：<a :href="siteURL + '/posts/' + blog.path">{{siteURL}}/posts/{{blog.path}}</a></p>
-    <div class="post-info">
-      <p>发表于<i>{{blog.createTime}}</i>
-        添加在分类{{blog.category}}下, 并被添加「
-        <router-link v-for="tag in blog.tags" :key="tag" 
-          :to="{name:'tag', params: { tagName: tag }}" 
-          :data-tag="tag"> 
-          <code class="notebook">{{tag}}</code>
-        </router-link>」标签，最后修改于{{blog.lastEditTime}}
-      </p>
+    <div class="markdown-body">
+      <vue-markdown :source="source"></vue-markdown>
     </div>
-  </div>
+  </article>
 </template>
 
 <script type="text/javascript">
   import { mapGetters } from 'vuex'
+  import VueMarkdown from 'vue-markdown'
 
-  function fetchBlog (store, { path, query, params }, callback) {
-    console.log(query, params)
-    return store.dispatch('FETCH_BLOG', {
-      model: 'articles',
-      query: {
-        path: params.path
-      },
-      callback
-    })
-  }
   export default {
     name: 'post',
+    data () {
+      return {
+        blog: {},
+        source: ''
+      }
+    },
+    components: {
+      VueMarkdown
+    },
     computed: {
       ...mapGetters([
-        'blog',
         'siteInfo'
       ]),
       siteURL () {
@@ -44,7 +36,15 @@
       }
     },
     beforeMount () {
-      fetchBlog(this.$store, this.$route)
+      this.$store.dispatch('FETCH_BLOG', {
+        model: 'articles',
+        query: {
+          path: this.$route.params.path
+        }
+      }).then(res => {
+        this.blog = res
+        this.source = res.content
+      }).catch(err => console.log(err))
     }
   }
 </script>

@@ -11,7 +11,7 @@ let cache = LRU({
 export default function (model, query) {
   const target = `${prefix}/${model}`
   const key = target
-  // console.log(target, query)
+  console.log(query)
   // if (cache.has(key)) {
   //   return Promise.resolve(cache.get(key))
   // }

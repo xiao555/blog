@@ -2,6 +2,7 @@ var path = require('path')
 var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
+var webpack = require('webpack')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -9,7 +10,9 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: './src/entry-client.js',
+    style: './src/assets/css/index.js'
+    // script: './src/assets/js/index.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -64,5 +67,16 @@ module.exports = {
       }
     ]
   },
-  plugins: []
+  plugins: [
+    new webpack.LoaderOptionsPlugin({
+      // test: /\.xxx$/, // may apply this only for some modules
+      options: {
+        stylus: {
+          import: [
+            path.join(__dirname, '../src/assets/css/variables.styl')
+          ]
+        },
+      }
+    })
+  ]
 }

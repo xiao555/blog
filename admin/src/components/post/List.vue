@@ -65,13 +65,14 @@
       },
       deletePost (post) {
         api.delete('article', post).then(res => {
+          if (res.status === 'fail') {
+            return this.$parent.$emit('message', 'error', res.message)
+          } else {
+            this.$parent.$emit('message', 'success', 'Delete Success')
+          }
           this.$store.dispatch('FETCH_LIST', 'article').then((res) => {
-            if (res.status === 'fail') {
-              return this.$parent.$emit('message', 'error', res.message)
-            } else {
-              this.$parent.$emit('message', 'success', 'Delete Success')
-            }
             this.list = res
+            this.publish = []
             this.list.map((post) => {
               if (post.status === 'Published') this.publish.push(post)
             })
