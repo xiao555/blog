@@ -1,6 +1,7 @@
 <template>
   <main class="register">
-    <div class="message" :class="{ error: !success, success: success}" v-if="message !== ''">{{ message }}</div>
+    <div class="error" :class="{ active: error}" >{{ message }}</div>
+    <div class="success" :class="{ active: success}" >{{ message }}</div>
     <h1 class="title">{{ title }}</h1>
     <div class="panel">
       <form :model="form">
@@ -44,25 +45,46 @@ export default {
       },
       confirm_password: '',
       message: '',
-      success: true
+      success: false,
+      error: false
     }
   },
   methods: {
     onSubmit () {
+      this.success = this.error = false
+      const Reg = /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/
+      if (Reg.test(this.form.email) === false) {
+        this.error = true
+        this.message = 'Email invalid'
+        setTimeout(() => {
+          this.error = this.success = false
+        }, 2000)
+        return
+      }
       if (this.form.name === '' || this.form.email === '' || this.form.password === '' || this.confirm_password === '') {
-        this.success = false
+        this.error = true
         this.message = 'Please fill the form'
+        setTimeout(() => {
+          this.error = this.success = false
+        }, 2000)
         return
       }
       if (this.confirm_password !== this.form.password) {
-        this.success = false
+        this.error = true
         this.message = 'Password confirm fail'
+        setTimeout(() => {
+          this.error = this.success = false
+        }, 2000)
         return
       }
       api.register(this.form).then(res => {
+        console.log('register', res)
         if (res.data.status === 'fail') {
-          this.success = false
+          this.error = true
           this.message = res.data.message || 'Register fail, please check your name, email and password'
+          setTimeout(() => {
+            this.error = this.success = false
+          }, 2000)
         } else if (res.data.status === 'success') {
           this.success = true
           this.message = 'Registration success'

@@ -20,7 +20,7 @@ if (isProd) {
   const bundle = require('./dist/vue-ssr-bundle.json')
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
-  const template = fs.readFileSync(resolve('./dist/index.html'), 'utf-8')
+  const template = handleHtml(fs.readFileSync(resolve('./dist/index.html'), 'utf-8'))
   renderer = createRenderer(bundle, template)
 } else {
   // In development: setup the dev server with watch and hot-reload,
@@ -28,6 +28,13 @@ if (isProd) {
   require('./build/setup-dev-server')(app, (bundle, template) => {
     renderer = createRenderer(bundle, template)
   })
+}
+
+function handleHtml(string) {
+  const layoutSections = string.split('<div id="app"></div>')
+  const preAppHTML = layoutSections[0]
+  const postAppHTML = layoutSections[1]
+  return preAppHTML + postAppHTML
 }
 
 function createRenderer (bundle, template) {
@@ -50,6 +57,7 @@ app.use(compression({ threshold: 0 }))
 app.use('/dist', serve('./dist', true))
 app.use('/static', serve('./dist/static', true))
 app.use('/public', serve('./public', true))
+app.use('/style.css', serve('./dist/style.css', true))
 // app.use('/manifest.json', serve('./manifest.json', true))
 // app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
@@ -80,7 +88,7 @@ app.get('*', (req, res) => {
     .pipe(res)
 })
 
-const port = process.env.PORT || 5050
+const port = process.env.PORT || 5051
 app.listen(port, () => {
   console.log(`server started at localhost:${port}`)
 })

@@ -3,6 +3,7 @@ var utils = require('./utils')
 var config = require('../config')
 var vueLoaderConfig = require('./vue-loader.conf')
 var webpack = require('webpack')
+const ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 
 function resolve (dir) {
@@ -56,6 +57,10 @@ module.exports = {
         include: [resolve('src'), resolve('test')]
       },
       {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',
         options: {
@@ -74,6 +79,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ExtractTextPlugin({ filename: 'style.css', disable: false, allChunks: true }),
     new webpack.LoaderOptionsPlugin({
       // test: /\.xxx$/, // may apply this only for some modules
       options: {
