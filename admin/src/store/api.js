@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-const prefix = 'http://localhost:3000/api'
+const isProd = process.env.NODE_ENV === 'production'
+
+const prefix = isProd ? 'http://138.197.195.144:3000/api'
+    : 'http://localhost:3000/api'
 
 export default {
   axios: axios,
