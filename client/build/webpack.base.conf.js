@@ -68,6 +68,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ExtractTextPlugin({ filename: 'style.css', disable: false, allChunks: true }),
     new webpack.LoaderOptionsPlugin({
       // test: /\.xxx$/, // may apply this only for some modules
       options: {

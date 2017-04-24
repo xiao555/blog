@@ -57,6 +57,7 @@ app.use(favicon('./public/favicon.png'))
 app.use('/dist', serve('./dist', true))
 app.use('/static', serve('./dist/static', true))
 app.use('/public', serve('./public', true))
+app.use('/style.css', serve('./dist/style.css', true))
 // app.use('/manifest.json', serve('./manifest.json', true))
 // app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
