@@ -12,7 +12,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './src/main.js',
+    app: './src/entry-client.js',
     style: './src/assets/css/index.js',
     script: './src/assets/js/index.js'
   },

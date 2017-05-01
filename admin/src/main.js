@@ -14,7 +14,7 @@ let app = new Vue({
   router,
   store,
   ...App
-}).$mount('#app')
+})
 
 export {
   app,
