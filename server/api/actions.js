@@ -3,15 +3,12 @@ import Tag from '../models/tag.js'
 import Article from '../models/article.js'
 import log from '../utils/log'
 
-import dateFormat from 'dateformat'
-
 export default model => {
   return {
     find: async ctx => {
       try {
         const query = ctx.request.query
         let conditions = query ? query : {}
-        let select = {}
         console.log(conditions)
         ctx.body = await model.find(conditions).exec()
       } catch(e) {
@@ -47,75 +44,6 @@ export default model => {
         console.log(model.modelName)
         const body = ctx.request.body
         const id = ctx.params.id
-        let valid = {}
-        if (model.modelName === 'user') {
-          const promise = ['name','email'].map( async (element) => {
-            return new Promise( async resolve => {
-              try {
-                console.log(element, valid)
-                let query = {}
-                query[element] = body[element]
-                const res = await model.findOne(query)
-                console.log(res)
-                if (!res) return resolve()
-                if (res._id != id) {
-                  valid = {
-                    status: 'fail',
-                    message: `This ${element} is already used`
-                  }
-                }
-                resolve()
-              } catch(e) {
-                log.error(e)
-              }
-            })
-          });
-
-          await Promise.all(promise).catch(e => {
-            log.error(e)
-          })
-          // await model.findOne({name: body.name}).then( res => {
-          //   console.log(res)
-          //   if (res) {
-          //     return ctx.body = {
-          //       status: 'fail',
-          //       message: 'This name is already used'
-          //     }
-          //   }
-          // })
-          // await model.findOne({email: body.email}).then( res => {
-          //   console.log(res)
-          //   if (res) {
-          //     return ctx.body = {
-          //       status: 'fail',
-          //       message: 'This email is already used'
-          //     }
-          //   }
-          // })
-        }
-        console.log('error', valid)
-        if (valid.hasOwnProperty('message')) {
-          return ctx.body = valid
-        }
-        // if (body.name) {
-        //   const name = await model.findOne({name: body.name})
-        //   if (!name) {
-        //     return ctx.body = {
-        //       status: 'fail',
-        //       message: 'This name is already used'
-        //     }
-        //   }
-        // }
-
-        // if (body.email) {
-        //   const email = await model.findOne({email: body.email})
-        //   if (!email) {
-        //     return ctx.body = {
-        //       status: 'fail',
-        //       message: 'This email is already used'
-        //     }
-        //   }
-        // }
         if (model.modelName === 'article') {
           await deletePost(ctx.params.id);
           await saveTags(body.tags)
@@ -125,7 +53,6 @@ export default model => {
         console.log(result)
         if (result) return ctx.body = result 
       } catch(e) {
-        // statements
         log.error(e)
       }
     },
@@ -138,7 +65,6 @@ export default model => {
         const result = await model.findByIdAndRemove(ctx.params.id)
         if (result) ctx.status = 204
       } catch(e) {
-        // statements
         log.error(e)
       }
     },
@@ -152,7 +78,6 @@ export default model => {
           user: result
         }
       } catch(e) {
-        // statements
         log.error(e)
       }
     }
@@ -171,7 +96,6 @@ async function deletePost (id) {
     let _category = await Category.findOne({name: category})
     const result = await Category.findByIdAndUpdate(_category._id, { number: --_category.number}, {new: true})
   } catch(e) {
-    // statements
     log.error(e)
   }
 }
@@ -197,10 +121,8 @@ async function saveTags (tags) {
           })
           console.log('new tag')
         }
-        
         resolve()
       } catch(e) {
-        // statements
         log.error(e)
       }
       
@@ -230,7 +152,6 @@ async function saveCategory (category) {
       console.log('new Category')
     }
   } catch(e) {
-    // statements
     log.error(e)
   }
 }

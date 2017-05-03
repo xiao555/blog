@@ -12,10 +12,6 @@ export default {
       return res.data
     })
   },
-  register: (conditions) => {
-    // console.log(conditions)
-    return axios.post(`${prefix}/admin/register`, conditions)
-  },
   fetchList: (model) => {
     return axios.get(`${prefix}/${model}s/`).then(res => {
       const result = res.data

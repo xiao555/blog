@@ -1,49 +1,52 @@
 var path = require('path')
 var utils = require('./utils')
-var config = require('../config')
-var vueLoaderConfig = require('./vue-loader.conf')
+var vueLoaderConfig = require('./vue-loader.config')
 var webpack = require('webpack')
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
+const isProd = process.env.NODE_ENV === 'production'
+
 module.exports = {
+  devtool: isProd
+    ? false
+    : '#cheap-module-eval-source-map',
   entry: {
     app: './src/entry-client.js',
-    style: './src/assets/css/index.js'
-    // script: './src/assets/js/index.js'
+    style: './src/assets/css/index.js',
+    vendor: [
+      'vue',
+      'vue-router',
+      'vuex'
+    ]
+    // style: './src/assets/css/index.js'
   },
   output: {
-    path: config.build.assetsRoot,
+    path: path.resolve(__dirname, '../dist'),
     filename: '[name].js',
-    publicPath: process.env.NODE_ENV === 'production'
-      ? config.build.assetsPublicPath
-      : config.dev.assetsPublicPath
+    publicPath: '/dist/'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
+      '~': resolve('node_modules')
     }
   },
   module: {
     rules: [
       {
-        test: /\.(js|vue)$/,
-        loader: 'eslint-loader',
-        enforce: "pre",
-        include: [resolve('src'), resolve('test')],
-        options: {
-          formatter: require('eslint-friendly-formatter')
-        }
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
+      },
+      {
+        test: /\.css$/,
+        loader: ExtractTextPlugin.extract({ use: 'css-loader?sourceMap' })
       },
       {
         test: /\.js$/,

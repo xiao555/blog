@@ -1,6 +1,6 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
-const base = require('./webpack.base.conf')
+const base = require('./webpack.base.config')
 const VueSSRPlugin = require('vue-ssr-webpack-plugin')
 
 module.exports = merge(base, {
@@ -13,7 +13,7 @@ module.exports = merge(base, {
   },
   resolve: {
     alias: {
-      'create-api': './create-api-server.js'
+      // 'create-api': './create-api-server.js'
     }
   },
   externals: Object.keys(require('../package.json').dependencies),

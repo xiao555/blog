@@ -11,7 +11,7 @@ const store = new Vuex.Store({
     tags: [],
     categorys: [],
     siteInfo: {
-      siteUrl: 'http://localhost:8080'
+      siteUrl: 'https://xiao555.com.cn/'
     }
   },
   actions: {

@@ -1,39 +1,39 @@
 import Token from '../auth'
 import log from '../utils/log'
-import User from '../models/user'
+import config from '../config'
 import redis from '../db/redis'
+const admin = config.admin
 
 export default {
   login: async ctx => {
     try {
-      const result = await User.findOne({ name: ctx.request.body.name})
-      console.log(ctx.request.body, result)
-      if (!result) {
-        return ctx.body = {
-          status: 'fail',
-          message: "User doesn't exist"
-        }
-      }
-
-      if (result.password === ctx.request.body.password) {
-        const token = Token.createToken({ data: result.name })
-        console.log('token', token)
-        redis.set(token, result.name)
-        redis.expire(token, Token.expiresIn)
-        return ctx.body = {
-          status: 'success',
-          token: token,
-          user: result
+      let error = "";
+      if (ctx.request.body.name === admin.name) {
+        if (ctx.request.body.password === admin.passwd) {
+          const token = Token.createToken({ data: admin.name })
+          redis.set(token, admin.name)
+          redis.expire(token, Math.floor(Date.now() / 1000) + config.expiresIn)
+          return ctx.body = {
+            status: 'success',
+            token: token,
+            user: admin.name
+          }
+        } else {
+          error = 'Invalid password!'
         }
       } else {
+        error = "User doesn't exist"
+      }
+
+      if (error) {
         return ctx.body = {
           status: 'fail',
-          message: 'Invalid password!'
+          message: error
         }
       }
     } catch(e) {
       // statements
-      console.log(e);
+      log.error(e)
     }
   },
   logout: async ctx => {
@@ -56,36 +56,7 @@ export default {
       message: 'Token deleted'
     }
   },
-  register: async ctx => {
-    try {
-      console.log(ctx.request.body)
-      const user = ctx.request.body
-      ctx.body = {}
-      const email = await User.findOne({email: user.email})
-      if (email) {
-        return ctx.body = {
-          status: 'fail',
-          message: 'This email is already used'
-        }
-      }
-      const name = await User.findOne({name: user.name})
-      if (name) {
-        return ctx.body = {
-          status: 'fail',
-          message: 'This name is already used'
-        }
-      }
-      const result = await User.create(user)
-      if (result) return ctx.body = {
-        status: 'success'
-      }
-    } catch(e) {
-      // statements
-      console.log(e);
-    }
-  },
   permission: async (ctx, next) => {
-    
     try {
       const token = ctx.request.headers['authorization'] || null
       if (!token) return ctx.body = {

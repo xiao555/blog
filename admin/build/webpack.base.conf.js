@@ -14,7 +14,7 @@ module.exports = {
   entry: {
     app: './src/entry-client.js',
     style: './src/assets/css/index.js',
-    script: './src/assets/js/index.js'
+    // script: './src/assets/js/index.js'
   },
   output: {
     path: config.build.assetsRoot,
@@ -26,7 +26,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
-      'vue$': 'vue/dist/vue.min.js',
+      'vue$': 'vue/dist/vue.esm.js',
       '@': resolve('src'),
       '~': resolve('node_modules')
     }
@@ -55,10 +55,6 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [resolve('src'), resolve('test')]
-      },
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader?sourceMap' })
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

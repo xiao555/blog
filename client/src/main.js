@@ -11,7 +11,7 @@ Vue.config.productionTip = false
 let app = new Vue({
   router,
   store,
-  ...App
+  render: h => h(App)
 })
 
 export {

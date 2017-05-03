@@ -4,8 +4,7 @@ const env = process.env.NODE_ENV
 if(env == 'production') {
   log4js.configure({
     appenders: [
-      { type: 'console' },
-      { type: 'dateFile', filename: path.join(__dirname,'..', 'log/cheese.log', ), pattern: '-yyyy-MM-dd', alwaysIncludePattern: false,category: 'cheese' }
+      { type: 'file', filename: path.join(__dirname,'..', 'log/cheese.log')}
     ]
   });
 }

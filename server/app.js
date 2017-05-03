@@ -4,8 +4,8 @@ import log from './utils/log'
 import middleware from './middleware'
 import { connectDatabase } from './db/mongodb'
 import api from './api'
-const dbUri = 'mongodb://localhost/blog'
-const port = process.env.PORT || 3000
+import config from './config'
+const port = config.port
 const app = new Koa()
 
 app.use(async (ctx, next) => {
@@ -20,17 +20,10 @@ app.use(ctx => ctx.status = 404)
 
 ;(async () => {
   try {
-    const db = await connectDatabase(dbUri)
+    const db = await connectDatabase(config.mongoDB)
     log.info(`Connected to ${db.host}:${db.port}/${db.name}`)
-  } catch(e) {
-    // statements
-    log.error(e);
-  }
-
-  try {
     await app.listen(port, () => log.info(`Server started on port ${port}`))
   } catch(e) {
-    // statements
     log.error(e);
   }
 })()

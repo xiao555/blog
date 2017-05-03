@@ -1,10 +1,11 @@
 .edit
   clearfix()
-  .CodeMirror-wrap
+  textarea
+    width 100%
     overflow-y auto
-    height 500px
-    &:nth-child(2)
-      height 300px
+    height 300px
+    &.excerpt
+      height 100px
   input
     padding 5px 10px
   a

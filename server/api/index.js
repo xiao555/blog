@@ -14,7 +14,6 @@ export default () => {
   Object.keys(models).forEach(key => generateRouter(key, router, Admin.permission, generateAction(models[key])));
   router
     .post('/admin/login', Admin.login)
-    .post('/admin/register', Admin.register)
   return compose([
     router.routes(),
     router.allowedMethods()

@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const MFS = require('memory-fs')
-const clientConfig = require('./webpack.dev.conf')
+const clientConfig = require('./webpack.client.config')
 const serverConfig = require('./webpack.server.config')
 
 module.exports = function setupDevServer (app, cb) {
@@ -9,13 +9,13 @@ module.exports = function setupDevServer (app, cb) {
   let template
 
   // modify client config to work with hot middleware
-  clientConfig.entry.app.push('webpack-hot-middleware/client') //= ['webpack-hot-middleware/client', clientConfig.entry.app]
+  clientConfig.entry.app = ['webpack-hot-middleware/client', clientConfig.entry.app]
   clientConfig.output.filename = '[name].js'
   clientConfig.plugins.push(
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin()
   )
-  console.log(clientConfig.entry.app)
+
   // dev middleware
   const clientCompiler = webpack(clientConfig)
   const devMiddleware = require('webpack-dev-middleware')(clientCompiler, {

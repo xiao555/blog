@@ -7,25 +7,16 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    user: {},
-    register: {},
     category: [],
     tag: [],
     article: [],
     post: {},
     siteInfo: {
-      postUrl: 'http://localhost:8080/posts/'
+      postUrl: 'https://xiao555.com.cn/posts/'
     }
   },
   actions: {
-    FETCH_USER: ({ commit, state }, user) => {
-      return commit('SET_VALUE', 'user', user)
-    },
-    FETCH_REGISTER: ({ commit, state }, user) => {
-      return commit('SET_VALUE', 'register', user)
-    },
     FETCH_LIST: ({ commit, state }, model, forced = false) => {
-      console.log('FETCH_LIST', model)
       if (!forced && state[model] && state[model].length) return state[model]
       return api.fetchList(model).then(res => {
         commit('SET_VALUE', model, res)
@@ -46,12 +37,6 @@ const store = new Vuex.Store({
     }
   },
   getters: {
-    user (state) {
-      return state.user
-    },
-    register (state) {
-      return state.register
-    },
     article (state) {
       return state.article
     },

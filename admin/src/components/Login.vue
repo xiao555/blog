@@ -21,9 +21,9 @@
         </div>
       </form>
     </div>
-    <div class="panel new">
+    <!-- <div class="panel new">
       New to here? <router-link :to="{ name: 'register' }">Create a account.</router-link>
-    </div>
+    </div> -->
   </main>
 </template>
 
@@ -71,7 +71,7 @@ export default {
   },
   beforeMount () {
     // console.log(this)
-    this.form.name = this.$store.state.register.name || window.localStorage.getItem('username') ? window.localStorage.getItem('username') : ''
+    this.form.name = window.localStorage.getItem('username') ? window.localStorage.getItem('username') : ''
   }
 }
 </script>

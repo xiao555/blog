@@ -9,8 +9,8 @@
 6 silly lifecycle xiao555-blog@1.0.0~prestart: no script for prestart, continuing
 7 info lifecycle xiao555-blog@1.0.0~start: xiao555-blog@1.0.0
 8 verbose lifecycle xiao555-blog@1.0.0~start: unsafe-perm in lifecycle true
-9 verbose lifecycle xiao555-blog@1.0.0~start: PATH: /Users/zhangruiwu/.nvm/versions/node/v7.7.0/lib/node_modules/npm/bin/node-gyp-bin:/Users/zhangruiwu/Desktop/demo-learn/newBlog/service/node_modules/.bin:/Users/zhangruiwu/.nvm/versions/node/v7.7.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-10 verbose lifecycle xiao555-blog@1.0.0~start: CWD: /Users/zhangruiwu/Desktop/demo-learn/newBlog/service
+9 verbose lifecycle xiao555-blog@1.0.0~start: PATH: /Users/zhangruiwu/.nvm/versions/node/v7.7.0/lib/node_modules/npm/bin/node-gyp-bin:/Users/zhangruiwu/Desktop/demo-learn/newBlog/server/node_modules/.bin:/Users/zhangruiwu/.nvm/versions/node/v7.7.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+10 verbose lifecycle xiao555-blog@1.0.0~start: CWD: /Users/zhangruiwu/Desktop/demo-learn/newBlog/server
 11 silly lifecycle xiao555-blog@1.0.0~start: Args: [ '-c', 'node --harmony entry.js' ]
 12 silly lifecycle xiao555-blog@1.0.0~start: Returned: code: 1  signal: null
 13 info lifecycle xiao555-blog@1.0.0~start: Failed to exec start script
@@ -25,8 +25,8 @@
 14 verbose stack     at maybeClose (internal/child_process.js:899:16)
 14 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:226:5)
 15 verbose pkgid xiao555-blog@1.0.0
-16 verbose cwd /Users/zhangruiwu/Desktop/demo-learn/newBlog/service
-17 error Darwin 16.4.0
+16 verbose cwd /Users/zhangruiwu/Desktop/demo-learn/newBlog/server
+17 error Darwin 16.5.0
 18 error argv "/Users/zhangruiwu/.nvm/versions/node/v7.7.0/bin/node" "/Users/zhangruiwu/.nvm/versions/node/v7.7.0/bin/npm" "start"
 19 error node v7.7.0
 20 error npm  v4.1.2

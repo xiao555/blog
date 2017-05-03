@@ -2,7 +2,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/components/Login'
-import Register from '@/components/Register'
+// import Register from '@/components/Register'
 import Dashboard from '@/components/Dashboard'
 import Main from '@/components/Main'
 import Edit from '@/components/post/edit'
@@ -10,7 +10,7 @@ import Edit from '@/components/post/edit'
 import PostList from '@/components/post/List'
 import Category from '@/components/Category'
 import Tag from '@/components/Tag'
-import User from '@/components/User'
+// import User from '@/components/User'
 // import CreateListView from '@/view/CreateListView'
 
 Vue.use(Router)
@@ -24,11 +24,6 @@ export default new Router({
       component: Login
     },
     {
-      path: '/register',
-      name: 'register',
-      component: Register
-    },
-    {
       path: '/dashboard',
       component: Main,
       children: [
@@ -36,6 +31,22 @@ export default new Router({
           path: '/',
           name: 'dashboard',
           component: Dashboard
+        }
+      ]
+    },
+    {
+      path: '/',
+      component: Main,
+      children: [
+        {
+          path: 'category',
+          name: 'category',
+          component: Category
+        },
+        {
+          path: 'tag',
+          name: 'tag',
+          component: Tag
         }
       ]
     },
@@ -57,21 +68,6 @@ export default new Router({
           path: 'edit/:path',
           name: 'editPost',
           component: Edit
-        },
-        {
-          path: 'category',
-          name: 'category',
-          component: Category
-        },
-        {
-          path: 'tag',
-          name: 'tag',
-          component: Tag
-        },
-        {
-          path: 'user',
-          name: 'user',
-          component: User
         }
       ]
     }

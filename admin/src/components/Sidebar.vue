@@ -18,9 +18,6 @@
       <li class="item">
         <div class="single" :class="{ active: archieve == 'tag'}" @click='toggleActive'><router-link :to="{ name: 'tag' }"><i class="fa fa-tag" aria-hidden="true"></i>标签管理</router-link></div>
       </li>
-      <li class="item">
-        <div class="single" :class="{ active: archieve == 'user'}" @click='toggleActive'><router-link :to="{ name: 'user' }"><i class="fa fa-user" aria-hidden="true"></i>用户设置</router-link></div>
-      </li>
       <li class="item"><div class="single" :class="{ active: archieve == 'system'}" @click='toggleActive'><i class="fa fa-cog" aria-hidden="true"></i>系统设置</div></li>
     </ul>
   </div>

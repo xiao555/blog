@@ -15,9 +15,9 @@
               <button @click='toggleInput("path")'>OK</button>
               <button class="text" @click='cancel("path")'>Cancel</button></div>
       Content:
-      <markdown-editor v-model="post.content" :configs="configs" ref="markdownEditor"></markdown-editor>
+      <textarea v-model="post.content"></textarea>
       Excerpt:
-      <markdown-editor v-model="post.excerpt" :configs="configs2" ref="markdownEditor"></markdown-editor>
+      <textarea class="excerpt" v-model="post.excerpt"></textarea>
     </div>
     <div class="fields postbox-container">
       <div class="postbox">
@@ -77,15 +77,11 @@
 </template>
 
 <script>
-  import { markdownEditor } from '../../view/markdown'
   import { mapGetters } from 'vuex'
   import api from '../../store/api'
 
   export default {
     name: 'edit',
-    components: {
-      markdownEditor
-    },
     data () {
       const title = this.$route.path === '/post/create' ? 'Create Page' : 'Edit Page'
       let nullPath = !(title === 'Create Page')
