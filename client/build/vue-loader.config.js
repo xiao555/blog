@@ -12,8 +12,5 @@ module.exports = {
   loaders: utils.cssLoaders({
     sourceMap: isProduction,
     extract: isProduction
-  }),
-  alias: {
-    '~': '!!url-loader?name=[name].[ext]'
-  }
+  })
 }
