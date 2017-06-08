@@ -35,7 +35,7 @@
     },
     methods: {
       toggleActive: (e) => {
-        let arr = document.getElementsByClassName('active')
+        let arr = document.querySelectorAll('.sidebar-menu .active')
         for (var i = arr.length - 1; i >= 0; i--) {
           if (arr[i] !== e.target) arr[i].classList.remove('active')
         }

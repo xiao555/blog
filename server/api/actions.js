@@ -19,8 +19,8 @@ export default model => {
       try {
         const body = ctx.request.body
         if (model.modelName === 'article') {
-          await saveTags(body.tags)
-          await saveCategory(body.category)
+          !!body.tags && await saveTags(body.tags)
+          !!body.category && await saveCategory(body.category)
         }
         ctx.body = await model.create(body)
       } catch(e) {
@@ -46,12 +46,12 @@ export default model => {
         const id = ctx.params.id
         if (model.modelName === 'article') {
           await deletePost(ctx.params.id);
-          await saveTags(body.tags)
-          await saveCategory(body.category)
+          !!body.tags && await saveTags(body.tags)
+          !!body.category && await saveCategory(body.category)
         }
         const result = await model.findByIdAndUpdate(ctx.params.id, ctx.request.body, {new: true})
         console.log(result)
-        if (result) return ctx.body = result 
+        if (result) return ctx.body = result
       } catch(e) {
         log.error(e)
       }
@@ -125,7 +125,7 @@ async function saveTags (tags) {
       } catch(e) {
         log.error(e)
       }
-      
+
     })
   })
 
@@ -155,4 +155,3 @@ async function saveCategory (category) {
     log.error(e)
   }
 }
-

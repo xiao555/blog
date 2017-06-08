@@ -6,7 +6,7 @@ var proxyMiddleware = require('http-proxy-middleware')
 var webpackConfig = require('./webpack.dev.config')
 
 // default port where dev server listens for incoming traffic
-var port = process.env.PORT || 8009
+var port = process.env.PORT || 8008
 // automatically open browser, if not set will be false
 var autoOpenBrowser = true
 // Define HTTP proxies to your custom API backend

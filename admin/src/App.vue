@@ -33,7 +33,6 @@ export default {
 
 <style lang='stylus'>
 @import './assets/css/index.styl'
-@import '~/font-awesome/css/font-awesome.css'
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

@@ -20,7 +20,7 @@ if (isProd) {
   const bundle = require('./dist/vue-ssr-bundle.json')
   // src/index.template.html is processed by html-webpack-plugin to inject
   // build assets and output as dist/index.html.
-  const template = handleHtml(fs.readFileSync(resolve('./dist/index.html'), 'utf-8'))
+  const template = fs.readFileSync(resolve('./dist/index.html'), 'utf-8')
   renderer = createRenderer(bundle, template)
 } else {
   // In development: setup the dev server with watch and hot-reload,
@@ -30,12 +30,12 @@ if (isProd) {
   })
 }
 
-function handleHtml(string) {
-  const layoutSections = string.split('<div id="app"></div>')
-  const preAppHTML = layoutSections[0]
-  const postAppHTML = layoutSections[1]
-  return preAppHTML + postAppHTML
-}
+// function handleHtml(string) {
+//   const layoutSections = string.split('<div id="app"></div>')
+//   const preAppHTML = layoutSections[0]
+//   const postAppHTML = layoutSections[1]
+//   return preAppHTML + postAppHTML
+// }
 
 function createRenderer (bundle, template) {
   // https://github.com/vuejs/vue/blob/dev/packages/vue-server-renderer/README.md#why-use-bundlerenderer
@@ -53,13 +53,13 @@ const serve = (path, cache) => express.static(resolve(path), {
 })
 
 app.use(compression({ threshold: 0 }))
-// app.use(favicon('./public/logo-48.png'))
+app.use(favicon('./public/avatar.jpeg'))
 app.use('/dist', serve('./dist', true))
-app.use('/static', serve('./dist/static', true))
-app.use('/public', serve('./public', true))
-app.use('/style.css', serve('./dist/style.css', true))
+// app.use('/static', serve('./dist/static', true))
+// app.use('/public', serve('./public', true))
+// app.use('/style.css', serve('./dist/style.css', true))
 // app.use('/manifest.json', serve('./manifest.json', true))
-// app.use('/service-worker.js', serve('./dist/service-worker.js'))
+app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
 app.get('*', (req, res) => {
   if (!renderer) {

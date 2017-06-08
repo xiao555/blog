@@ -15,9 +15,12 @@ let app = new Vue({
   ...App
 })
 
+if (process.env.NODE_ENV !== 'production') {
+  app.$mount('#app')
+}
+
 export {
   app,
   router,
   store
 }
-

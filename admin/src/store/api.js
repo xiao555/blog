@@ -27,6 +27,7 @@ export default {
     })
   },
   update: (model, data) => {
+    console.log(data.createTime)
     return axios.put(`${prefix}/${model}s/${data._id}`, data).then(res => {
       const result = res.data
       console.log(`update ${model}`, result)

@@ -4,6 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store'
+import Meta from 'vue-meta'
+
+Vue.use(Meta)
 
 Vue.config.productionTip = false
 
@@ -11,8 +14,12 @@ Vue.config.productionTip = false
 let app = new Vue({
   router,
   store,
-  render: h => h(App)
+  ...App
 })
+
+if (process.env.NODE_ENV !== 'production') {
+  app.$mount('#app')
+}
 
 export {
   app,

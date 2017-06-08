@@ -5,10 +5,10 @@
       <div class="title"><input type="text" v-model="post.title" placeholder="Title"></div>
       <div  class="path"
             v-if="input.path">
-              Path: 
+              Path:
               <a class="underline" :href="postUrl + post.path" target="_blank">{{ postUrl+post.path }}</a>
               <button @click='toggleInput("path")'>Edit</button></div>
-      <div  class="path" 
+      <div  class="path"
             v-else>
               Path: {{ postUrl }}
               <input type="text" v-model="post.path">
@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="info">Visits: {{  post.visits }}</div>
-          <div class="info">Published on: {{ post.createTime }}</div>
+          <div class="info">Published on: <datepicker :format="format" :language="language" :value="post.createTime"></datepicker></div>
         </div>
         <div class="box-footer">
           <a href="" class="trash" @click='deletePost'>Move to Trash</a>
@@ -55,7 +55,7 @@
               <button @click='toggleInput("category")'>OK</button><button class="text" @click='cancel("category")'>Cancel</button>
             </div>
           </div>
-          <div class="info">Tags: 
+          <div class="info">Tags:
             <button class="text" v-if="!input.tags" @click='toggleInput("tags")'>Edit</button>
             <div class="tag-box">
               <span class="tag" v-for="item in post.tags">{{item}}</span>
@@ -79,13 +79,19 @@
 <script>
   import { mapGetters } from 'vuex'
   import api from '../../store/api'
+  import Datepicker from 'vuejs-datepicker'
 
   export default {
     name: 'edit',
+    components: {
+        Datepicker
+    },
     data () {
       const title = this.$route.path === '/post/create' ? 'Create Page' : 'Edit Page'
       let nullPath = !(title === 'Create Page')
       return {
+        format: 'yyyy-MM-dd',
+        language: 'zh',
         isNew: title === 'Create Page',
         title: title,
         post: {},
@@ -140,6 +146,8 @@
         this.input[index] = !this.input[index]
       },
       udpate () {
+        console.log(this.$children[0].formattedValue)
+        this.post.createTime = this.$children[0].formattedValue
         api.update('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
@@ -150,7 +158,7 @@
         }).catch(err => console.error(err))
       },
       create () {
-        const Expect = ['title', 'path', 'tags', 'status', 'category']
+        const Expect = ['title', 'path', 'status']
         let valid = false
         Expect.map((item) => {
           if (!this.post.hasOwnProperty(item)) {

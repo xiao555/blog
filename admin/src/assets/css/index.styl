@@ -8,10 +8,10 @@ normalize-css()
 
 html, body, #app, main
   height 100%
-  
+
 li
   list-style none
-  
+
 a,button,select
   text-decoration none
   &:focus
@@ -33,12 +33,13 @@ main
       top 5px
 
 .content
-  margin-left 200px
-  padding 80px 20px 20px 20px
+  position relative
+  padding 70px 20px
   height 100%
+  overflow-y auto
   @media mq-mobile
     margin 0
-    
+
 
 form
   item
@@ -80,7 +81,7 @@ form
   border 1px solid #d8dee2
   padding 20px
   margin-top 20px
-  
+
 h1,.add-new
   display inline-block
   vertical-align middle
@@ -115,4 +116,4 @@ h1,.add-new
   cursor pointer
   opacity .7
   &:hover
-    opacity 1 
+    opacity 1

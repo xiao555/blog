@@ -2,7 +2,6 @@ var path = require('path')
 var utils = require('./utils')
 var vueLoaderConfig = require('./vue-loader.config')
 var webpack = require('webpack')
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -15,25 +14,29 @@ module.exports = {
     ? false
     : '#cheap-module-eval-source-map',
   entry: {
-    app: './src/entry-client.js',
+    app: process.env.NODE_ENV !== 'production'
+      ? './src/main.js'
+      : './src/entry-client.js',
     style: './src/assets/css/index.js',
     vendor: [
       'vue',
       'vue-router',
       'vuex'
     ]
-    // style: './src/assets/css/index.js'
   },
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].js',
-    publicPath: '/dist/'
+    publicPath: process.env.NODE_ENV === 'production'
+      ? '/dist/'
+      : '/'
   },
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
+      '@': resolve('src'),
+      '~': resolve('node_modules')
     }
   },
   module: {
@@ -42,10 +45,6 @@ module.exports = {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
-      },
-      {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract({ use: 'css-loader?sourceMap' })
       },
       {
         test: /\.js$/,
@@ -71,7 +70,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin({ filename: 'style.css', disable: false, allChunks: true }),
     new webpack.LoaderOptionsPlugin({
       // test: /\.xxx$/, // may apply this only for some modules
       options: {

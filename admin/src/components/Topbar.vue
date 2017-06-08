@@ -2,6 +2,8 @@
   <div class="topbar">
     <div id="menu" class="topbar-menu-icon" @click='toggleMenuActive'><i class="fa fa-bars" aria-hidden="true"></i>
     </div>
+    <div id="sidebar-menu" class="topbar-menu-icon" @click='toggleSidebarActive'><i class="fa fa-chevron-left left" aria-hidden="true"></i><i class="fa fa-chevron-right right" aria-hidden="true"></i>
+    </div>
     <ul class="topbar-menu">
       <li class="item">
         <div class="single" :class="{ active: archieve == 'dashboard'}" @click='toggleActive'><router-link :to="{ name: 'dashboard' }"><i class="fa fa-home" aria-hidden="true"></i>首页</router-link></div>
@@ -23,7 +25,6 @@
     </ul>
     <div class="login">{{ user }}
       <ul class="login-list slidedown">
-        <li class="item">修改密码</li>
         <li class="item" @click="logout">Logout</li>
       </ul>
     </div>
@@ -44,7 +45,11 @@
     },
     methods: {
       toggleMenuActive (event) {
-        document.querySelector('#menu').classList.toggle('active')
+        document.querySelector('.topbar-menu').classList.toggle('active')
+      },
+      toggleSidebarActive (event) {
+        document.querySelector("#sidebar-menu").classList.toggle('active')
+        document.querySelector(".sidebar").classList.toggle('active')
       },
       toggleActive (e) {
         let arr = document.getElementsByClassName('active')

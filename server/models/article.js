@@ -14,11 +14,11 @@ const articleSchema = new mongoose.Schema({
   }],
   createTime: {
     type: String,
-    default: dateFormat(new Date(), 'yyyy-mm-dd')
+    default: dateFormat(new Date(), 'yyyy-MM-dd')
   },
   lastEditTime: {
     type: String,
-    default: dateFormat(new Date(), 'yyyy-mm-dd')
+    default: dateFormat(new Date(), 'yyyy-MM-dd')
   },
   status: {
     type: String,
@@ -37,4 +37,3 @@ articleSchema.set('toJSON', { getters: true, virtuals: true});
 articleSchema.set('toObject', { getters: true, virtuals: true});
 
 export default mongoose.model('article', articleSchema)
-

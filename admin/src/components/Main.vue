@@ -3,8 +3,8 @@
     <div class="error" :class="{ active: error}" >{{ message }}</div>
     <div class="success" :class="{ active: success}" >{{ message }}</div>
     <sidebar></sidebar>
-    <topbar></topbar>
     <div class="content">
+      <topbar></topbar>
       <router-view></router-view>
     </div>
   </main>

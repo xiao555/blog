@@ -16,16 +16,13 @@ const store = new Vuex.Store({
   },
   actions: {
     FETCH_VALUE: ({ commit, state, dispatch }, { model, query }) => {
-      console.log(query)
       return fetch(model, query).then(value => {
-        console.log(value)
         commit('SET_VALUE', { model, value })
         return Promise.resolve(value)
       })
     },
     FETCH_BLOG: ({ commit, state, dispatch }, { model, query, callback }) => {
       return fetch(model, query).then(blog => {
-        console.log(query)
         commit('SET_VALUE', blog[0])
         return Promise.resolve(blog[0])
       })
@@ -33,7 +30,6 @@ const store = new Vuex.Store({
   },
   mutations: {
     SET_VALUE: (state, { key, value }) => {
-      console.log(value)
       Vue.set(state, key, value)
     }
   },

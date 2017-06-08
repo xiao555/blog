@@ -1,11 +1,6 @@
 <template>
   <footer>
-    <ul class="social-links">
-      <li><a href="https://github.com/xiao555" target="_blank"><i class="fa fa-github" aria-hidden="true"></i></a></li>
-      <li><a href="http://www.linkedin.com/in/%E7%9D%BF%E6%AD%A6-%E5%BC%A0-4932b5100/"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-      <li><a href="mailto: zhangruiwu32@gmail.com"><i class="fa fa-envelope-o" aria-hidden="true"></i></a></li>
-    </ul>
-    <div class="copyright">Xiao555 @ 2017</div>
+    <div class="copyright">Xiao555 @ 2017 陕ICP备17008921号</div>
   </footer>
 </template>
 
@@ -15,9 +10,12 @@
   }
 </script>
 
-<style lang="stylus"> 
+<style lang="stylus">
 footer
-  padding 50px 0 
+  max-width 800px
+  padding 50px 0
+  margin 0 auto
+  width calc(100% - 400px)
   .social-links
     text-align center
     padding 0
@@ -34,4 +32,10 @@ footer
     text-align center
     font-weight 700
     font-size 10px
+  @media mq-tablet
+    width calc(100% - 240px)
+    margin-left 200px
+  @media mq-mobile
+    width 100%
+    margin-left 0
 </style>

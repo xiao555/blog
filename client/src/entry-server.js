@@ -1,6 +1,9 @@
+import Vue from 'vue'
 import { app, router, store } from './main'
 
 const isDev = process.env.NODE_ENV !== 'production'
+
+const meta = app.$meta()
 
 // This exported function will be called by `bundleRenderer`.
 // This is where we perform data-prefetching to determine the
@@ -13,7 +16,7 @@ export default context => {
   return new Promise((resolve, reject) => {
     // set router's location
     router.push(context.url)
-
+    context.meta = meta
     // wait until router has resolved possible async hooks
     router.onReady(() => {
       const matchedComponents = router.getMatchedComponents()

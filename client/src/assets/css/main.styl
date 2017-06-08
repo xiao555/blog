@@ -1,10 +1,13 @@
 global-reset()
 normalize-css()
 
+*
+  box-sizing border-box
+
 body
   border 0
   margin 0
-  
+
 li
   list-style none
 
@@ -13,7 +16,7 @@ a
 
 h1, .entry-content
   text-align center
-  
+
 .violet
   background violet
 .indigo
@@ -29,6 +32,7 @@ h1, .entry-content
   top 0
   width 100%
   height 8px
+  z-index 999
   > div
     height 8px
     width 25%
@@ -36,46 +40,102 @@ h1, .entry-content
 
 main
   margin 0 auto
-  width 80%
+  width calc(100% - 400px)
   max-width 800px
-  
+  @media mq-tablet
+    width calc(100% - 240px)
+    margin-left 200px
+  @media mq-mobile
+    width 80%
+
 article
   border-bottom 1px dotted #aaa
-  margin-top 40px
+  padding-top 40px
+  padding-bottom 20px
   .header, .footer
-    text-align center
-    margin-bottom 30px
+    margin-bottom 10px
+  .backTop
+    position fixed
+    right 2px
+    bottom 40px
+    opacity 0
+    transition all .3s ease-out
+    &.show
+      opacity 1
+    a
+      color blue
+      font-weight bolder
+      transition all .3s ease-out
+      cursor pointer
+      &:hover
+        color topmenu
+  .toc
+    position fixed
+    width calc((100% - 800px) / 2 - 20px)
+    min-width 180px
+    right 10px
+    top 10px
+    margin 5px
+    border 1px solid borderGray
+    padding 5px
+    a
+      color link-blue
+      &:hover
+        color link-green
+    h2
+      font-size 18px
+      border-bottom 1px solid borderGray
+    ul#toc
+      padding-left 0
+      margin 0
+      ul
+        padding-left 20px
+    .toggle
+      display none
+      position absolute
+      width 30px
+      top 0
+      left -35px
+      background-color green
+      color white
+      padding 5px
+      cursor pointer
+      border-radius 5px
+      transition all .3s ease-out
+      &:hover
+        background-color blue
+    @media mq-below-desktop
+      background-color white
+      top 160px
+      transform translateX(100% + 10px)
+      transition all .3s ease-out
+      &.show
+        transform translateX(0)
+      .toggle
+        display block
+
   h2
-    margin 10px 0
-    font-size 36px
+    margin 0
+    font-size 30px
+    font-weight bolder
     color title
     a
-      font-size 36px
+      font-size 30px
       color title
       transition all .3s ease-out
       &:hover
-        color topmenu
+        color blue
+    @media mq-mobile
+      font-size 26px
+      a
+        font-size 26px
   .date
     display inline-block
-    padding 5px 20px
     margin 0
     font-family Meta
     font-size 12px
     font-weight 300
-    border-top 1px solid #ddd
-    border-bottom 1px solid #ddd
     position relative
-    &:before, &:after
-      content ' '
-      position absolute
-      width 10px
-      height 1px
-      background-color #ddd
-      top 14px
-    &:before
-      left 0
-    &:after
-      right 0
   .readmore
     padding 8px 15px
     color white
@@ -99,5 +159,3 @@ article
       &:after
         width 10px
         padding-left 5px
-    
-      
