@@ -8,7 +8,7 @@
     "dev": "NODE_ENV=development node --debug --harmony entry.js",
     "public": "NODE_ENV=production node --harmony entry.js",
     "test": "mocha test-example/index.js",
-    "pm": "NODE_ENV=production pm2 entry.js --name='blogServer'"
+    "pm": "NODE_ENV=production pm2 start entry.js --name='blogServer'"
   },
   "repository": {
     "type": "git",

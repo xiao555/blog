@@ -146,7 +146,7 @@
       udpate () {
         console.log(this.$children[0].formattedValue)
         this.post.createTime = this.$children[0].formattedValue
-        api.update('article', this.post).then(res => {
+        api.admin.update('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
           } else {
@@ -165,7 +165,7 @@
           }
         })
         if (valid) return this.$parent.$emit('message', 'error', `Required ${valid} field`)
-        api.create('article', this.post).then(res => {
+        api.admin.create('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
           } else {
@@ -175,7 +175,7 @@
         }).catch(err => console.error(err))
       },
       deletePost () {
-        api.delete('article', this.post).then(res => {
+        api.admin.delete('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
           } else {
