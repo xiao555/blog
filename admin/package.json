@@ -9,7 +9,8 @@
     "start": "cross-env NODE_ENV=production node server",
     "build": "rimraf dist && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
-    "build:server": "cross-env webpack --config build/webpack.server.config.js --progress --hide-modules"
+    "build:server": "cross-env webpack --config build/webpack.server.config.js --progress --hide-modules",
+    "pm": "NODE_ENV=production pm2 server.js --name='blogClient'"
   },
   "dependencies": {
     "cross-env": "^3.1.4",

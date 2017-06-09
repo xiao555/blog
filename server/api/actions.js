@@ -9,7 +9,6 @@ export default model => {
       try {
         const query = ctx.request.query
         let conditions = query ? query : {}
-        console.log(conditions)
         ctx.body = await model.find(conditions).exec()
       } catch(e) {
         log.error(e)
@@ -39,9 +38,6 @@ export default model => {
     },
     updateById: async ctx => {
       try {
-        console.log(ctx.params.id)
-        console.log(ctx.request.body)
-        console.log(model.modelName)
         const body = ctx.request.body
         const id = ctx.params.id
         if (model.modelName === 'article') {
@@ -50,7 +46,6 @@ export default model => {
           !!body.category && await saveCategory(body.category)
         }
         const result = await model.findByIdAndUpdate(ctx.params.id, ctx.request.body, {new: true})
-        console.log(result)
         if (result) return ctx.body = result
       } catch(e) {
         log.error(e)
@@ -58,7 +53,6 @@ export default model => {
     },
     deleteById: async ctx => {
       try {
-        console.log(ctx.url)
         if (model.modelName === 'article') {
           await deletePost(ctx.params.id);
         }
@@ -107,19 +101,16 @@ async function saveTags (tags) {
         // if has been saved
         let isSaved = false
         await Tag.findOne({ name: tag }).then( async doc => {
-          console.log(tag, doc)
           if (doc) {
             const _doc = await Tag.findByIdAndUpdate(doc._id, { number: ++doc.number}, {new: true})
             if ( _doc && _doc.number === doc.number) isSaved = true
           }
         })
-        console.log(isSaved)
         // new tag
         if (!isSaved) {
           const _tag = await Tag.create({
             name: tag
           })
-          console.log('new tag')
         }
         resolve()
       } catch(e) {
@@ -138,18 +129,15 @@ async function saveCategory (category) {
   try {
     let isSaved = false
     await Category.findOne({ name: category }).then( async doc => {
-      console.log(category, doc)
       if (doc) {
         const _doc = await Category.findByIdAndUpdate(doc._id, { number: ++doc.number}, {new: true})
         if ( _doc && _doc.number === doc.number) isSaved = true
       }
     })
-    console.log(isSaved)
     if (!isSaved) {
       return await Category.create({
         name: category
       })
-      console.log('new Category')
     }
   } catch(e) {
     log.error(e)

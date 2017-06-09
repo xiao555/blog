@@ -22,13 +22,14 @@
   import { mapGetters } from 'vuex'
   import marked from 'marked'
   import uslug from 'uslug'
+  import config from '../../../config'
 
   export default {
     name: 'post',
     metaInfo() {
       return {
         title: this.blog.title,
-        titleTemplate: "%s | Xiao555's Blog"
+        titleTemplate: config.titleTemplate
       }
     },
     data () {

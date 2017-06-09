@@ -22,7 +22,6 @@
   })
   export default {
     name: 'list',
-    props: ['options'],
     data () {
       return {
         articles: [],
@@ -32,9 +31,6 @@
     beforeMount () {
       const query = {
         status: 'Published'
-      }
-      if (this.options.query.hasOwnProperty('name')) {
-        query[this.options.query.name] = this.$route.params[this.options.query.value]
       }
       this.$store.dispatch('FETCH_VALUE', {
         model: 'articles',

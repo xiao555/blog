@@ -17,12 +17,13 @@
 <script type="text/javascript">
   import marked from 'marked'
   import uslug from 'uslug'
+  import config from '../../../config'
 
   export default {
     name: 'about',
     metaInfo: {
       title: 'About',
-      titleTemplate: "%s | Xiao555's Blog"
+      titleTemplate: config.titleTemplate
     },
     data() {
       return {
@@ -97,7 +98,8 @@
 </script>
 
 <style lang="stylus">
-.about
-  .markdown-body li
-    list-style-type decimal
+#blog
+  .about
+    .markdown-body li
+      list-style-type decimal
 </style>

@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="inner">
       <a class="logo" href="/">
-        <img src="http://ojxrgrrxt.bkt.clouddn.com/header.jpg" alt="logo">
+        <img :src="header" alt="logo">
       </a>
       <h1>
         <a href="/">Xiao555</a>
@@ -30,30 +30,14 @@
 </template>
 
 <script type="text/javascript">
+import config from '../../../config'
 export default {
   name: 'sidebar',
   data () {
     return {
-      achieves: [],
-      links: {
-        github: "https://github.com/xiao555",
-        facebook: "https://www.facebook.com/profile.php?id=100009127309661",
-        email: "mailto: zhangruiwu32@gmail.com",
-        weibo: "http://weibo.com/u/5315649743",
-        zhihu: "https://www.zhihu.com/people/zhang-rui-wu-50",
-        rss: "#"
-      }
+      links: config.links,
+      header: config.headerImg
     }
-  },
-  beforeMount () {
-    this.$store.dispatch('FETCH_VALUE', {
-      model: 'articles',
-      query: {
-        status: 'Published'
-      }
-    }).then(res => {
-      this.articles = res
-    }).catch(err => console.log(err))
   }
 }
 </script>
@@ -62,63 +46,63 @@ export default {
 hoverblue()
   &:hover
     color blue
-
-.sidebar
-  position fixed
-  top 0
-  left 0
-  bottom 0
-  width calc((100% - 800px) / 2)
-  min-width 200px
-  .inner
-    padding 70px 10%
-    .logo
-      display block
-      margin 0 auto
-      width 160px
-      height 160px
-      border-radius 50%
-      img
-        width 100%
+#blog
+  .sidebar
+    position fixed
+    top 0
+    left 0
+    bottom 0
+    width calc((100% - 800px) / 2)
+    min-width 200px
+    .inner
+      padding 70px 10%
+      .logo
+        display block
+        margin 0 auto
+        width 160px
+        height 160px
         border-radius 50%
-    h1
-      margin-bottom 0
-      a
-        color indigo
-        hoverblue()
-    .links
-      text-align center
-      a
-        display inline-block
-        width 20px
-        height 20px
-        color indigo
-        hoverblue()
-        svg
-          width 14px
-          height 14px
-          fill indigo
-          &:hover
-            fill blue
-    p
-      text-align center
-      margin-top 0
-      color indigo
-    nav
-      ul
-        padding-left 0
-        text-align center
-      li
-        font-size 12px
-        display inline-block
+        img
+          width 100%
+          border-radius 50%
+      h1
+        margin-bottom 0
         a
-          color violet
+          color indigo
           hoverblue()
-        span
-          margin 0 5px
-  @media mq-mobile
-    position relative
-    bottom auto
-    width 100%
-    background-color lavender
+      .links
+        text-align center
+        a
+          display inline-block
+          width 20px
+          height 20px
+          color indigo
+          hoverblue()
+          svg
+            width 14px
+            height 14px
+            fill indigo
+            &:hover
+              fill blue
+      p
+        text-align center
+        margin-top 0
+        color indigo
+      nav
+        ul
+          padding-left 0
+          text-align center
+        li
+          font-size 12px
+          display inline-block
+          a
+            color violet
+            hoverblue()
+          span
+            margin 0 5px
+    @media mq-mobile
+      position relative
+      bottom auto
+      width 100%
+      background-color lavender
 </style>

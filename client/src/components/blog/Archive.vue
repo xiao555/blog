@@ -12,11 +12,12 @@
 </template>
 
 <script>
+import config from '../../../config'
 export default {
   name: 'archive',
   metaInfo: {
     title: 'Archive',
-    titleTemplate: "%s | Xiao555's Blog"
+    titleTemplate: config.titleTemplate
   },
   data () {
     return {
@@ -58,13 +59,14 @@ export default {
 </script>
 
 <style lang="stylus">
-.archive
-  .item
-    ul
-      padding-left 0
-      a
-        color indigo
-        transition all .3s ease-out
-        &:hover
-          color link-green
+#blog
+  .archive
+    .item
+      ul
+        padding-left 0
+        a
+          color indigo
+          transition all .3s ease-out
+          &:hover
+            color link-green
 </style>
