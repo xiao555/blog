@@ -11,7 +11,7 @@ import Login from '@/components/admin/Login.vue'
 import Dashboard from '@/components/admin/Dashboard.vue'
 import Category from '@/components/admin/Category.vue'
 import PostList from '@/components/admin/post/List.vue'
-import Edit from '@/components/admin/post/Edit.vue'
+import Edit from '@/components/admin/post/edit.vue'
 import Main from '@/components/admin/Main.vue'
 
 Vue.use(Router)

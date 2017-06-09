@@ -7,7 +7,7 @@ export default {
     }
   },
   prod: {
-    api: 'https://xiao555.com.cn:3000/api',
+    api: 'https://xiao555.com.cn/api',
     siteInfo: {
       siteUrl: 'https://xiao555.com.cn/',
       postUrl: 'https://xiao555.com.cn/posts/'

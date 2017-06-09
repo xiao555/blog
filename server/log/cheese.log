@@ -1,0 +1,64 @@
+[2017-06-09 19:09:02.921] [DEBUG] TYPE - LOG TYPE:
+[2017-06-09 19:09:02.924] [DEBUG] TYPE - DEBUG
+[2017-06-09 19:09:02.924] [INFO] TYPE - INFO
+[2017-06-09 19:09:02.924] [WARN] TYPE - WARN
+[2017-06-09 19:09:02.924] [ERROR] TYPE - ERROR
+[2017-06-09 19:09:02.924] [FATAL] TYPE - FATAL
+[2017-06-09 19:09:04.943] [INFO] Blog - Redis is ready
+[2017-06-09 19:09:04.959] [ERROR] Blog - { MongoError: failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+    at Pool.<anonymous> (/var/www/New-Blog/server/node_modules/mongodb-core/lib/topologies/server.js:328:35)
+    at emitOne (events.js:96:13)
+    at Pool.emit (events.js:191:7)
+    at Connection.<anonymous> (/var/www/New-Blog/server/node_modules/mongodb-core/lib/connection/pool.js:280:12)
+    at Object.onceWrapper (events.js:293:19)
+    at emitTwo (events.js:106:13)
+    at Connection.emit (events.js:194:7)
+    at Socket.<anonymous> (/var/www/New-Blog/server/node_modules/mongodb-core/lib/connection/connection.js:177:49)
+    at Object.onceWrapper (events.js:293:19)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:191:7)
+    at emitErrorNT (net.js:1283:8)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+  name: 'MongoError',
+  message: 'failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]' }
+[2017-06-09 19:13:09.600] [DEBUG] TYPE - LOG TYPE:
+[2017-06-09 19:13:09.603] [DEBUG] TYPE - DEBUG
+[2017-06-09 19:13:09.603] [INFO] TYPE - INFO
+[2017-06-09 19:13:09.604] [WARN] TYPE - WARN
+[2017-06-09 19:13:09.604] [ERROR] TYPE - ERROR
+[2017-06-09 19:13:09.604] [FATAL] TYPE - FATAL
+[2017-06-09 19:13:10.478] [INFO] Blog - Redis is ready
+[2017-06-09 19:13:10.502] [ERROR] Blog - { MongoError: failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]
+    at Pool.<anonymous> (/var/www/New-Blog/server/node_modules/mongodb-core/lib/topologies/server.js:328:35)
+    at emitOne (events.js:96:13)
+    at Pool.emit (events.js:191:7)
+    at Connection.<anonymous> (/var/www/New-Blog/server/node_modules/mongodb-core/lib/connection/pool.js:280:12)
+    at Object.onceWrapper (events.js:293:19)
+    at emitTwo (events.js:106:13)
+    at Connection.emit (events.js:194:7)
+    at Socket.<anonymous> (/var/www/New-Blog/server/node_modules/mongodb-core/lib/connection/connection.js:177:49)
+    at Object.onceWrapper (events.js:293:19)
+    at emitOne (events.js:96:13)
+    at Socket.emit (events.js:191:7)
+    at emitErrorNT (net.js:1283:8)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickDomainCallback (internal/process/next_tick.js:128:9)
+  name: 'MongoError',
+  message: 'failed to connect to server [localhost:27017] on first connect [MongoError: connect ECONNREFUSED 127.0.0.1:27017]' }
+[2017-06-09 19:19:49.884] [DEBUG] TYPE - LOG TYPE:
+[2017-06-09 19:19:49.887] [DEBUG] TYPE - DEBUG
+[2017-06-09 19:19:49.888] [INFO] TYPE - INFO
+[2017-06-09 19:19:49.888] [WARN] TYPE - WARN
+[2017-06-09 19:19:49.888] [ERROR] TYPE - ERROR
+[2017-06-09 19:19:49.888] [FATAL] TYPE - FATAL
+[2017-06-09 19:19:50.579] [INFO] Blog - Redis is ready
+[2017-06-09 19:19:50.602] [INFO] Blog - Connected to localhost:27017/blog
+[2017-06-09 19:19:50.605] [INFO] Blog - Server started on port 3000
+[2017-06-09 19:20:22.140] [INFO] Blog - GET /api/ 404 - 7ms
+[2017-06-09 19:20:29.507] [INFO] Blog - GET /api/articles、 404 - 2ms
+[2017-06-09 19:20:33.603] [INFO] Blog - GET /api/articles/ 200 - 14ms
+[2017-06-09 19:23:34.390] [INFO] Blog - POST /api/admin/login 200 - 55ms
+[2017-06-09 19:23:38.765] [INFO] Blog - GET /api/articles/ 200 - 12ms
+[2017-06-09 19:23:40.172] [INFO] Blog - GET /api/categorys/ 200 - 4ms
+[2017-06-09 19:26:53.567] [INFO] Blog - GET /api/categorys/ 200 - 2ms
