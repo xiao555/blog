@@ -12,6 +12,11 @@ let cache = LRU({
 })
 
 export default {
+  view: (type, key) => {
+    const condition = type === 'blog' ? `?path=${key}` : ''
+    return axios.post(`${prefix}/view/${type}${condition}`).then(res => {
+    })
+  },
   blog: (model, query) => {
     const target = `${prefix}/${model}`
     let key = target + "/?"

@@ -95,7 +95,6 @@ app.get('*', (req, res) => {
       const { title, link, meta } = context.meta.inject()
       const titleText = title.text()
       const metaData = `${titleText}${meta.text()}${link.text()}`
-      console.log(metaData);
       const chunk = template.replace('<title></title>', metaData)
     })
     .on('end', () => console.log(`whole request: ${Date.now() - s}ms`))

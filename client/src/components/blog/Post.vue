@@ -23,6 +23,7 @@
   import marked from 'marked'
   import uslug from 'uslug'
   import config from '../../../config'
+  import api from '../../store/api'
 
   export default {
     name: 'post',
@@ -115,11 +116,15 @@
         this.toc = article.toc
       }).catch(err => console.log(err))
     },
-    mounted () {
+    mounted() {
+      api.view('blog', this.$route.params.path)
       window.addEventListener('scroll',(e) => {
-        window.scrollY > 0
-        ? document.querySelector('.backTop').classList.add('show')
-        : document.querySelector('.backTop').classList.remove('show')
+        // 过滤没有backTop的页面
+        if (document.querySelector('.backTop')) {
+          window.scrollY > 0
+          ? document.querySelector('.backTop').classList.add('show')
+          : document.querySelector('.backTop').classList.remove('show')
+        }
       })
     }
   }

@@ -34,8 +34,8 @@
               <button @click='toggleInput("status")'>OK</button><button class="text" @click='cancel("status")'>Cancel</button>
             </div>
           </div>
-          <div class="info">Visits: {{  post.visits }}</div>
-          <div class="info">Published on: <date-picker :time="date.time" :option="option"></date-picker></div>
+          <div class="info">Visits: {{  post.visits }} <button class="text" @click='clearVisits()'>Clear</button></div>
+          <div class="info">Published on: <date-picker :date="date" :option="option"></date-picker></div>
         </div>
         <div class="box-footer">
           <a href="" class="trash" @click='deletePost'>Move to Trash</a>
@@ -67,7 +67,7 @@
 <script>
   import { mapGetters } from 'vuex'
   import api from '@/store/api'
-  import myDatepicker from 'vue-datepicker/vue-datepicker.es6-1.vue'
+  import myDatepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 
   export default {
     name: 'edit',
@@ -75,7 +75,7 @@
         'date-picker': myDatepicker
     },
     data () {
-      const title = this.$route.path === '/post/create' ? 'Create Page' : 'Edit Page'
+      const title = this.$route.path === '/admin/post/create' ? 'Create Page' : 'Edit Page'
       let nullPath = !(title === 'Create Page')
       return {
         option: {
@@ -144,8 +144,7 @@
         this.input[index] = !this.input[index]
       },
       udpate () {
-        console.log(this.$children[0].formattedValue)
-        this.post.createTime = this.$children[0].formattedValue
+        this.post.createTime = this.$children[0].date.time
         api.admin.update('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
@@ -165,6 +164,7 @@
           }
         })
         if (valid) return this.$parent.$emit('message', 'error', `Required ${valid} field`)
+        this.post.createTime = this.$children[0].date.time
         api.admin.create('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
@@ -182,6 +182,9 @@
             this.$parent.$emit('message', 'success', 'Delete Success')
           }
         }).catch(err => console.error(err))
+      },
+      clearVisits () {
+        this.post.visits = 0
       }
     },
     watch: {
@@ -202,7 +205,7 @@
       }
     },
     beforeMount () {
-      if (this.$route.path === '/post/create') this.post = {}
+      if (this.$route.path === '/admin/post/create') this.post = {}
       this.$store.dispatch('FETCH_LIST', 'category').then(res => {
         this.category = res
       }).catch(err => console.error(err))

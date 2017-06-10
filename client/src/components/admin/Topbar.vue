@@ -11,8 +11,8 @@
       <li class="item">
         <div class="title" @click='toggleActive' :class="{ active: archieve == 'post'}"><i class="fa fa-file" aria-hidden="true"></i>文章管理</div>
         <ul class="submenu">
-          <router-link :to="{ name: 'postList' }"><li class="subitem" :class="{ active: path == '/post/list'}">文章列表</li></router-link>
-          <router-link :to="{ name: 'createPost' }"><li class="subitem" :class="{ active: path == '/post/create'}">添加文章</li></router-link>
+          <router-link :to="{ name: 'postList' }"><li class="subitem" :class="{ active: path == '/admin/post/list'}">文章列表</li></router-link>
+          <router-link :to="{ name: 'createPost' }"><li class="subitem" :class="{ active: path == '/admin/post/create'}">添加文章</li></router-link>
         </ul>
       </li>
       <li class="item">
@@ -60,9 +60,6 @@
       logout () {
         this.$store.state.user = {}
         this.$router.replace({ name: 'login' })
-        const archieve = this.$route.path.split('/').slice(0, 3)
-        this.archieve = archieve[1]
-        this.path = this.$route.path
       }
     },
     beforeMount () {

@@ -30,7 +30,6 @@
     },
     created () {
       this.$on('message', (type, message) => {
-        console.log('on message')
         this.error = this.success = false
         this[type] = true
         this.message = message.indexOf('Token') === -1 ? message : message + ', Please re-login'

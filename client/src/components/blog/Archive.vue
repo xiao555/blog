@@ -45,7 +45,13 @@ export default {
           }
         }
       }
-      this.dates.sort()
+      this.dates.sort(function(a, b) {
+        const args = Array.prototype.slice.call(arguments);
+        return args.reduce((pre, cur) => {
+          let time = cur.split('-')
+          return parseInt(time[0] + time[1]) - pre
+        }, 0)
+      })
       this.dates.forEach((key) => {
         this.articles[key].sort((a, b) => {
           let x = a.createTime.slice(8,10);
