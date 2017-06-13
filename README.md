@@ -58,6 +58,7 @@
 * [Mac上安装](https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/)
 
 貌似Ubuntu上有些坑，比如用官网的教程安装巨慢，可能被墙了，推荐阿里云镜像，后面写一篇记录一下吧。
+朋友说apt-get默认是腾讯的源，速度很快，我没默认装过...
 #### 安装 Redis
 
 * [Ubuntu](http://blog.fens.me/linux-redis-install/)
