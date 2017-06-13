@@ -289,17 +289,20 @@ server {
 	```
 	wget https://raw.githubusercontent.com/diafygi/acme-tiny/master/acme_tiny.py
 	```
+
 	指定账户私钥、CSR 以及验证目录，执行脚本：
 
 	```
 	python acme_tiny.py --account-key ./account.key --csr ./domain.csr --acme-dir /var/www/challenges/ > ./signed.crt
 	```
+
 	下载 Let's Encrypt 的中间证书：
 
 	```
 	wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > intermediate.pem
 cat signed.crt intermediate.pem > chained.pem
 	```
+
 5.  Nginx 配置
 
 	```
