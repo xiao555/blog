@@ -298,12 +298,13 @@ server {
 
 	下载 Let's Encrypt 的中间证书：
 
-	```
+	```bash
 	wget -O - https://letsencrypt.org/certs/lets-encrypt-x3-cross-signed.pem > intermediate.pem
+
   cat signed.crt intermediate.pem > chained.pem
 	```
 
-5.  Nginx 配置
+5. Nginx 配置
 
 	```
 	server {
