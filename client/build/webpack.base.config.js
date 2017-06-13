@@ -17,12 +17,7 @@ module.exports = {
     app: process.env.NODE_ENV !== 'production'
       ? './src/main.js'
       : './src/entry-client.js',
-    style: './src/assets/css/index.js',
-    vendor: [
-      'vue',
-      'vue-router',
-      'vuex'
-    ]
+    style: './src/assets/css/index.js'
   },
   output: {
     path: path.resolve(__dirname, '../dist'),

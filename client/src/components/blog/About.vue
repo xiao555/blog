@@ -18,6 +18,7 @@
   import marked from 'marked'
   import uslug from 'uslug'
   import config from '../../../config'
+  import api from '../../store/api'
 
   export default {
     name: 'about',
@@ -93,6 +94,9 @@
         this.content = article.content
         this.toc = article.toc
       }).catch(err => console.log(err))
+    },
+    mounted() {
+      api.view('blog', 'about')
     }
   }
 </script>

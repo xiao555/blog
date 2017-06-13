@@ -39,10 +39,17 @@ const config = merge(base, {
 
 if (process.env.NODE_ENV === 'production') {
   config.plugins.push(
+    // this is needed in webpack 2 for minifying CSS
+    new webpack.LoaderOptionsPlugin({
+      minimize: true
+    }),
     // minify JS
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
+      },
+      output: {
+        comments: false
       }
     }),
     // auto generate service worker
@@ -50,7 +57,7 @@ if (process.env.NODE_ENV === 'production') {
       cacheId: 'blog',
       filename: 'service-worker.js',
       dontCacheBustUrlsMatching: /./,
-      staticFileGlobsIgnorePatterns: [/index\.html$/, /\.map$/]
+      staticFileGlobsIgnorePatterns: [/index\.html$/, /\.map$/, /\.css$/]
     })
   )
 }

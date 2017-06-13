@@ -7,10 +7,10 @@ export default {
     }
   },
   prod: {
-    api: 'https://xiao555.com.cn/api',
+    api: 'https://www.xiao555.com.cn/api',
     siteInfo: {
-      siteUrl: 'https://xiao555.com.cn/',
-      postUrl: 'https://xiao555.com.cn/posts/'
+      siteUrl: 'https://www.xiao555.com.cn/',
+      postUrl: 'https://www.xiao555.com.cn/posts/'
     }
   },
   links: {
@@ -21,6 +21,6 @@ export default {
     zhihu: "https://www.zhihu.com/people/zhang-rui-wu-50",
     rss: "#"
   },
-  headerImg: "http://ojxrgrrxt.bkt.clouddn.com/header.jpg",
+  headerImg: "https://xiao555.netlify.com/header.jpg",
   titleTemplate: "%s | Xiao555's Blog",
 }
