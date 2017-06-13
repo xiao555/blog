@@ -36,7 +36,8 @@ export default {
   data () {
     return {
       links: config.links,
-      header: config.headerImg
+      // header: config.headerImg
+      header: '../../../public/header.jpg'
     }
   }
 }

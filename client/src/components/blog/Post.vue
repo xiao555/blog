@@ -60,19 +60,12 @@
         let headings = []
         renderer.heading = (text, level) => {
           const escapedText = uslug(text)
-          const duplicateIndex = headings.map(({ text }) => text).indexOf(escapedText)
-          let duplicateText = undefined
-          if (duplicateIndex === -1) {
-            headings.push({
-              id: escapedText,
-              text: text,
-              count: 0,
-              level: level
-            })
-          } else {
-            headings[duplicateIndex].count++
-            duplicateText = `${escapedText}-${headings[duplicateIndex].count}`
-          }
+          headings.push({
+            id: escapedText,
+            text: text,
+            count: 0,
+            level: level
+          })
           return `<h${level} id="${duplicateText || escapedText}">${text}</h${level}>\n`
         }
 
