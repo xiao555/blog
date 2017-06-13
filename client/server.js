@@ -4,6 +4,8 @@ const express = require('express')
 const favicon = require('serve-favicon')
 const compression = require('compression')
 const HTMLStream = require('vue-ssr-html-stream')
+const request = require('axios')
+const { api: sitemapApi, getSitemapFromBody } = require('./server/sitemap.js')
 const resolve = file => path.resolve(__dirname, file)
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -59,6 +61,11 @@ const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 60 * 60 * 24 * 7 : 0
 })
 
+let sitemap = ''
+request.get(sitemapApi).then(result => {
+  sitemap = getSitemapFromBody(result)
+}).catch(err => console.log(err))
+
 app.use(compression({ threshold: 0 }))
 app.use(favicon('./public/header.jpg'))
 app.use('/dist', serve('./dist', true))
@@ -67,6 +74,10 @@ app.use('/public', serve('./public', true))
 // app.use('/style.css', serve('./dist/style.css', true))
 // app.use('/manifest.json', serve('./manifest.json', true))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
+app.get('/sitemap.xml', (req, res, next) => {
+    res.header('Content-Type', 'application/xml')
+    return res.end(sitemap)
+  })
 
 app.get('*', (req, res) => {
   if (!renderer) {

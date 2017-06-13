@@ -14,11 +14,11 @@ const articleSchema = new mongoose.Schema({
   }],
   createTime: {
     type: String,
-    default: dateFormat(new Date(), 'yyyy-MM-dd')
+    default: dateFormat(new Date(), 'YYYY-MM-DD')
   },
   lastEditTime: {
     type: String,
-    default: dateFormat(new Date(), 'yyyy-MM-dd')
+    default: dateFormat(new Date(), 'YYYY-MM-DD')
   },
   status: {
     type: String,

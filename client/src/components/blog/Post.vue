@@ -66,7 +66,7 @@
             count: 0,
             level: level
           })
-          return `<h${level} id="${duplicateText || escapedText}">${text}</h${level}>\n`
+          return `<h${level} id="${escapedText}">${text}</h${level}>\n`
         }
 
         // Synchronous highlighting with highlight.js
