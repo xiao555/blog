@@ -373,18 +373,18 @@ server {
 * 取消了category和tag页面，增加archive页面
 * 构建工具上切换回dev模式，毕竟还要边改边看效果
 
-2017.6.7 更新
+#### 2017.6.7 更新
 * 实现Archive页面逻辑
 * 测试production环境下build & start 失败，只有外部css，没有组件内css，原因是都用`extract-text-webpack-plugin` 单独打包到`style.css`，外部css把组件内的覆盖掉了，解决办法：查询文档，用`const extractCSS = new ExtractTextPlugin('css/[name].css');`来实现Multiple Instances。
 * 用`vue-meta`实现title的自动更新，同时服务端`server.js`也要进行相应的修改，优化SEO
 
-2017.6.8 更新
+#### 2017.6.8 更新
 * 增加响应式布局
 * 服务器上跑了下，修复了部分依赖没有的问题
 * 发现admin和client分开的话，部署运行都要各跑一遍，太麻烦，于是admin合并到client，重构后的client由blog和admin组成，也算同构了一下
 * 每个过程都在不断的优化代码结构，明天把一些配置项整合出来，统一管理
 
-2017.6.12 更新
+#### 2017.6.12 更新
 这两天太浪了~
 * 增加文章阅读计数功能
 * 配置项统一在 `config/index.js` 里
@@ -395,7 +395,7 @@ server {
 
 * 外链问题解决了，用的[netlify](https://www.netlify.com/)，可以直接导入github的repo，很方便，就是国外的有点慢
 
-2017.7.22 更新
+#### 2017.7.22 更新
 趁周末在公司做些自己的事23333
 之前分析了提高性能的一些方法，主要是减少打包生成的app.js的体积，这次更新前运行`npm run build`的结果是这样的：
 
@@ -476,6 +476,12 @@ vue-ssr-bundle.json  556 kB          [emitted]  [big]
 ```
 
 效果显著，可以看到总大小由2.75 MB减小的1.63 MB， app.js由1.27 MB减小到203 kB， vue-ssr-bundle.json也从1.72 MB减小到556 kB。我们再看看部署到服务器后网页加载情况：
+![](https://xiao555.netlify.com/afteryouhua.jpg)
+效果显著有没有，Load从4.15s减小到了1.31s，如果再要优化的话，其实也就是减少请求数，然后优化一下头像的处理，想到两种方案，一种换成base64，结果发现app.js变大了许多，编码有点多。第二种换成webp格式，效果如下：
+![](https://xiao555.netlify.com/afterwebp.jpg)
+加载速度减小的1s以内了。
+
+后面再该合并的合并，cdn的cdn，首屏加载性能方面的问题就基本解决的差不多了。先睡觉了==！
 
 ### TODO
 
