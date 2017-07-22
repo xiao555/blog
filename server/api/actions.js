@@ -2,6 +2,10 @@ import Category from '../models/category.js'
 import Tag from '../models/tag.js'
 import Article from '../models/article.js'
 import log from '../utils/log'
+import dateFormat from 'dateformat'
+
+import marked from 'marked'
+import uslug from 'uslug'
 
 export default model => {
   return {
@@ -9,7 +13,8 @@ export default model => {
       try {
         const query = ctx.request.query
         let conditions = query ? query : {}
-        ctx.body = await model.find(conditions).exec()
+        let results = await model.find(conditions).exec()
+        ctx.body = results;
       } catch(e) {
         log.error(e)
       }
@@ -18,6 +23,7 @@ export default model => {
       try {
         const body = ctx.request.body
         if (model.modelName === 'article') {
+          markdownParse(body);
           !!body.tags && await saveTags(body.tags)
           !!body.category && await saveCategory(body.category)
         }
@@ -41,9 +47,11 @@ export default model => {
         const body = ctx.request.body
         const id = ctx.params.id
         if (model.modelName === 'article') {
+          markdownParse(body);
           await deletePost(ctx.params.id);
           !!body.tags && await saveTags(body.tags)
           !!body.category && await saveCategory(body.category)
+          ctx.request.body.lastEditTime =  dateFormat(new Date(), 'yyyy-mm-dd')
         }
         const result = await model.findByIdAndUpdate(ctx.params.id, ctx.request.body, {new: true})
         if (result) return ctx.body = result
@@ -92,6 +100,46 @@ async function deletePost (id) {
   } catch(e) {
     log.error(e)
   }
+}
+
+function markdownParse(post) {
+  post.excerpt = marked(post.excerptMarkdown);
+  const renderer = new marked.Renderer()
+  let headings = []
+  renderer.heading = (text, level) => {
+    const escapedText = uslug(text)
+    headings.push({
+      id: escapedText,
+      text: text,
+      count: 0,
+      level: level
+    })
+    return `<h${level} id="${escapedText}">${text}</h${level}>\n`
+  }
+
+  // Synchronous highlighting with highlight.js
+  marked.setOptions({
+    highlight: function (code) {
+      return require('highlight.js').highlightAuto(code).value;
+    }
+  })
+
+  let result =  marked(post.markdown, { renderer: renderer })
+  let toc = "<ul id='toc'>\n"
+  let currLevel = headings[0].level
+  for (let i = 0; i < headings.length; i++) {
+    if (headings[i].level == currLevel) {
+      toc += `<li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
+    } else if (headings[i].level > currLevel) {
+      toc += `<ul><li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
+    } else {
+      toc += `</ul>\n<li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
+    }
+    currLevel = headings[i].level
+  }
+  toc += "</ul>"
+  post.content = result;
+  post.toc = toc;
 }
 
 async function saveTags (tags) {

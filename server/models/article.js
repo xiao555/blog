@@ -14,18 +14,36 @@ const articleSchema = new mongoose.Schema({
   }],
   createTime: {
     type: String,
-    default: dateFormat(new Date(), 'YYYY-MM-DD')
+    default: dateFormat(new Date(), 'yyyy-mm-dd')
   },
   lastEditTime: {
     type: String,
-    default: dateFormat(new Date(), 'YYYY-MM-DD')
+    default: dateFormat(new Date(), 'yyyy-mm-dd')
   },
   status: {
     type: String,
     default: 'Published'
   },
-  excerpt: String,
-  content: String,
+  excerpt: {
+    type: String,
+    default: ''
+  },
+  excerptMarkdown: {
+    type: String,
+    default: ''
+  },
+  content: {
+    type: String,
+    default: ''
+  },
+  markdown: {
+    type: String,
+    default: ''
+  },
+  toc: {
+    type: String,
+    default: ''
+  },
   category: {
     type: String,
     ref: 'Category'

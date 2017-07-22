@@ -1,7 +1,7 @@
 export default {
   admin: {
-    name: '',
-    passwd: ''
+    name: 'test',
+    passwd: 'test'
   },
   mongoDB: 'mongodb://localhost/blog',
   redis: {

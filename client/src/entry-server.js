@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { app, router, store } from './main'
+import { app, router } from './main'
 
 const isDev = process.env.NODE_ENV !== 'production'
 

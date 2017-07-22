@@ -7,6 +7,7 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const extractCSS = new ExtractTextPlugin('css/[name].css');
 
 const config = merge(base, {
+  devtool: '#cheap-module-source-map',
   module: {
     rules: [
       {

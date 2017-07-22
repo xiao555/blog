@@ -13,6 +13,8 @@
 
 <script>
 import config from '../../../config'
+import api from '@/api'
+
 export default {
   name: 'archive',
   metaInfo: {
@@ -29,7 +31,7 @@ export default {
     const query = {
       status: 'Published'
     }
-    this.$store.dispatch('FETCH_VALUE', {
+    api.FETCH_VALUE({
       model: 'articles',
       query: query
     }).then(res => {

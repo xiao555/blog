@@ -2,8 +2,8 @@ export default {
   dev: {
     api: 'http://localhost:3000/api',
     siteInfo: {
-      siteUrl: 'http://localhost:5050/',
-      postUrl: 'http://localhost:5050/posts/'
+      siteUrl: 'http://localhost:8008/',
+      postUrl: 'http://localhost:8008/posts/'
     }
   },
   prod: {

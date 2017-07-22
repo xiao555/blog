@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import api from '../store/api'
+import api from '@/api'
 
 export default {
   name: 'admin',

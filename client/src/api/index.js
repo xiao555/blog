@@ -11,7 +11,7 @@ let cache = LRU({
   maxAge: 1000 * 60 * 30 // 30 min
 })
 
-export default {
+const api = {
   view: (type, key) => {
     const condition = type === 'blog' ? `?path=${key}` : ''
     return axios.post(`${prefix}/view/${type}${condition}`).then(res => {
@@ -75,4 +75,31 @@ export default {
       })
     }
   }
+}
+
+export default {
+  ...api,
+  FETCH_VALUE: ({ model, query }) => {
+    return api.blog(model, query).then(value => {
+      return Promise.resolve(value)
+    })
+  },
+  FETCH_BLOG: ({ model, query, callback }) => {
+    return api.blog(model, query).then(blog => {
+      return Promise.resolve(blog[0])
+    })
+  },
+  FETCH_LIST: (model, forced = false) => {
+    // if (!forced && state[model] && state[model].length) return state[model]
+    return api.admin.fetchList(model).then(res => {
+      return Promise.resolve(res)
+    })
+  },
+  FETCH_POST: ({ model, conditions }) => {
+    // if (state.post && state.post.path === conditions.path) return state.pos
+    return api.admin.fetchPost(model, conditions).then(res => {
+      return Promise.resolve(res[0])
+    })
+  },
+  
 }

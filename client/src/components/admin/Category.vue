@@ -27,7 +27,7 @@
 </template>
 
 <script type="text/javascript">
-  import api from '@/store/api'
+  import api from '@/api'
 
   export default {
     name: 'category',
@@ -80,7 +80,7 @@
       },
       update () {
         this.edit = {}
-        this.$store.dispatch('FETCH_LIST', 'category', true).then(res => {
+        api.FETCH_LIST('category', true).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
           }
@@ -89,7 +89,7 @@
       }
     },
     beforeMount () {
-      this.$store.dispatch('FETCH_LIST', 'category', true).then(res => {
+      api.FETCH_LIST('category', true).then(res => {
         this.category = res
       }).catch(err => console.error(err))
     }

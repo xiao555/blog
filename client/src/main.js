@@ -3,7 +3,6 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import store from './store'
 import Meta from 'vue-meta'
 
 Vue.use(Meta)
@@ -13,7 +12,6 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 let app = new Vue({
   router,
-  store,
   ...App
 })
 
@@ -23,6 +21,5 @@ if (process.env.NODE_ENV !== 'production') {
 
 export {
   app,
-  router,
-  store
+  router
 }

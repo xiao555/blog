@@ -34,7 +34,7 @@
     name: 'topbar',
     data () {
       return {
-        user: 'xiao555',
+        user: window.localStorage.getItem('username'),
         isActive: true,
         archieve: '',
         path: ''
@@ -58,7 +58,6 @@
         e.target.classList.toggle('active')
       },
       logout () {
-        this.$store.state.user = {}
         this.$router.replace({ name: 'login' })
       }
     },

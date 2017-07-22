@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import api from '@/store/api'
+import api from '@/api'
 
 export default {
   name: 'login',
@@ -61,7 +61,6 @@ export default {
           window.localStorage.setItem('token', res.token)
           this.remember && window.localStorage.setItem('username', this.form.name)
           !this.remember && window.localStorage.removeItem('username')
-          this.$store.state.user = res.user
           setTimeout(() => {
             this.$router.push({ path: '/admin/dashboard' })
           }, 1000)

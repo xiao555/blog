@@ -36,26 +36,21 @@
 </template>
 
 <script>
-  import api from '@/store/api'
-  import { mapGetters } from 'vuex'
+  import api from '@/api'
+  import config from '../../../../config'
+
+  const isProd = process.env.NODE_ENV === 'production'
 
   export default {
     name: 'list',
     data () {
       return {
+        postUrl: isProd ? config.prod.siteInfo.postUrl : config.dev.siteInfo.postUrl,
         publish: [],
         list: [],
         mode: 'all',
         allClass: true,
         publishClass: false
-      }
-    },
-    computed: {
-      ...mapGetters([
-        'siteInfo'
-      ]),
-      postUrl () {
-        return this.siteInfo.postUrl
       }
     },
     methods: {
@@ -69,7 +64,7 @@
           } else {
             this.$parent.$emit('message', 'success', 'Delete Success')
           }
-          this.$store.dispatch('FETCH_LIST', 'article').then((res) => {
+          api.FETCH_LIST('article').then((res) => {
             this.list = res
             this.publish = []
             this.list.map((post) => {
@@ -80,7 +75,7 @@
       }
     },
     beforeMount() {
-      this.$store.dispatch('FETCH_LIST', 'article').then((res) => {
+      api.FETCH_LIST('article').then((res) => {
         this.list = res
         this.list.map((post) => {
           if (post.status === 'Published') this.publish.push(post)

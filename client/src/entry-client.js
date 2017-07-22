@@ -1,4 +1,4 @@
-import { app, store, router } from './main'
+import { app, router } from './main'
 
 // prime the store with server-initialized state.
 // the state is determined during SSR and inlined in the page markup.

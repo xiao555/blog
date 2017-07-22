@@ -15,9 +15,9 @@
               <button @click='toggleInput("path")'>OK</button>
               <button class="text" @click='cancel("path")'>Cancel</button></div>
       Content:
-      <textarea v-model="post.content"></textarea>
+      <textarea v-model="post.markdown"></textarea>
       Excerpt:
-      <textarea class="excerpt" v-model="post.excerpt"></textarea>
+      <textarea class="excerpt" v-model="post.excerptMarkdown"></textarea>
     </div>
     <div class="fields postbox-container">
       <div class="postbox">
@@ -35,7 +35,7 @@
             </div>
           </div>
           <div class="info">Visits: {{  post.visits }} <button class="text" @click='clearVisits()'>Clear</button></div>
-          <div class="info">Published on: <date-picker :date="date" :option="option"></date-picker></div>
+          <div class="info">Published on(YYYY-MM-DD): <input type="text" v-model="post.createTime"></div>
         </div>
         <div class="box-footer">
           <a href="" class="trash" @click='deletePost'>Move to Trash</a>
@@ -65,35 +65,19 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex'
-  import api from '@/store/api'
-  import myDatepicker from 'vue-datepicker/vue-datepicker-es6.vue'
+  import api from '@/api'
+  import config from '../../../../config'
+
+  const isProd = process.env.NODE_ENV === 'production'
 
   export default {
     name: 'edit',
-    components: {
-        'date-picker': myDatepicker
-    },
     data () {
       const title = this.$route.path === '/admin/post/create' ? 'Create Page' : 'Edit Page'
       let nullPath = !(title === 'Create Page')
       return {
-        option: {
-          type: 'day',
-          week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-          month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-          format: 'YYYY-MM-DD',
-        },
-        date: {
-          time: ''
-        },
-        limit: {
-          type:'fromto',
-          from:'',
-          to:''
-        },
-        language: 'zh',
         isNew: title === 'Create Page',
+        postUrl: isProd ? config.prod.siteInfo.postUrl : config.dev.siteInfo.postUrl,
         title: title,
         post: {},
         category: [],
@@ -123,12 +107,6 @@
       }
     },
     computed: {
-      ...mapGetters([
-        'siteInfo'
-      ]),
-      postUrl () {
-        return this.siteInfo.postUrl
-      },
       simplemde () {
         return this.$refs.markdownEditor.simplemde
       }
@@ -144,7 +122,6 @@
         this.input[index] = !this.input[index]
       },
       udpate () {
-        this.post.createTime = this.$children[0].date.time
         api.admin.update('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
@@ -152,7 +129,6 @@
             this.$parent.$emit('message', 'success', 'Update Success')
           }
           this.post = res
-          this.date.time = res.createTime
         }).catch(err => console.error(err))
       },
       create () {
@@ -164,7 +140,6 @@
           }
         })
         if (valid) return this.$parent.$emit('message', 'error', `Required ${valid} field`)
-        this.post.createTime = this.$children[0].date.time
         api.admin.create('article', this.post).then(res => {
           if (res.status === 'fail') {
             return this.$parent.$emit('message', 'error', res.message)
@@ -197,21 +172,19 @@
         } else {
           this.input.path = true
           this.isNew = false
-          this.$route.params.path && this.$store.dispatch('FETCH_POST', { model: 'article', conditions: { path: this.$route.params.path } }).then(res => {
+          this.$route.params.path && api.FETCH_POST({ model: 'article', conditions: { path: this.$route.params.path } }).then(res => {
             this.post = res
-            this.date.time = res.createTime
           }).catch(err => console.error(err))
         }
       }
     },
     beforeMount () {
       if (this.$route.path === '/admin/post/create') this.post = {}
-      this.$store.dispatch('FETCH_LIST', 'category').then(res => {
+      api.FETCH_LIST('category').then(res => {
         this.category = res
       }).catch(err => console.error(err))
-      this.$route.params.path && this.$store.dispatch('FETCH_POST', { model: 'article', conditions: { path: this.$route.params.path } }).then(res => {
+      this.$route.params.path && api.FETCH_POST({ model: 'article', conditions: { path: this.$route.params.path } }).then(res => {
         this.post = res
-        this.date.time = res.createTime
       }).catch(err => console.error(err))
     }
   }

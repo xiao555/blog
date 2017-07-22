@@ -395,6 +395,88 @@ server {
 
 * 外链问题解决了，用的[netlify](https://www.netlify.com/)，可以直接导入github的repo，很方便，就是国外的有点慢
 
+2017.7.22 更新
+趁周末在公司做些自己的事23333
+之前分析了提高性能的一些方法，主要是减少打包生成的app.js的体积，这次更新前运行`npm run build`的结果是这样的：
+
+```bash
+Total precache size is about 2.75 MB for 12 resources.
+Hash: 8a46e668ed80f8d7a493
+Version: webpack 2.6.1
+Time: 32802ms
+                                         Asset       Size  Chunks                    Chunk Names
+    static/fonts/FFMetaPro-Normal.ec7ccf1.woff    71.7 kB          [emitted]
+    static/img/fontawesome-webfont.912ec66.svg     444 kB          [emitted]  [big]
+  static/fonts/fontawesome-webfont.b06871f.ttf     166 kB          [emitted]
+static/fonts/fontawesome-webfont.af7ae50.woff2    77.2 kB          [emitted]
+ static/fonts/fontawesome-webfont.fee66e7.woff      98 kB          [emitted]
+       static/img/FFMetaPro-Normal.5d836bf.svg    2.12 MB          [emitted]  [big]
+     static/fonts/FFMetaPro-Normal.4eebf0c.eot     200 kB          [emitted]
+     static/fonts/FFMetaPro-Normal.3767f35.ttf     199 kB          [emitted]
+  static/fonts/fontawesome-webfont.674f50d.eot     166 kB          [emitted]
+                                        app.js    1.27 MB       0  [emitted]  [big]  app
+                                     vendor.js  810 bytes       1  [emitted]         vendor
+                                      style.js  263 bytes       2  [emitted]         style
+                                   manifest.js    1.39 kB       3  [emitted]         manifest
+                                   css/app.css    27.5 kB       0  [emitted]         app
+                                 css/style.css    39.1 kB       2  [emitted]         style
+                                    index.html    1.26 kB          [emitted]
+
+> client@1.0.0 build:server /var/www/New-Blog/client
+> cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules
+
+Hash: c1685fd6bd9a9bb148a6
+Version: webpack 2.6.1
+Time: 9352ms
+              Asset     Size  Chunks                    Chunk Names
+vue-ssr-bundle.json  1.72 MB          [emitted]  [big]
+```
+
+可以看到一个app.js就占了1.27MB, 此时网页加载的情况是这样的:
+![](https://xiao555.netlify.com/preyouhua.jpg)
+然后我看了一下别人的app.js，压缩后基本都是几十k大小，而我是几百k，所以app.js的大小是一个优化点，在分析了为何app.js这么大后，我进行了如下优化：
+
+* 减少对这些库的依赖，'marked','highlight.js','uslug', 'vuejs-datepicker', 'Vuex'
+* markdown 渲染放在server端进行，article Model增加存放markdown的字段，对数据库中的旧数据创建Migration脚本
+
+优化后运行`npm run build`的结果是这样的：
+```bash
+Total precache size is about 1.63 MB for 12 resources.
+Hash: 85db4cfa5f72482c3c59
+Version: webpack 2.3.0
+Time: 10386ms
+                                         Asset       Size  Chunks                    Chunk Names
+                                        app.js     203 kB       0  [emitted]         app
+    static/img/fontawesome-webfont.912ec66.svg     444 kB          [emitted]  [big]
+  static/fonts/fontawesome-webfont.b06871f.ttf     166 kB          [emitted]
+static/fonts/fontawesome-webfont.af7ae50.woff2    77.2 kB          [emitted]
+ static/fonts/fontawesome-webfont.fee66e7.woff      98 kB          [emitted]
+       static/img/FFMetaPro-Normal.5d836bf.svg    2.12 MB          [emitted]  [big]
+     static/fonts/FFMetaPro-Normal.4eebf0c.eot     200 kB          [emitted]
+     static/fonts/FFMetaPro-Normal.3767f35.ttf     199 kB          [emitted]
+    static/fonts/FFMetaPro-Normal.ec7ccf1.woff    71.7 kB          [emitted]
+  static/fonts/fontawesome-webfont.674f50d.eot     166 kB          [emitted]
+                                     vendor.js  810 bytes       1  [emitted]         vendor
+                                      style.js  253 bytes       2  [emitted]         style
+                                   manifest.js    1.38 kB       3  [emitted]         manifest
+                                   css/app.css    22.1 kB       0  [emitted]         app
+                                 css/style.css    39.2 kB       2  [emitted]         style
+                               css/app.css.map    29.6 kB       0  [emitted]         app
+                             css/style.css.map    36.1 kB       2  [emitted]         style
+                                    index.html    1.23 kB          [emitted]
+
+> client@1.0.0 build:server /Users/zhangruiwu/Desktop/demo-learn/newBlog/client
+> cross-env NODE_ENV=production webpack --config build/webpack.server.config.js --progress --hide-modules
+
+Hash: 5b9d7f18053508c4e7a5
+Version: webpack 2.3.0
+Time: 4008ms
+              Asset    Size  Chunks                    Chunk Names
+vue-ssr-bundle.json  556 kB          [emitted]  [big]
+```
+
+效果显著，可以看到总大小由2.75 MB减小的1.63 MB， app.js由1.27 MB减小到203 kB， vue-ssr-bundle.json也从1.72 MB减小到556 kB。我们再看看部署到服务器后网页加载情况：
+
 ### TODO
 
 * 文章列表分页
