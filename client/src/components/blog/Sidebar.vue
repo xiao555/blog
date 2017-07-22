@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="inner">
       <a class="logo" href="/">
-        <img :src="header" alt="logo">
+        <div class="header" style="background-image: url('/public/header.jpg'); background-size: cover;"></div>
       </a>
       <h1>
         <a href="/">Xiao555</a>
@@ -35,8 +35,7 @@ export default {
   name: 'sidebar',
   data () {
     return {
-      links: config.links,
-      header: '../../../public/header.webp'
+      links: config.links
     }
   }
 }
@@ -62,8 +61,9 @@ hoverblue()
         width 160px
         height 160px
         border-radius 50%
-        img
+        div
           width 100%
+          height 100%
           border-radius 50%
       h1
         margin-bottom 0
