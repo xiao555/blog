@@ -14,14 +14,14 @@ export default model => {
         const query = ctx.request.query
         let conditions = query ? query : {}
         let results = await model.find(conditions).exec()
-        // 渲染旧文章，待删
-        results.forEach( async (post) => {
-          // if (post.toc === '') {
-            markdownParse(post)
-            console.log(post.toc);
-            await Article.findByIdAndUpdate(post.id, post, {new: true})
-          // }
-        })
+        // // 渲染旧文章，待删
+        // results.forEach( async (post) => {
+        //   // if (post.toc === '') {
+        //     markdownParse(post)
+        //     console.log(post.toc);
+        //     await Article.findByIdAndUpdate(post.id, post, {new: true})
+        //   // }
+        // })
         ctx.body = results;
       } catch(e) {
         log.error(e)
@@ -108,55 +108,6 @@ async function deletePost (id) {
   } catch(e) {
     log.error(e)
   }
-}
-
-function markdownParse1(post) {
-  post.excerpt = marked(post.excerpt);
-  const renderer = new marked.Renderer()
-  let headings = []
-  renderer.heading = (text, level) => {
-    const escapedText = uslug(text)
-    headings.push({
-      id: escapedText,
-      text: text,
-      count: 0,
-      level: level
-    })
-    return `<h${level} id="${escapedText}">${text}</h${level}>\n`
-  }
-
-  // Synchronous highlighting with highlight.js
-  marked.setOptions({
-    highlight: function (code) {
-      return require('highlight.js').highlightAuto(code).value;
-    }
-  })
-
-  let result =  marked(post.content, { renderer: renderer })
-  let toc = "<ul id='toc'>\n"
-  let currLevel = headings[0].level
-  let count = 0;
-  function generateToc() {
-    console.log('hhhh');
-    while (count < headings.length) {
-      toc += `<li><a href="#${headings[count].id}">${headings[count].text}</a>\n`;
-      if (headings[count + 1].level > currLevel) {
-        let temp = currLevel;
-        toc += `<ul>`;
-        count++;
-        currLevel = headings[count+1].level;
-        generateToc();
-        toc += `</ul>`;
-        currLevel = temp;
-      }
-      toc += `</li>`;
-      count++;
-    }
-  }
-  generateToc();
-  toc += "</ul>"
-  post.content = result;
-  post.toc = toc;
 }
 
 function markdownParse(post) {
