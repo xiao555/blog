@@ -14,15 +14,14 @@ export default model => {
         const query = ctx.request.query
         let conditions = query ? query : {}
         let results = await model.find(conditions).exec()
-        // // 渲染旧文章，待删
-        // results.forEach( (post) => {
-        //   if (post.toc === '') {
-        //     post.markdown = post.content
-        //     post.excerptMarkdown = post.excerpt
-        //     markdownParse1(post)
-        //     await Article.findByIdAndUpdate(post.id, post, {new: true})
-        //   }
-        // })
+        // 渲染旧文章，待删
+        results.forEach( async (post) => {
+          // if (post.toc === '') {
+            markdownParse(post)
+            console.log(post.toc);
+            await Article.findByIdAndUpdate(post.id, post, {new: true})
+          // }
+        })
         ctx.body = results;
       } catch(e) {
         log.error(e)
@@ -136,16 +135,25 @@ function markdownParse1(post) {
   let result =  marked(post.content, { renderer: renderer })
   let toc = "<ul id='toc'>\n"
   let currLevel = headings[0].level
-  for (let i = 0; i < headings.length; i++) {
-    if (headings[i].level == currLevel) {
-      toc += `<li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
-    } else if (headings[i].level > currLevel) {
-      toc += `<ul><li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
-    } else {
-      toc += `</ul>\n<li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
+  let count = 0;
+  function generateToc() {
+    console.log('hhhh');
+    while (count < headings.length) {
+      toc += `<li><a href="#${headings[count].id}">${headings[count].text}</a>\n`;
+      if (headings[count + 1].level > currLevel) {
+        let temp = currLevel;
+        toc += `<ul>`;
+        count++;
+        currLevel = headings[count+1].level;
+        generateToc();
+        toc += `</ul>`;
+        currLevel = temp;
+      }
+      toc += `</li>`;
+      count++;
     }
-    currLevel = headings[i].level
   }
+  generateToc();
   toc += "</ul>"
   post.content = result;
   post.toc = toc;
@@ -175,17 +183,33 @@ function markdownParse(post) {
 
   let result =  marked(post.markdown, { renderer: renderer })
   let toc = "<ul id='toc'>\n"
-  let currLevel = headings[0].level
-  for (let i = 0; i < headings.length; i++) {
-    if (headings[i].level == currLevel) {
-      toc += `<li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
-    } else if (headings[i].level > currLevel) {
-      toc += `<ul><li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
-    } else {
-      toc += `</ul>\n<li><a href="#${headings[i].id}">${headings[i].text}</a>\n`
+  let count = 0;
+  function generateToc() {
+    let currLevel = headings[count].level
+    while (count < headings.length) {
+      console.log(count, currLevel);
+      if (headings[count].level == currLevel) {
+        toc += `<li><a href="#${headings[count].id}">${headings[count].text}</a>`;
+      } else if (headings[count].level < currLevel) {
+        count--;
+        return; 
+      }
+      if (count < headings.length - 1) {
+        if (headings[count + 1].level > currLevel) {
+          toc += `<ul>`;
+          count++;
+          generateToc();
+          toc += `</ul>\n`
+        } else if (headings[count + 1].level < currLevel) {
+          toc += `</li>`;
+          return;
+        }
+      }
+      toc += `</li>\n`;
+      count++;
     }
-    currLevel = headings[i].level
   }
+  generateToc();
   toc += "</ul>"
   post.content = result;
   post.toc = toc;
