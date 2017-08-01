@@ -5,7 +5,7 @@
   "main": "entry.js",
   "scripts": {
     "start": "node --harmony entry.js",
-    "dev": "NODE_ENV=development node --debug --harmony entry.js",
+    "dev": "NODE_ENV=development node --harmony entry.js",
     "public": "NODE_ENV=production node --harmony entry.js",
     "test": "mocha test-example/index.js",
     "pm": "NODE_ENV=production pm2 start entry.js --name='blogServer'"
