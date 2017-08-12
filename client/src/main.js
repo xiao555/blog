@@ -12,7 +12,7 @@ Vue.config.productionTip = false
 /* eslint-disable no-new */
 let app = new Vue({
   router,
-  ...App
+  render: h => h(App)
 })
 
 if (process.env.NODE_ENV !== 'production') {

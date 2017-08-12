@@ -14,9 +14,7 @@ module.exports = {
     ? false
     : '#cheap-module-eval-source-map',
   entry: {
-    app: process.env.NODE_ENV !== 'production'
-      ? './src/main.js'
-      : './src/entry-client.js',
+    app: './src/entry-client.js',
     style: './src/assets/css/index.js'
   },
   output: {
