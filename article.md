@@ -122,12 +122,157 @@ const RedisStore = require('koa-redis');
 
 export default function middleware() {
   return compose([
-    helmet(), // reset HTTP headers (e.g. remove x-powered-by)
-    convert(cors()),
-    convert(bodyParser()),
-    convert(session({
+    helmet(), // 提供安全的header
+    convert(cors()), // 配置 Access-Control-Allow-Origin CORS header.
+    convert(bodyParser()), // 解析 body，存储在 ctx.request.body 里
+    convert(session({ // sessio
       store: new RedisStore()
     })),
   ]);
 }
 ```
+
+### DataBase
+
+数据库的连接：
+
+```javascript
+import mongoose from 'mongoose'
+import log from '../utils/log'
+mongoose.Promise = global.Promise; // 内置的promise已经弃用了，需要用自己的promise库，这里选择用原生的ES6 Promise
+
+export function connectDatabase(uri) {
+  return new Promise((resolve, reject) => {
+    mongoose.connection
+      .on('error', error => reject(error))
+      .on('close', () => log.warn('Database connection closed.'))
+      .once('open', () => resolve(mongoose.connections[0]))
+
+    mongoose.connect(uri)
+  })
+}
+```
+Models的创建(以Category为例)：
+
+```javascript
+import mongoose from 'mongoose'
+const categorySchema = new mongoose.Schema({
+  name: String,
+  number: {
+    type: Number,
+    default: 0
+  }
+}, {
+  versionKey: false
+})
+
+export default mongoose.model('category', categorySchema)
+```
+
+### Router
+
+```javascript
+import compose from 'koa-compose'
+import Router from 'koa-router'
+import importDir from 'import-dir'
+import generateRouter from './router'
+import generateAction from './actions'
+import Admin from './admin'
+import Article from '../models/article.js'
+import log from '../utils/log'
+
+const prefix = '/api'
+const models = importDir('../models')
+
+export default () => {
+  const router = new Router({ prefix })
+  Object.keys(models).forEach(key => generateRouter(key, router, Admin.permission, generateAction(models[key])));
+  router
+    .post('/admin/login', Admin.login)
+    .post('/view/blog', async ctx => {
+      try {
+        const blog = await Article.find(ctx.request.query)
+        const result = await Article.findByIdAndUpdate(blog[0].id, {visits: ++blog[0].visits}, {new: true})
+        if (result) return ctx.status = 200
+      } catch (e) {
+        log.error(e)
+      }
+    })
+  return compose([
+    router.routes(),
+    router.allowedMethods()
+  ])
+}
+
+```
+
+```javascript
+// generateRouter
+export default (model, router, permission, actions) => {
+  router
+    .get('/'+ model + 's', actions.find)
+    .post('/'+ model + 's', permission, actions.create)
+    .get('/'+ model + 's/:id', actions.findById)
+    .put('/'+ model + 's/:id', permission, actions.updateById)
+    .delete('/'+ model + 's/:id', permission, actions.deleteById)
+}
+```
+
+最初的models是有四个，article，category，tag，user。所以通过importDir获取Models的集合，文件名就是key，通过generateRouter给每个model加上增删改查的路由，并对应generateAction里的不同的action，对于个别的请求需要加上权限验证。除此之外增加了两个路由，登录后台的`/admin/login`和统计文章浏览数的`/view/blog`。
+
+之所以把user去掉了，是因为想了下这个blog就自己在用，不会有好几个用户的情况，所以直接把用户名密码保存在config里了。除了用户名密码，config里还有mongoDB的地址，redis的地址，服务器运行端口，鉴权秘钥，token过期时间这些配置。
+
+
+### Auth
+
+再来说说权限验证，这里我用的是redis + JWT 的方式。用户在登录成功的时候，后台会生成一个token，用redis保存1h。并且这个token会返回给浏览器端，浏览器端保存在localStorage里，并且当localStorage存在token时，每次请求都会作为header的一个字段带上它，供后端验证。
+
+```javascript
+// api/admin.js  permission
+const token = ctx.request.headers['authorization'] || null
+if (!token) return ctx.body = {
+  status: 'fail',
+  message: 'Token not found'
+}
+const result = Token.verifyToken(token)
+
+if (!result) return ctx.body = {
+  status: 'fail',
+  message: 'Token verify failed'
+}
+
+const reply = await redis.getAsync(token)
+
+if (!reply) return ctx.body = {
+  status: 'fail',
+  message: 'Token invalid'
+}
+
+return next()
+```
+
+### Test
+
+在写完api路由的时候用Mocha + Chai做了一下单元测试，用模拟数据测试增删改查功能，下面例子是上传文章的api测试：
+
+```javascript
+// test/api/routes/articles.js
+it('should create article', async () => {
+  const res = await request.post('/api/articles')
+    .send(article)
+    .expect(200)
+    .expect('Content-Type', /json/)
+
+  Object.keys(res.body).should.have.length(11);
+  res.body.should.have.property('_id');
+  res.body.title.should.equal(article.title);
+  res.body.content.should.equal(article.content);
+  res.body.status.should.equal(true);
+});
+```
+### 总结
+
+作为一个前后端分离的blog的后端，做好增啥改查，权限验证就好，实现起来并不难，比较复杂的地方就是对api每个请求的处理了（api/actions.js），
+
+
+## 前端篇
