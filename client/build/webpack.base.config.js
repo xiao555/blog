@@ -13,10 +13,6 @@ module.exports = {
   devtool: isProd
     ? false
     : '#cheap-module-eval-source-map',
-  entry: {
-    app: './src/entry-client.js',
-    style: './src/assets/css/index.js'
-  },
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: '[name].js',
@@ -61,6 +57,10 @@ module.exports = {
         }
       }
     ]
+  },
+  performance: {
+    maxEntrypointSize: 300000,
+    hints: isProd ? 'warning' : false
   },
   plugins: [
     new webpack.LoaderOptionsPlugin({

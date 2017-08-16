@@ -1,8 +1,8 @@
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
-const VueSSRPlugin = require('vue-ssr-webpack-plugin')
-var ExtractTextPlugin = require("extract-text-webpack-plugin")
+const nodeExternal = require('webpack-node-externals')
+const VueSSRServerPlugin = require('vue-server-renderer/server-plugin')
 
 module.exports = merge(base, {
   target: 'node',
@@ -17,14 +17,15 @@ module.exports = merge(base, {
       // 'create-api': './create-api-server.js'
     }
   },
-  externals: Object.keys(require('../package.json').dependencies),
+  externals: nodeExternal({
+    whitelist: /\.css$/
+  }),
   plugins: [
-    new ExtractTextPlugin({ filename: 'style-server.css', disable: false, allChunks: true }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"server"',
       'isBrowser': false
     }),
-    new VueSSRPlugin()
+    new VueSSRServerPlugin()
   ]
 })

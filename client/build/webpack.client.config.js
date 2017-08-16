@@ -5,9 +5,14 @@ const HTMLPlugin = require('html-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const extractCSS = new ExtractTextPlugin('css/[name].css');
+const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const config = merge(base, {
   devtool: '#cheap-module-source-map',
+  entry: {
+    app: './src/entry-client.js',
+    style: './src/assets/css/index.js'
+  },
   module: {
     rules: [
       {
@@ -29,12 +34,18 @@ const config = merge(base, {
     }),
     // extract vendor chunks for better caching
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor', 'manifest']
+      name: 'vendor',
+      minChunks: function (module) {
+        return (
+          /node_modules/.test(module.context) &&
+          !/\.css$/.test(module.request)
+        )
+      }
     }),
-    // generate output HTML
-    new HTMLPlugin({
-      template: 'index.html'
-    })
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest'
+    }),
+    new VueSSRClientPlugin()
   ]
 })
 
@@ -57,8 +68,15 @@ if (process.env.NODE_ENV === 'production') {
     new SWPrecachePlugin({
       cacheId: 'blog',
       filename: 'service-worker.js',
+      minify: true,
       dontCacheBustUrlsMatching: /./,
-      staticFileGlobsIgnorePatterns: [/index\.html$/, /\.map$/, /\.css$/]
+      staticFileGlobsIgnorePatterns: [/index\.html$/, /\.map$/, /\.css$/, /\.json$/],
+      runtimeCaching: [
+        {
+          urlPattern: '/',
+          handler: 'networkFirst'
+        }
+      ]
     })
   )
 }

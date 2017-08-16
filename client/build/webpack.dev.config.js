@@ -11,6 +11,11 @@ Object.keys(baseWebpackConfig.entry).forEach(function (name) {
 })
 
 module.exports = merge(baseWebpackConfig, {
+  entry: {
+    app: process.env.NODE_ENV !== 'production'
+      ? './src/main.js'
+      : './src/entry-client.js',
+  }
   module: {
     rules: utils.styleLoaders({ sourceMap: false })
   },
