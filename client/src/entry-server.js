@@ -11,9 +11,8 @@ const meta = app.$meta()
 // Since data fetching is async, this function is expected to
 // return a Promise that resolves to the app instance.
 export default context => {
-  const s = isDev && Date.now()
-
   return new Promise((resolve, reject) => {
+    const s = isDev && Date.now()
     // set router's location
     router.push(context.url)
     context.meta = meta

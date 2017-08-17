@@ -2,6 +2,10 @@ import axios from 'axios'
 import LRU from 'lru-cache'
 import config from '../../config'
 
+const fs = require('fs');
+const articles = JSON.parse(fs.readFileSync(resolve('../../articles.json'), 'utf-8'));
+
+
 const isProd = process.env.NODE_ENV === 'production'
 
 const prefix = isProd ? config.prod.api : config.dev.api
@@ -78,6 +82,7 @@ const api = {
 }
 
 export default {
+  state,
   ...api,
   FETCH_VALUE: ({ model, query }) => {
     return api.blog(model, query).then(value => {
@@ -101,5 +106,5 @@ export default {
       return Promise.resolve(res[0])
     })
   },
-  
+
 }
