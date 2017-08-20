@@ -18,7 +18,7 @@ module.exports = merge(base, {
     }
   },
   externals: nodeExternal({
-    whitelist: /\.css$/
+    whitelist: /\.(css|styl)$/
   }),
   plugins: [
     new webpack.DefinePlugin({

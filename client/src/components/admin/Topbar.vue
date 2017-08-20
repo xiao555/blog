@@ -34,7 +34,7 @@
     name: 'topbar',
     data () {
       return {
-        user: window.localStorage.getItem('username'),
+        user: '',
         isActive: true,
         archieve: '',
         path: ''

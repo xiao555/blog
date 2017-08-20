@@ -11,7 +11,7 @@ const readFile = (fs, file) => {
 }
 
 module.exports = function setupDevServer (app, cb) {
-  let bundle
+  let bundle, clientManifest
   let template
   const readyPromise = new Promise(r => { resolve = r })
   const ready = (...args) => {

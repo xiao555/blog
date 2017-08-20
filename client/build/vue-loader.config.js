@@ -1,5 +1,4 @@
 var utils = require('./utils')
-var path = require('path')
 var isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {

@@ -16,7 +16,7 @@ export default () => {
   Object.keys(models).forEach(key => generateRouter(key, router, Admin.permission, generateAction(models[key])));
   router
     .post('/admin/login', Admin.login)
-    .post('/view/blog', async ctx => {
+    .post('/view/articles', async ctx => {
       try {
         const blog = await Article.find(ctx.request.query)
         const result = await Article.findByIdAndUpdate(blog[0].id, {visits: ++blog[0].visits}, {new: true})

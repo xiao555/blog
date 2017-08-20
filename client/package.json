@@ -5,7 +5,7 @@
   "author": "xiao555 <zhangruiwu32@gmail.com>",
   "private": true,
   "scripts": {
-    "dev": "node build/dev-server.js",
+    "dev": "node server",
     "start": "cross-env NODE_ENV=production node server",
     "build": "rimraf dist && npm run build:client && npm run build:server",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.client.config.js --progress --hide-modules",
@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "cross-env": "^3.1.4",
+    "firebase": "^4.3.0",
     "lru-cache": "^4.0.2",
     "nib": "^1.1.2",
     "poststylus": "^0.2.3",
@@ -89,6 +90,8 @@
     "vue-loader": "^11.1.4",
     "vue-ssr-html-stream": "^2.2.0",
     "vue-template-compiler": "^2.2.6",
+    "vuex": "^2.3.1",
+    "vuex-router-sync": "^4.2.0",
     "webpack": "^2.2.1",
     "webpack-bundle-analyzer": "^2.2.1",
     "webpack-dev-middleware": "^1.10.0",

@@ -3,30 +3,14 @@ const merge = require('webpack-merge')
 const base = require('./webpack.base.config')
 const HTMLPlugin = require('html-webpack-plugin')
 const SWPrecachePlugin = require('sw-precache-webpack-plugin')
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
-const extractCSS = new ExtractTextPlugin('css/[name].css');
 const VueSSRClientPlugin = require('vue-server-renderer/client-plugin')
 
 const config = merge(base, {
   devtool: '#cheap-module-source-map',
   entry: {
     app: './src/entry-client.js',
-    style: './src/assets/css/index.js'
-  },
-  module: {
-    rules: [
-      {
-        test: /\.css$/,
-        loader: extractCSS.extract({ use: 'css-loader?sourceMap' })
-      },
-      {
-        test: /\.styl$/,
-        loader: extractCSS.extract({ use: 'css-loader?sourceMap!stylus-loader' })
-      }
-    ]
   },
   plugins: [
-    extractCSS,
     // strip dev-only code in Vue source
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),

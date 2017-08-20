@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="inner">
       <a class="logo" href="/">
-        <div class="header" style="background-image: url('/public/header.jpg'); background-size: cover;"></div>
+        <!-- <div class="header" style="background-image: url('/public/header.jpg'); background-size: cover;"></div> -->
       </a>
       <h1>
         <a href="/">Xiao555</a>
@@ -10,9 +10,9 @@
       <p class="desc">Web Developer</p>
       <nav>
         <ul>
-          <li><router-link class="link" :to="{ path: '/' }">Home<span>/</span></router-link></li>
-          <li><router-link class="link" :to="{ name: 'archive' }">Archive<span>/</span></router-link></li>
-          <li><router-link class="link" :to="{ name: 'about' }">About</router-link></li>
+          <li><router-link class="link" :to="'/'">Home<span>/</span></router-link></li>
+          <li><router-link class="link" :to="'/archive'">Archive<span>/</span></router-link></li>
+          <li><router-link class="link" :to="'/about'">About</router-link></li>
         </ul>
       </nav>
       <div class="links">

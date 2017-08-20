@@ -72,10 +72,10 @@ const serve = (path, cache) => express.static(resolve(path), {
   maxAge: cache && isProd ? 1000 * 60 * 60 * 24 * 30 : 0
 })
 
-let sitemap = ''
-request.get(sitemapApi).then(result => {
-  sitemap = getSitemapFromBody(result)
-}).catch(err => console.log(err))
+// let sitemap = ''
+// request.get(sitemapApi).then(result => {
+//   sitemap = getSitemapFromBody(result)
+// }).catch(err => console.log(err))
 
 app.use(compression({ threshold: 0 }))
 app.use(favicon('./public/header.jpg'))
@@ -84,10 +84,10 @@ app.use('/public', serve('./public', true))
 app.use('/manifest.json', serve('./manifest.json', true))
 app.use('/service-worker.js', serve('./dist/service-worker.js'))
 
-app.get('/sitemap.xml', (req, res, next) => {
-  res.header('Content-Type', 'application/xml')
-  return res.end(sitemap)
-})
+// app.get('/sitemap.xml', (req, res, next) => {
+//   res.header('Content-Type', 'application/xml')
+//   return res.end(sitemap)
+// })
 
 // 1-second microcache.
 // https://www.nginx.com/blog/benefits-of-microcaching-nginx/
@@ -133,6 +133,7 @@ function render (req, res) {
   }
 
   const context = {
+    title: "Home | Xiao555's Blog",
     url: req.url
   }
   renderer.renderToString(context, (err, html) => {

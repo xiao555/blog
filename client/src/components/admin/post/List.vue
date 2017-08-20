@@ -64,7 +64,7 @@
           } else {
             this.$parent.$emit('message', 'success', 'Delete Success')
           }
-          api.FETCH_LIST('article').then((res) => {
+          api.FETCH_LIST('articles').then((res) => {
             this.list = res
             this.publish = []
             this.list.map((post) => {
@@ -75,7 +75,7 @@
       }
     },
     beforeMount() {
-      api.FETCH_LIST('article').then((res) => {
+      api.FETCH_LIST('articles').then((res) => {
         this.list = res
         this.list.map((post) => {
           if (post.status === 'Published') this.publish.push(post)

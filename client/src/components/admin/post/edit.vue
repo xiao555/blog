@@ -180,7 +180,7 @@
     },
     beforeMount () {
       if (this.$route.path === '/admin/post/create') this.post = {}
-      api.FETCH_LIST('category').then(res => {
+      api.FETCH_LIST('categorys').then(res => {
         this.category = res
       }).catch(err => console.error(err))
       this.$route.params.path && api.FETCH_POST({ model: 'article', conditions: { path: this.$route.params.path } }).then(res => {

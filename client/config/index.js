@@ -1,18 +1,23 @@
-export default {
-  dev: {
-    api: 'http://localhost:3000/api',
-    siteInfo: {
-      siteUrl: 'http://localhost:8008/',
-      postUrl: 'http://localhost:8008/posts/'
-    }
-  },
-  prod: {
-    api: 'https://www.xiao555.com.cn/api',
-    siteInfo: {
-      siteUrl: 'https://www.xiao555.com.cn/',
-      postUrl: 'https://www.xiao555.com.cn/posts/'
-    }
-  },
+const isDev = process.env.NODE_ENV !== 'production'
+
+const dev = {
+  api: 'http://localhost:3000/api',
+  siteInfo: {
+    siteUrl: 'http://localhost:8008/',
+    postUrl: 'http://localhost:8008/posts/'
+  }
+};
+const prod = {
+  api: 'https://www.xiao555.com.cn/api',
+  siteInfo: {
+    siteUrl: 'https://www.xiao555.com.cn/',
+    postUrl: 'https://www.xiao555.com.cn/posts/'
+  }
+};
+
+const info = isDev ? dev : prod;
+
+export default Object.assign(info, {
   links: {
     github: "https://github.com/xiao555",
     facebook: "https://www.facebook.com/profile.php?id=100009127309661",
@@ -22,5 +27,5 @@ export default {
     rss: "#"
   },
   headerImg: "https://xiao555.netlify.com/header.jpg",
-  titleTemplate: "%s | Xiao555's Blog",
-}
+  titleTemplate: " | Xiao555's Blog",
+})

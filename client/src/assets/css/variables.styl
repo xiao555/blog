@@ -27,18 +27,3 @@ mq-desktop = 'screen and (min-width: 1024px)'
 mq-tablet = 'screen and (max-width: 1023px) and (min-width: 768px)'
 mq-mobile = 'screen and (max-width: 767px)'
 mq-below-desktop = 'screen and (max-width: 1023px)'
-
-
-// fonts
-
-font-face(family, font=family, weight=normal, style=normal)
-  @font-face
-    font-family: family
-    font-weight: weight
-    font-style: style
-    src: url('~@/assets/fonts/'+font+'/'+font+'.eot?#iefix') format('embedded-opentype'),
-        url('~@/assets/fonts/'+font+'/'+font+'.woff') format('woff'),
-        url('~@/assets/fonts/'+font+'/'+font+'.ttf')  format('truetype'),
-        url('~@/assets/fonts/'+font+'/'+font+'.svg#'+font+'') format('svg')
-
-font-face('Meta', 'FFMetaPro-Normal', 400)
