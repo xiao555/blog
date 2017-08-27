@@ -38,7 +38,7 @@ export default {
   },
 
   beforeMount() {
-    const posts = this.$store.state.posts;
+    const posts = this.$store.state.lists.articles;
     for (var i in posts) {
       if (posts.hasOwnProperty(i)) {
         let time = posts[i].createTime.slice(0, 7)

@@ -483,9 +483,21 @@ vue-ssr-bundle.json  556 kB          [emitted]  [big]
 
 后面再该合并的合并，cdn的cdn，首屏加载性能方面的问题就基本解决的差不多了。先睡觉了==！
 
+#### 2017.8.27
+
+对client部分进行了一次重构，参考最新的[vue-hackernews-2.0](https://github.com/vuejs/vue-hackernews-2.0)，很多module都升级了几个小版本，功能也越来越多，一些功能也出现了一些新的实现方式。
+
+preFetch 变成了 asyncData，之前的版本我把preFetch去掉了，后来感觉这样会影响组件加载速度吧，感觉不妥。所以这次把asyncData和vuex都重新启用。为什么要启用vuex呢，因为个人感觉asyncData是需要靠一个全局对象来保存状态或者说是数据的，要自己实现还不如直接用vuex...而且新版本webpack打包起来大小比以前小了好多好多，多一个vuex不会影响app.js，会打包到vendor里。打包后的组件部分js是分成若干个文件按需加载，也分担了app.js的大小。
+
+* 重新启用vuex，探索了一下数据获取的方式，最后还是加入了asyncData异步加载。
+* 加入了文章列表分页功能，虽然现在只有一页
+* 精简优化webpack配置文件
+* 新的title机制
+* 顶部进度条
+* font-awesome字体文件改为CDN引入
+
 ### TODO
 
-* 文章列表分页
 * 评论区
 * 管理后台界面优化，目前是仿WordPress
 * 重构，改成同构Web应用
