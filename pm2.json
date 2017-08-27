@@ -1,0 +1,15 @@
+{
+  "apps" : [{
+    "name"        : "blogServer",
+    "script"      : "./server/entry.js",
+    "env": {
+      "NODE_ENV": "production"
+    },
+  },{
+    "name"       : "blogClient",
+    "script"     : "./client/server.js",
+    "env": {
+      "NODE_ENV": "production"
+    },
+  }]
+}
