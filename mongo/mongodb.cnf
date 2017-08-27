@@ -1,0 +1,5 @@
+dbpath=/data/db/
+logpath=/data/db/mongo.log
+logappend=true
+fork=true
+port=27017

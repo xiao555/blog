@@ -1,0 +1,16 @@
+redis:
+  build: ./redis
+  ports:
+    - "6379:6379"
+mongo:
+  build: ./mongo
+  ports:
+    - "27017:27017"
+node:
+  build: ./node
+  links:
+    - redis
+    - mongo
+  ports:
+    - "3000:3000"
+    - "5050:5050"
