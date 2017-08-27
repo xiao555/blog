@@ -70,7 +70,5 @@ RUN mkdir -p /data/db /data/configdb \
 	&& chown -R mongodb:mongodb /data/db /data/configdb
 VOLUME /data/db /data/configdb
 
-COPY mongodb.cnf /data/configdb/mongodb.cnf
-
 EXPOSE 27017
-CMD ["mongod -f /data/configdb/mongodb.cnf"]
+CMD ["mongod"]

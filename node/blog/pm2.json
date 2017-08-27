@@ -1,13 +1,13 @@
 {
   "apps" : [{
     "name"        : "blogServer",
-    "script"      : "./server/entry.js",
+    "script"      : "./blog/server/entry.js",
     "env": {
       "NODE_ENV": "production"
     },
   },{
     "name"       : "blogClient",
-    "script"     : "./client/server.js",
+    "script"     : "./blog/client/server.js",
     "env": {
       "NODE_ENV": "production"
     },

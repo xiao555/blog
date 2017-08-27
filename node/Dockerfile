@@ -1,14 +1,30 @@
-FROM keymetrics/pm2-docker-alpine:latest
+FROM node:latest
 
-RUN cd ~ && mkdir www
+# Surpress Upstart errors/warning
+RUN dpkg-divert --local --rename --add /sbin/initctl
+RUN ln -sf /bin/true /sbin/initctl
 
-COPY blog ~/www/blog
+# Let the container know that there is no tty
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN rm -rf ~/www/blog/server/config/index.js
+# Install software requirements
+RUN apt-get update && \
+apt-get install -y git
+RUN npm install -g node-gyp pm2
 
-COPY index.js ~/www/blog/server/config/
+# Install Supervisor
+RUN apt-get install -y supervisor
 
-RUN cd ~/www/blog/server && \
+# Install/setup Python deps
+RUN apt-get install -y python-pip
+RUN pip install requests
+
+WORKDIR ~
+
+COPY blog ./blog
+COPY index.js ./blog/server/config/index.js
+
+RUN cd ./blog/server && \
     npm i && \
     cd ../client && \
     npm i && \
@@ -16,4 +32,4 @@ RUN cd ~/www/blog/server && \
 
 EXPOSE 3000 5050
 
-CMD [ "pm2-docker", "start", "~/www/blog/pm2.json" ]
+CMD [ "pm2", "start", "./blog/pm2.json" ]

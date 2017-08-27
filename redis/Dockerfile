@@ -68,9 +68,6 @@ RUN set -ex; \
 
 RUN mkdir /data && chown redis:redis /data
 VOLUME /data
-WORKDIR /data
-
-COPY redis.conf /etc/redis.conf
 
 EXPOSE 6379
-CMD ["redis-server -f /etc/redis.conf"]
+CMD ["redis-server"]
