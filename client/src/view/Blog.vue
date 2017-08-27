@@ -8,7 +8,9 @@
     </div>
     <sidebar></sidebar>
     <main>
-      <router-view></router-view>
+      <transition name="fade" mode="out-in">
+        <router-view></router-view>
+      </transition>
     </main>
     <footer-component></footer-component>
   </div>

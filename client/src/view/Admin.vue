@@ -79,6 +79,19 @@ export default {
   main
     clearfix()
     overflow-y auto
+    .error, .success
+      position fixed
+      display inline-block
+      width 200px
+      top -100px
+      left 50%
+      margin-left -100px
+      z-index 9999
+      transition top 0.3s ease
+      text-align center
+      padding 5px
+      &.active
+        top 5px
 
   .content
     position relative
@@ -91,9 +104,46 @@ export default {
       margin 0
 
 
+  form
+    item
+      padding-top 10px
+    label:not(.checkbox)
+      display block
+      margin-bottom 5px
+    input
+      margin 5px 0
+      text-align center
+      &:not([type='checkbox'])
+        border 1px solid rgb(211, 211, 211)
+        border-radius 5px
+        height 30px
+        width 100%
+      &:focus
+        border-color #51a7e8
+        outline none
+        box-shadow inset 0 1px 2px rgba(0, 0, 0, .075), 0 0 5px rgba(81, 167, 232, .5)
+      &[type='checkbox']
+        margin-right 10px
+    button.submit
+      margin 5px 0
+      border 1px solid rgb(211, 211, 211)
+      border-radius 5px
+      height 30px
+      width 100%
+      color white
+      border-radius 5px
+      background-color #55a532
+      background-image -webkit-linear-gradient(#85d063, #4f992f)
+      background-image linear-gradient(#85d063, #4f992f)
+      border-color #519d30
+      &:hover
+        cursor pointer
+        opacity .8
 
-
-
+  .panel
+    border 1px solid #d8dee2
+    padding 20px
+    margin-top 20px
 
   h1,.add-new
     display inline-block
@@ -131,5 +181,12 @@ export default {
     opacity .7
     &:hover
       opacity 1
+
+.success
+  color #4F8A10
+  background-color #DFF2BF
+.error
+  color #D8000C
+  background-color #FFBABA
 
 </style>

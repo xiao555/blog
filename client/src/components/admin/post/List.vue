@@ -1,7 +1,7 @@
 <template>
   <div class="list">
     <h1>Posts</h1>
-    <router-link class='add-new' :to="{ name: 'createPost' }">Add New</router-link>
+    <router-link class='add-new' :to="'/admin/post/create'">Add New</router-link>
     <div class="data">
       <a :class="{ active: mode === 'all'}" @click="changeModel('all')">ALL({{ list.length }})</a>|
       <a :class="{ active: mode === 'publish' }" @click="changeModel('publish')">Published({{ publish.length }})</a>
@@ -17,7 +17,7 @@
           <div class="table-cell">
             <div class="title">{{ post.title }}</div>
             <div class="action">
-              <router-link :to="{ name: 'editPost', params: { path: post.path} }">Edit</router-link>|
+              <router-link :to="'/admin/post/edit/' + post.path">Edit</router-link>|
               <a class="trash" @click='deletePost(post)'>Trash</a>|
               <a :href="postUrl + post.path" target="_blank">View</a>
             </div>
@@ -39,13 +39,11 @@
   import api from '@/api'
   import config from '../../../../config'
 
-  const isProd = process.env.NODE_ENV === 'production'
-
   export default {
     name: 'list',
     data () {
       return {
-        postUrl: isProd ? config.prod.siteInfo.postUrl : config.dev.siteInfo.postUrl,
+        postUrl: config.siteInfo.postUrl,
         publish: [],
         list: [],
         mode: 'all',
@@ -64,8 +62,10 @@
           } else {
             this.$parent.$emit('message', 'success', 'Delete Success')
           }
-          api.FETCH_LIST('articles').then((res) => {
-            this.list = res
+          this.$store.dispatch('FETCH_LISTS', {
+            model: 'articles'
+          }).then((res) => {
+            this.list = this.$store.state.lists.articles
             this.publish = []
             this.list.map((post) => {
               if (post.status === 'Published') this.publish.push(post)
@@ -75,8 +75,10 @@
       }
     },
     beforeMount() {
-      api.FETCH_LIST('articles').then((res) => {
-        this.list = res
+      this.$store.dispatch('FETCH_LISTS', {
+        model: 'articles'
+      }).then((res) => {
+        this.list = this.$store.state.lists.articles
         this.list.map((post) => {
           if (post.status === 'Published') this.publish.push(post)
         })

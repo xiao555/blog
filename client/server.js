@@ -35,18 +35,6 @@ function createRenderer (bundle, options) {
   }))
 }
 
-function handleHtml(string) {
-  const layoutSections = string.split('<div id="app"></div>')
-  const preAppHTML = layoutSections[0]
-  const postAppHTML = layoutSections[1]
-  return preAppHTML + postAppHTML
-  // return string
-  // return {
-  //   head: preAppHTML,
-  //   tail: postAppHTML
-  // }
-}
-
 let renderer
 let readyPromise
 if (isProd) {

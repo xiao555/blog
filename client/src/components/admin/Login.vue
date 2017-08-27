@@ -59,7 +59,7 @@ export default {
           this.remember && window.localStorage.setItem('username', this.form.name)
           !this.remember && window.localStorage.removeItem('username')
           setTimeout(() => {
-            this.$router.push({ path: '/admin/dashboard' })
+            this.$router.push({ path: '/admin/' })
           }, 1000)
         }
       }).catch(err => console.error(err))

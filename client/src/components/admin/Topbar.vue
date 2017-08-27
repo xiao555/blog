@@ -6,17 +6,17 @@
     </div>
     <ul class="topbar-menu">
       <li class="item">
-        <div class="single" :class="{ active: archieve == 'dashboard'}" @click='toggleActive'><router-link :to="{ name: 'dashboard' }"><i class="fa fa-home" aria-hidden="true"></i>首页</router-link></div>
+        <div class="single" :class="{ active: archieve == 'dashboard'}" @click='toggleActive'><router-link :to="'/admin/'"><i class="fa fa-home" aria-hidden="true"></i>首页</router-link></div>
       </li>
       <li class="item">
         <div class="title" @click='toggleActive' :class="{ active: archieve == 'post'}"><i class="fa fa-file" aria-hidden="true"></i>文章管理</div>
         <ul class="submenu">
-          <router-link :to="{ name: 'postList' }"><li class="subitem" :class="{ active: path == '/admin/post/list'}">文章列表</li></router-link>
-          <router-link :to="{ name: 'createPost' }"><li class="subitem" :class="{ active: path == '/admin/post/create'}">添加文章</li></router-link>
+          <router-link :to="'/admin/post/list'"><li class="subitem" :class="{ active: path == '/admin/post/list'}">文章列表</li></router-link>
+          <router-link :to="'/admin/post/create'"><li class="subitem" :class="{ active: path == '/admin/post/create'}">添加文章</li></router-link>
         </ul>
       </li>
       <li class="item">
-        <div class="single" :class="{ active: archieve == 'category'}" @click='toggleActive'><router-link :to="{ name: 'category' }"><i class="fa fa-archive" aria-hidden="true"></i>分类管理</router-link></div>
+        <div class="single" :class="{ active: archieve == 'category'}" @click='toggleActive'><router-link :to="'/admin/category'"><i class="fa fa-archive" aria-hidden="true"></i>分类管理</router-link></div>
       </li>
       <!-- <li class="item"><div class="single" :class="{ active: archieve == 'system'}" @click='toggleActive'><i class="fa fa-cog" aria-hidden="true"></i>系统设置</div></li> -->
     </ul>
@@ -58,7 +58,7 @@
         e.target.classList.toggle('active')
       },
       logout () {
-        this.$router.replace({ name: 'login' })
+        this.$router.replace({ path: '/admin/login' })
       }
     },
     beforeMount () {

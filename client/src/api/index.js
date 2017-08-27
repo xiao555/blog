@@ -9,12 +9,12 @@ const cache = LRU({
   maxAge: 1000 * 60 * 30 // 30 min
 })
 
-function fetch (model, query = {}) {
+function fetch (model, query = {}, force = false) {
   const target = `${prefix}/${model}`
   let key = target + "/?"
   if (query.hasOwnProperty('status')) key += 'status=' + query.status
   if (query.hasOwnProperty('path')) key += 'path=' + query.path
-  if (cache && cache.has(key)) {
+  if (force && cache && cache.has(key)) {
     return Promise.resolve(cache.get(key))
   } else {
     return new Promise((resolve, reject) => {

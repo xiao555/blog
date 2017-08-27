@@ -13,10 +13,10 @@
 export default {
   data () {
     return {
-      percent: 0,
+      percent: 100,
       show: false,
       canSuccess: true,
-      duration: 3000,
+      duration: 1000,
       height: '8px',
       color: '#fff',
       failedColor: '#ff0000',
@@ -28,12 +28,12 @@ export default {
       this.canSuccess = true
       if (this._timer) {
         clearInterval(this._timer)
-        this.percent = 0
+        this.percent = 100
       }
       this._cut = 10000 / Math.floor(this.duration)
       this._timer = setInterval(() => {
         this.increase(this._cut * Math.random())
-        if (this.percent > 95) {
+        if (this.percent < 5) {
           this.finish()
         }
       }, 100)
@@ -49,15 +49,15 @@ export default {
       return Math.floor(this.percent)
     },
     increase (num) {
-      this.percent = this.percent + Math.floor(num)
-      return this
-    },
-    decrease (num) {
       this.percent = this.percent - Math.floor(num)
       return this
     },
+    decrease (num) {
+      this.percent = this.percent + Math.floor(num)
+      return this
+    },
     finish () {
-      this.percent = 100
+      this.percent = 0
       this.hide()
       return this
     },
@@ -72,7 +72,7 @@ export default {
         this.show = false
         this.$nextTick(() => {
           setTimeout(() => {
-            this.percent = 0
+            this.percent = 100
           }, 200)
         })
       }, 500)
@@ -90,11 +90,10 @@ export default {
 .progress {
   position: fixed;
   top: 0px;
-  left: 0px;
   right: 0px;
   height: 2px;
-  width: 0%;
-  transition: width 0.2s, opacity 0.4s;
+  width: 100%;
+  transition: width 1s, opacity 0.2s;
   opacity: 1;
   background-color: #efc14e;
   z-index: 999999;

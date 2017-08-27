@@ -68,8 +68,6 @@
   import api from '@/api'
   import config from '../../../../config'
 
-  const isProd = process.env.NODE_ENV === 'production'
-
   export default {
     name: 'edit',
     data () {
@@ -77,7 +75,7 @@
       let nullPath = !(title === 'Create Page')
       return {
         isNew: title === 'Create Page',
-        postUrl: isProd ? config.prod.siteInfo.postUrl : config.dev.siteInfo.postUrl,
+        postUrl: config.siteInfo.postUrl,
         title: title,
         post: {},
         category: [],
@@ -117,7 +115,6 @@
         this.input[index] = !this.input[index]
       },
       cancel (index) {
-        console.log(this.copy[index])
         this.post[index] = this.copy[index]
         this.input[index] = !this.input[index]
       },
@@ -172,19 +169,25 @@
         } else {
           this.input.path = true
           this.isNew = false
-          this.$route.params.path && api.FETCH_POST({ model: 'article', conditions: { path: this.$route.params.path } }).then(res => {
-            this.post = res
+          this.$route.params.path && this.$store.dispatch('FETCH_POST', {
+            query: { path: this.$route.params.path }
+          }).then(res => {
+            this.post = this.$store.state.posts[this.$route.params.path]
           }).catch(err => console.error(err))
         }
       }
     },
     beforeMount () {
       if (this.$route.path === '/admin/post/create') this.post = {}
-      api.FETCH_LIST('categorys').then(res => {
-        this.category = res
+      this.$store.dispatch('FETCH_LISTS', {
+        model: 'categorys'
+      }).then(res => {
+        this.category = this.$store.state.lists.categorys
       }).catch(err => console.error(err))
-      this.$route.params.path && api.FETCH_POST({ model: 'article', conditions: { path: this.$route.params.path } }).then(res => {
-        this.post = res
+      this.$route.params.path && this.$store.dispatch('FETCH_POST', {
+        query: { path: this.$route.params.path }
+      }).then(res => {
+        this.post = this.$store.state.posts[this.$route.params.path]
       }).catch(err => console.error(err))
     }
   }

@@ -20,6 +20,10 @@ const Blog = () => import('../view/Blog.vue')
 const Archive = () => import('../view/ArchiveView.vue')
 const Admin = () => import('@/view/Admin.vue')
 const Login = () => import('@/components/admin/Login.vue')
+const Dashboard = () => import('@/components/admin/Dashboard.vue')
+const Category = () => import('@/components/admin/Category.vue')
+const List = () => import('@/components/admin/post/List.vue')
+const Edit = () => import('@/components/admin/post/Edit.vue')
 
 Vue.use(Router)
 
@@ -46,7 +50,11 @@ export function createRouter () {
       ]},
       { path: '/admin/login', component: Login },
       { path: '/admin', component: Admin, children: [
-        { path: '/admin/', component: Login },
+        { path: '/admin/', component: Dashboard },
+        { path: '/admin/category', component: Category },
+        { path: '/admin/post/list', component: List },
+        { path: '/admin/post/create', component: Edit },
+        { path: '/admin/post/edit/:path', component: Edit },
       ]}
     ]
   })
