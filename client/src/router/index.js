@@ -30,7 +30,7 @@ Vue.use(Router)
 export function createRouter () {
   return new Router({
     mode: 'history',
-    scrollBehavior: () => ({ y: 0 }), // 切换路由时回到顶部
+    // scrollBehavior: () => ({ y: 0 }), // 切换路由时回到顶部
     routes: [
       { path: '/', component: Blog, children: [
         { path: '/:page(\\d+)?', component: createListView({

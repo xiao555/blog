@@ -2,7 +2,7 @@
   <div class="sidebar">
     <div class="inner">
       <a class="logo" href="/">
-        <!-- <div class="header" style="background-image: url('/public/header.jpg'); background-size: cover;"></div> -->
+        <div class="header" style="background-image: url('/public/header.jpg'); background-size: cover;"></div>
       </a>
       <h1>
         <a href="/">Xiao555</a>
