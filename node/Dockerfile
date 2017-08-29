@@ -1,8 +1,4 @@
-FROM node:latest
-
-# Surpress Upstart errors/warning
-RUN dpkg-divert --local --rename --add /sbin/initctl
-RUN ln -sf /bin/true /sbin/initctl
+FROM node:6
 
 # Let the container know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
@@ -11,9 +7,6 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
 apt-get install -y git
 RUN npm install -g node-gyp pm2
-
-# Install Supervisor
-RUN apt-get install -y supervisor
 
 # Install/setup Python deps
 RUN apt-get install -y python-pip
@@ -30,6 +23,9 @@ RUN cd ./blog/server && \
     npm i && \
     npm run build
 
+COPY docker-entrypoint.sh .
+RUN chmod -R 777 docker-entrypoint.sh
+
 EXPOSE 3000 5050
 
-CMD [ "pm2", "start", "./blog/pm2.json" ]
+ENTRYPOINT ./docker-entrypoint.sh && /bin/bash
