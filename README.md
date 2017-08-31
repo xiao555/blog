@@ -47,6 +47,15 @@
 
 ### Usage
 
+最近除了Nginx，Node.js, MongoDB, Redis三部分都上了Docker，要用docker运行的话需要配好docker环境了, 直接运行
+
+```bash
+docker-compose build
+docker-compose up
+```
+
+访问yourdomain:5050 就可以看到博客前端页面了，再按照下面步骤配置Nginx即可，省去了很多步骤。不过build的时间可能有十几分钟（有docker加速器），所以build的时候可以去喝杯茶，聊聊天~~
+
 #### 安装 Node
 
 推荐使用 [NVM](https://github.com/creationix/nvm) 管理Node版本，我的开发版本是 v7.7.0
@@ -495,6 +504,10 @@ preFetch 变成了 asyncData，之前的版本我把preFetch去掉了，后来�
 * 新的title机制
 * 顶部进度条
 * font-awesome字体文件改为CDN引入
+
+#### 2017.8.31
+
+上Docker！！！Node.js, MongoDB, Redis三部分各一个容器，本来还用Nginx,但是涉及到https证书什么的好麻烦，要迁移的话反而麻烦，所以除了上面那三部分可以随时随地跑，nginx就单独配置吧。
 
 ### TODO
 
