@@ -12,6 +12,7 @@
 
 * MacOS + iTerm2 + Sublime（前期） + Atom（后期）
 * Node v7.7.0 + MongoDB + Redis
+* Docker
 
 ### 技术栈
 
@@ -40,6 +41,7 @@
 * 守护进程 pm2
 * 反向代理 Nginx
 * ssl证书 acme-tiny自动化脚本
+* Docker
 
 ##### CDN：
 
@@ -55,6 +57,8 @@ docker-compose up
 ```
 
 访问yourdomain:5050 就可以看到博客前端页面了，再按照下面步骤配置Nginx即可，省去了很多步骤。不过build的时间可能有十几分钟（有docker加速器），所以build的时候可以去喝杯茶，聊聊天~~
+
+不想用docker的话，blog部分在`node/blog`目录下，按照下面步骤一步一步走即可。
 
 #### 安装 Node
 
@@ -515,6 +519,7 @@ preFetch 变成了 asyncData，之前的版本我把preFetch去掉了，后来�
 * 管理后台界面优化，目前是仿WordPress
 * 重构，改成同构Web应用
 * 服务器端（腾讯云）的优化
+* 数据库定期备份
 
 ### LICENSE
 
