@@ -16,7 +16,7 @@ module.exports = {
     : '#cheap-module-eval-source-map',
   output: {
     path: path.resolve(__dirname, '../dist'),
-    filename: '[name].js',
+    filename: '[name].[chunkhash].js',
     publicPath: '/dist/'
   },
   resolve: {
@@ -77,7 +77,7 @@ module.exports = {
           compress: { warnings: false }
         }),
         new ExtractTextPlugin({
-          filename: 'common.css'
+          filename: 'common.[chunkhash].css'
         })
       ]
     : [

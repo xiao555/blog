@@ -49,16 +49,16 @@
 
 ### Usage
 
-最近除了Nginx，Node.js, MongoDB, Redis三部分都上了Docker，要用docker运行的话需要配好docker环境了, 直接运行
+最近除了Nginx，Node.js, MongoDB, Redis三部分都上了Docker，要用docker运行的话需要配好docker环境了, 将`blog`目录复制到`docker/node`目录下在`docker`目录运行
 
 ```bash
 docker-compose build
 docker-compose up
 ```
 
-访问yourdomain:5050 就可以看到博客前端页面了，再按照下面步骤配置Nginx即可，省去了很多步骤。不过build的时间可能有十几分钟（有docker加速器），所以build的时候可以去喝杯茶，聊聊天~~
+访问yourdomain:5050 就可以看到博客前端页面了，再按照下面步骤配置Nginx即可，省去了很多步骤。不过`build`的时间可能有十几分钟（有docker加速器），所以`build`的时候可以去喝杯茶，聊聊天~~
 
-不想用docker的话，blog部分在`node/blog`目录下，按照下面步骤一步一步走即可。
+不想用docker的话，只需要切换到`blog`目录，按照下面步骤一步一步走即可。
 
 #### 安装 Node
 

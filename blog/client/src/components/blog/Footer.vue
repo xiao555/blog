@@ -1,6 +1,6 @@
 <template>
   <footer>
-    <div class="copyright">Xiao555 @ 2017 陕ICP备17008921号</div>
+    <div class="copyright">Xiao555 @ 2017 <a href="http://www.miitbeian.gov.cn/" style="color: #706aa1">陕ICP备17008921号</a></div>
   </footer>
 </template>
 
